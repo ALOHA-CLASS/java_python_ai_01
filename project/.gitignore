@@ -34,7 +34,7 @@ out/
 /.nb-gradle/
 
 ### VS Code ###
-.vscode/
+../vscode/
 
 
 ### 설정 파일 ###
