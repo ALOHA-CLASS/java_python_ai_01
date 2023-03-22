@@ -159,7 +159,7 @@ p {
 .main-button a {
   font-size: 14px;
   color: #fff;
-  background-color: #e75e8d;
+  background-color: #E51564;
   padding: 12px 30px;
   display: inline-block;
   border-radius: 25px;
@@ -479,13 +479,13 @@ Header Style
 
 .header-area .main-nav .nav li:hover a,
 .header-area .main-nav .nav li a.active {
-  color: #e75e8d !important;
+  color: #E51564 !important;
 }
 
 .header-area .main-nav .nav li:last-child:hover a,
 .header-area .main-nav .nav li:last-child a.active {
   color: #fff !important;
-  background-color: #e75e8d !important;
+  background-color: #E51564 !important;
 }
 
 .background-header .main-nav .nav li:hover a,
@@ -773,7 +773,7 @@ Banner Style
 */
 
 .main-banner {
-  background-image: url(../images/banner-bg.jpg);
+  background-image: url(../images/banner3.jpg);
   background-position: center center;
   background-size: cover;
   min-height: 380px;
@@ -796,7 +796,7 @@ Banner Style
 
 .main-banner h4 em {
   font-style: normal;
-  color: #ec6090;
+  color: #E51564;
 }
 
 /* 
@@ -1130,7 +1130,7 @@ Featured Games Style
 
 .top-downloaded .text-button a {
   font-weight: 600;
-  color: #ec6090;
+  color: #55fc13;
   font-size: 15px;
 }
 
