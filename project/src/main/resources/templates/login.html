@@ -6,6 +6,7 @@
 </head>
 <body>
 	<h1>로그인</h1>
+	<a href="/">홈으로</a>
 	<form action="/login" method="post">
 		<!-- csrf 토큰 -->
 		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
