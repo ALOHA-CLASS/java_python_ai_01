@@ -35,3 +35,7 @@ out/
 
 ### VS Code ###
 .vscode/
+
+
+### 설정 파일 ###
+./project/src/main/resources/*.properties
