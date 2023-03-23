@@ -39,4 +39,4 @@ out/
 
 
 ### 설정 파일 ###
-# *.properties
+*.properties
