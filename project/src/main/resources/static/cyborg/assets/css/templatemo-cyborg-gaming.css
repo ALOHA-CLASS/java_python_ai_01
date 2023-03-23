@@ -159,11 +159,7 @@ p {
 .main-button a {
   font-size: 14px;
   color: #fff;
-<<<<<<< HEAD
   background-color: #E51564;
-=======
-  background-color: #d204a9;
->>>>>>> ac229e518540eb2ca9f56d5207dfe696f46c18d7
   padding: 12px 30px;
   display: inline-block;
   border-radius: 25px;
@@ -483,21 +479,13 @@ Header Style
 
 .header-area .main-nav .nav li:hover a,
 .header-area .main-nav .nav li a.active {
-<<<<<<< HEAD
   color: #E51564 !important;
-=======
-  color: #d204a9 !important;
->>>>>>> ac229e518540eb2ca9f56d5207dfe696f46c18d7
 }
 
 .header-area .main-nav .nav li:last-child:hover a,
 .header-area .main-nav .nav li:last-child a.active {
   color: #fff !important;
-<<<<<<< HEAD
   background-color: #E51564 !important;
-=======
-  background-color: #d204a9 !important;
->>>>>>> ac229e518540eb2ca9f56d5207dfe696f46c18d7
 }
 
 .background-header .main-nav .nav li:hover a,
@@ -785,11 +773,7 @@ Banner Style
 */
 
 .main-banner {
-<<<<<<< HEAD
-  background-image: url(../images/banner3.jpg);
-=======
   background-image: url(../images/banner.png);
->>>>>>> ac229e518540eb2ca9f56d5207dfe696f46c18d7
   background-position: center center;
   background-size: cover;
   min-height: 380px;
@@ -812,11 +796,7 @@ Banner Style
 
 .main-banner h4 em {
   font-style: normal;
-<<<<<<< HEAD
   color: #E51564;
-=======
-  color: #d204a9;
->>>>>>> ac229e518540eb2ca9f56d5207dfe696f46c18d7
 }
 
 /* 
