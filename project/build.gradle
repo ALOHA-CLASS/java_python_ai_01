@@ -38,6 +38,13 @@ dependencies {
 	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
 	// 타임리프 레이아웃
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+	implementation 'com.squareup.okhttp3:okhttp:4.9.2'
+	implementation 'commons-io:commons-io:2.8.0'
+	implementation 'com.google.guava:guava:31.0.1-jre'
+	implementation 'commons-codec:commons-codec:1.15'
+	
 	
 }
 
