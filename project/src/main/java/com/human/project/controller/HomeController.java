@@ -28,6 +28,11 @@ public class HomeController {
 	@Autowired
 	private ValidationUtil validationUtil;
 	
+	@GetMapping({"", "/", "/index"})
+	public String index() {
+		return "/index";
+	}
+	
 	// 로그인
 	@GetMapping("/login")
 	public String login(Model model
@@ -95,7 +100,7 @@ public class HomeController {
 		
 		return "redirect:/";
 	}
-
+	
 }
 
 
