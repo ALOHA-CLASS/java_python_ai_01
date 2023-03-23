@@ -1,5 +1,7 @@
 package com.human.project.service;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import com.human.project.domain.UserAuth;
@@ -22,4 +24,8 @@ public interface UserService {
 	// 아이디 찾기
 
 	
+
+	// 회원 목록
+	public List<Users> list() throws Exception;
+
 }

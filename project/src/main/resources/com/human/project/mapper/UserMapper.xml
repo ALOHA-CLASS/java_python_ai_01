@@ -12,7 +12,9 @@
 	
 	<!-- 권한등록 -->
 	<insert id="insertAuth">
+
 		INSERT INTO user_auth_test ( user_id, auth )
+
 		VALUES ( #{userId}, #{auth} )
 	</insert>
 	
@@ -28,6 +30,16 @@
 		SELECT *
 		FROM users_test
 		WHERE name = #{name} and email = #{email} and phoneNumber = #{phoneNumber}
+
+		  FROM users
+		 WHERE user_id = #{userId} 
+	</select>
+	
+	<!-- 회원 목록 -->
+	<select id="list" resultType="Users">
+		SELECT *
+		  FROM users 
+	  ORDER BY user_no ASC;
 	</select>
 
 

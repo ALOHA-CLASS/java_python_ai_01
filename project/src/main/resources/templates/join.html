@@ -1,15 +1,67 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                layout:decorate="~{ui/user/layouts/main_template}">
 <head>
-	<meta charset="UTF-8">
-	
-	<meta name="_csrf" th:content="${_csrf.token}"/>
-	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-	
-	<title>회원가입</title>
-	<style>
-		.field-error {
-			border: 1px solid red;
+    <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title>회원가입</title>
+    <style>
+        body{
+            text-align: center;
+        }
+        .sign-up{
+            margin: auto;
+        }
+        .field-error {
+            border: 1px solid red;
+        }
+        .page-content {
+            color: rgb(255, 221, 221);
+        }
+        h1 {
+            font-family: 'Dongle', sans-serif;
+            font-size: 70px;
+            color: #FC1F74;
+        }
+        .check-id { display: none; }
+        .input-underline {
+            background-color: transparent;
+            border: 0;
+            border-bottom: 2px solid #FC1F74;
+            border-radius: 0;
+            width: 250px;
+            color: white;
+			font-family: 'Dongle', sans-serif;
+            font-size: 30px;
+        }
+        .input-underline:focus {
+            color: white;
+            background-color: transparent;
+            border: 0;
+            border-bottom: 2px solid #FC1F74;
+            outline: 0;
+            box-shadow: 0 0 0 0.25rem transparent;
+			font-family: 'Dongle', sans-serif;
+            font-size: 30px;
+        }
+    
+        .sign-up {
+            font-family: 'Dongle', sans-serif;
+            font-size: 30px;
+        }
+        #submit {
+            font-family: 'Dongle', sans-serif;
+            font-size: 30px;
+        }
+        #reset {
+            font-family: 'Dongle', sans-serif;
+            font-size: 30px;
+        }
+		#double-check{
+			font-family: 'Dongle', sans-serif;
+            font-size: 20px;
 		}
 
 		.check-id { display: none; }
@@ -392,10 +444,6 @@
 	
 </body>
 </html>
-
-
-
-
 
 
 

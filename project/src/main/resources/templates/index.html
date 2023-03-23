@@ -3,51 +3,124 @@
 	 			xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 	<meta charset="UTF-8">
-	<title>메인</title>
+	<title>Last Carnival</title>
 </head>
-<body>
-	<h1>SPRING SECURITY</h1>
-	<h3>로그인</h3>
-	<ul>
-		<li>기본 ID : user</li>
-		<li>기본 PW : 서버 실행 시, 로그에 출력된 UID 형식</li>
-		<li>기본 로그인 경로 	: /login</li>
-		<li>기본 로그아웃 경로  : /logout</li>
-		<li><a href="/user">사용자 페이지</a></li>
-		<li><a href="/admin">관리자 페이지</a></li>
-	</ul>
-	
-	<!-- 익명 사용자 (비로그인) -->
-	<th:block sec:authorize="isAnonymous()">
-		<div>
-			<a href="/login">로그인</a>
-			&nbsp;&nbsp;
-			<a href="/join">회원가입</a>
-			&nbsp;&nbsp;
-			<a href="/find">아이디/비밀번호 찾기</a>
+<style>
+    table {
+    width: 100%;
+    border-top: 1px solid #F3F8DC;
+    border-collapse: collapse;
+    color: #F3F8DC;
+    }
+    th, td {
+      border-bottom: 1px solid #F3F8DC;
+      padding: 10px;
+      align-items: center;
+    }
+    img {
+    border-radius: 4px;
+    padding: 5px;
+    width: 100px;
+    }
+    .image-container {
+    position: relative;
+    }
+    .text-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 80%;
+      height: 100%;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      background-color: rgba(70, 61, 61, 0.5);
+      color: rgb(255, 255, 255);
+      font-size: 18px;
+      font-weight: bolder;
+    }
+    .image-container:hover .text-overlay {
+      display: flex;
+    }
+    .image-container img {
+      max-width: 100%;
+      height: auto;
+    }
+    tr:nth-child(even) {
+      font-size: 15px;
+      color: black;
+      background-color:rgb(193, 241, 231);
+    }
+  </style>
+<body layout:fragment="content">
+     <!-- ***** Preloader Start ***** -->
+	 <div id="js-preloader" class="js-preloader">
+		<div class="preloader-inner">
+		  <span class="dot"></span>
+		  <div class="dots">
+			<span></span>
+			<span></span>
+			<span></span>
+		  </div>
 		</div>
-	</th:block>
-	
-	
-	<!-- 인증된 사용자 (로그인) -->
-	<th:block sec:authorize="isAuthenticated()">
-		<div>
-			<form action="/logout" method="post">
-				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-				
-				<img th:src="${thumbnail_image}" />
-				<span sec:authentication="principal.username"></span>
-				<span th:text="${email}"></span>
-				<span sec:authentication="principal.authorities"></span>
-				
-				<button type="submit">로그아웃</button>
-			</form>		
-		</div>
-	</th:block>
-	<!-- 
-	 -->
-	 
-	
+	  </div>
+	  <!-- ***** Preloader End ***** -->
+	  <div class="container">
+		<div class="row">
+		  <div class="col-lg-12">
+			<div class="page-content">
+			  <!-- ***** Banner Start ***** -->
+			  <div class="main-banner">
+				<div class="row">
+				  <div class="col-lg-7">
+					<div class="header-text">
+					  <h6>Welcome To Last Carnival</h6>
+					  <h4><em>Hello!</em><br>Everyone</h4>
+					  <div class="main-button">
+						<a href="https://youtube.com/">Browse Now</a>
+					  </div>
+					</div>
+				  </div>
+				</div>
+			  </div>
+			  <!-- ***** Banner End ***** -->
+			  <br><br><br>	
+			  <div class="heading-section">
+				<h4><em>Charts</em><br> Real Time</h4>
+			  </div>
+				<table>
+					<tr>
+						<th>순위</th>
+						<th></th>
+						<th>제목</th>
+						<th>가수</th>
+					</tr>
+					<tr th:each="track, status : ${trackList}">
+						<td th:text="${status.count}" style="color:white;"></td>
+						<td id="size">
+							<a th:href="${track.videoUrl}">
+								<div class="image-container">
+									<img th:src="@{${track.id}}" th:alt="${track.name}">
+									<div class="text-overlay">
+										<p style="color: #FFFFFF;">Play</p>
+									</div>
+								</div>
+							</a>
+						</td>
+						<td th:text="${track.name}" style="color:white;"></td>
+						<td th:text="${track.artist}" style="color:white;"></td>
+					</tr>
+					</th:block>
+				</table>
+				  <div class="main-button">
+					<a href="/browse">Move browse</a>	
+				  </div>
+<script>
+	$(function() {
+				//.
+		
+	})
+</script>
 	
 </body>
 </html>

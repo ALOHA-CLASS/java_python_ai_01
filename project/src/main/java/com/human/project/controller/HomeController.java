@@ -1,10 +1,16 @@
 package com.human.project.controller;
 
 
+
 import java.util.Map;
+
+import java.io.IOException;
+import java.util.List;
+
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,7 +23,9 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.human.project.domain.Chart;
 import com.human.project.domain.Users;
+import com.human.project.mapper.ChartRepository;
 import com.human.project.service.UserService;
 import com.human.project.util.ValidationUtil;
 
@@ -32,6 +40,47 @@ public class HomeController {
 	
 	@Autowired
 	private ValidationUtil validationUtil;
+
+	@Autowired
+    private ChartRepository chartRepository;
+
+	@GetMapping("/")
+    public String getChart(Chart track, Model model, HttpSession ses
+                          ,@AuthenticationPrincipal OAuth2User principal, Model model) throws IOException {
+        List<Chart> trackList = chartRepository.findAll();
+        model.addAttribute("trackList", trackList);
+        
+        // 
+        if( principal != null ) {
+        Map<String, Object> map = principal.getAttributes();
+        log.info("map : " + map);
+        log.info("map : " + map.get("properties"));
+
+        Map<String, Object> proMap = (Map<String, Object>) map.get("properties");
+        Map<String, Object> accountMap = (Map<String, Object>) map.get("kakao_account");
+
+        String profile_image = String.valueOf( proMap.get("profile_image") );
+        String thumbnail_image = String.valueOf( proMap.get("thumbnail_image") );
+
+        String email = String.valueOf( accountMap.get("email") );
+
+
+        log.info("map : " + proMap);
+        log.info("email : " + email);
+        log.info("profile_image : " + proMap.get("profile_image"));
+
+        model.addAttribute("email", email);
+        model.addAttribute("profile_image", profile_image);
+        model.addAttribute("thumbnail_image", thumbnail_image);
+      }
+        
+        return "/index";
+    }
+	
+	@GetMapping({"", "/", "/index"})
+	public String index() {
+		return "/index";
+	}
 	
 	//로그인
 	@GetMapping("/login")
@@ -98,38 +147,6 @@ public class HomeController {
 		return "redirect:/";
 	}
 	
-	
-	@GetMapping("/")
-	public String index(@AuthenticationPrincipal OAuth2User principal
-					   ,Model model) {
-		
-		if( principal != null ) {
-			Map<String, Object> map = principal.getAttributes();
-			log.info("map : " + map);
-			log.info("map : " + map.get("properties"));
-			
-			Map<String, Object> proMap = (Map<String, Object>) map.get("properties");
-			Map<String, Object> accountMap = (Map<String, Object>) map.get("kakao_account");
-			
-			String profile_image = String.valueOf( proMap.get("profile_image") );
-			String thumbnail_image = String.valueOf( proMap.get("thumbnail_image") );
-			
-			String email = String.valueOf( accountMap.get("email") );
-			
-			
-			log.info("map : " + proMap);
-			log.info("email : " + email);
-			log.info("profile_image : " + proMap.get("profile_image"));
-			
-			model.addAttribute("email", email);
-			model.addAttribute("profile_image", profile_image);
-			model.addAttribute("thumbnail_image", thumbnail_image);
-		}
-		
-		
-		return "/index";
-	}
-	
     //아이디&비밀번호 찾기
     @GetMapping("/find")
     public String doFind() {
@@ -137,6 +154,17 @@ public class HomeController {
     }
     
     // 아이디 찾기
+	@GetMapping("/main")
+	public String community() {
+		return "/main";
+	}
+	
+	
+	
+
+}
+
+
 
 
 }

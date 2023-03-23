@@ -10,8 +10,8 @@
           <div class="col-12">
               <nav class="main-nav">
                   <!-- ***** Logo Start ***** -->
-                  <a href="index.html" class="logo">
-                      <img src="/cyborg/assets/images/logo.png" alt="">
+                  <a href="/" class="logo">
+                      <img src="/cyborg/assets/images/logo0.png" alt="">
                   </a>
                   <!-- ***** Logo End ***** -->
                   <!-- ***** Search End ***** -->
@@ -25,10 +25,20 @@
                   <!-- ***** Menu Start ***** -->
                   <ul class="nav">
                       <li><a href="index.html" class="active">Home</a></li>
-                      <li><a href="browse.html">Browse</a></li>
-                      <li><a href="details.html">Details</a></li>
-                      <li><a href="streams.html">Streams</a></li>
-                      <li><a href="profile.html">Profile <img src="assets/images/profile-header.jpg" alt=""></a></li>
+                      <li><a href="community.html">Community</a></li>
+                      <li><a href="signIn.html">Sign in</a></li>
+                      <th:block sec:authorize="isAuthenticated()">
+                    <div>
+                      <form action="/logout" method="post">
+                        <!-- csrf 토큰 -->
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                        <span sec:authentication="principal.username"></span>
+                        <span sec:authentication="principal.authorities"></span>
+                        <button type="submit">로그아웃</button>
+                      </form>		
+                    </div>
+                  </th:block>
+                      <li><a href="profile.html">Profile <img src="/cyborg/assets/images/avatar.jpg" alt=""></a></li>
                   </ul>   
                   <a class='menu-trigger'>
                       <span>Menu</span>
@@ -39,6 +49,6 @@
       </div>
   </div>
 </header>
-<!-- ***** Header Area End ***** -->
+<!-- ***** Header Area End. ***** -->
 </body>
 </html>

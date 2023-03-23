@@ -59,6 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/user/check/nickname").permitAll()
 			.antMatchers("/user/check/phoneNumber").permitAll()
 			.antMatchers("/user/**").hasAnyRole("USER", "ADMIN") 	// 사용자/관리자 접근 허용
+
 			.antMatchers("/admin/**").hasRole("ADMIN") 				// 관리자만 접근 허용
 	//		.anyRequest().authenticated()							// 그외의 요청은 인증된 사용자만			
 			;
@@ -69,6 +70,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.loginPage("/login")
 			.userInfoEndpoint()						// OAuth2 로그인 설공후 사용자 정보 설정
 			.userService(customOAuth2UserService)	// 로그인 성공 후 처리할 서비스 설정
+
+//			.antMatchers("/admin/**").hasRole("ADMIN") 				// 관리자만 접근 허용
+//					.anyRequest().authenticated()							// 그외의 요청은 인증된 사용자만
+
 			;
 		
 		
