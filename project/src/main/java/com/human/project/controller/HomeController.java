@@ -44,6 +44,11 @@ public class HomeController {
         return "/index";
     }
 	
+	@GetMapping({"", "/", "/index"})
+	public String index() {
+		return "/index";
+	}
+	
 	// 로그인
 	@GetMapping("/login")
 	public String login(Model model
