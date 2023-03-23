@@ -10,7 +10,7 @@
           <div class="col-12">
               <nav class="main-nav">
                   <!-- ***** Logo Start ***** -->
-                  <a href="index.html" class="logo">
+                  <a href="/" class="logo">
                       <img src="/cyborg/assets/images/logo0.png" alt="">
                   </a>
                   <!-- ***** Logo End ***** -->
@@ -27,6 +27,17 @@
                       <li><a href="index.html" class="active">Home</a></li>
                       <li><a href="community.html">Community</a></li>
                       <li><a href="signIn.html">Sign in</a></li>
+                      <th:block sec:authorize="isAuthenticated()">
+                    <div>
+                      <form action="/logout" method="post">
+                        <!-- csrf 토큰 -->
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                        <span sec:authentication="principal.username"></span>
+                        <span sec:authentication="principal.authorities"></span>
+                        <button type="submit">로그아웃</button>
+                      </form>		
+                    </div>
+                  </th:block>
                       <li><a href="profile.html">Profile <img src="/cyborg/assets/images/avatar.jpg" alt=""></a></li>
                   </ul>   
                   <a class='menu-trigger'>
