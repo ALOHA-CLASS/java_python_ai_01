@@ -95,6 +95,14 @@ public class HomeController {
 		
 		return "redirect:/";
 	}
+	
+	@GetMapping("/main")
+	public String community() {
+		return "/main";
+	}
+	
+	
+	
 
 }
 
