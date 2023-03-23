@@ -23,7 +23,7 @@ public class Chart {
         this.artist = artist;
         this.img = img;
         this.videoUrl = videoUrl;
-        
+        // 수정
     }
 }
 
