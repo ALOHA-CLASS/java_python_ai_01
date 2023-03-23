@@ -50,6 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// ex) USER  -->  ROLE_USER
 		http.authorizeRequests()
 //					.antMatchers("/*").permitAll()
+			.antMatchers("/index").permitAll()
 			.antMatchers("/logout").permitAll()
 			.antMatchers("/join").permitAll()
 			.antMatchers("/user/check/id").permitAll()
