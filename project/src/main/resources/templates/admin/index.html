@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	 			xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+	<meta charset="UTF-8">
+	<title>관리자 페이지</title>
+</head>
+<body>
+	<h1>관리자 페이지</h1>
+	<h3>ROLE_ADMIN 권한</h3>
+	
+	<!-- 익명 사용자 (비로그인) -->
+	<th:block sec:authorize="isAnonymous()">
+		<div>
+			<a href="/login">로그인</a>
+		</div>
+	</th:block>
+	
+	
+	<!-- 인증된 사용자 (로그인) -->
+	<th:block sec:authorize="isAuthenticated()">
+		<div>
+			<form action="/logout">
+				<span sec:authentication="principal.username"></span>
+				<span sec:authentication="principal.authorities"></span>
+				<button type="submit">로그아웃</button>
+			</form>		
+		</div>
+	</th:block>
+	
+	
+	
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
