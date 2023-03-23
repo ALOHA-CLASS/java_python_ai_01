@@ -3,8 +3,8 @@
 			    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 			    layout:decorate="~{ui/user/layouts/main_template}">
 <head>
-	<meta charset="UTF-8">
-	<title>제목</title>
+  <meta charset="utf-8">
+  <title>Last Carnival</title>
 </head>
 <body layout:fragment="content">
 	
@@ -13,11 +13,39 @@
 		<div class="col-lg-12">
 			<div class="page-content">
 
-
 			</div>
 		</div>
 	</div>
 </div>
+<br><br><br>
+<div class="heading-section">
+  <h4><em>Charts</em><br> Real Time</h4>
+</div>
+<table>
+	<tr>
+		<th>순위</th>
+		<th></th>
+		<th>제목</th>
+		<th>가수</th>
+	</tr>
+	<tr th:each="track, status : ${trackList}">
+		<td th:text="${status.count}" style="color:white;"></td>
+		<td id="size">
+			<a th:href="${track.videoUrl}">
+				<div class="image-container">
+					<img th:src="@{${track.id}}" th:alt="${track.name}">
+					<div class="text-overlay">
+						<p style="color: #FFFFFF;">Play</p>
+					</div>
+				</div>
+			</a>
+		</td>
+		<td th:text="${track.name}" style="color:white;"></td>
+		<td th:text="${track.artist}" style="color:white;"></td>
+	</tr>
+	</th:block>
+</table>
+
 
 <script>
 	$(function() {

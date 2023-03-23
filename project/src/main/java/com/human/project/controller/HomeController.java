@@ -1,7 +1,11 @@
 package com.human.project.controller;
 
+import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,7 +16,9 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.human.project.domain.Chart;
 import com.human.project.domain.Users;
+import com.human.project.mapper.ChartRepository;
 import com.human.project.service.UserService;
 import com.human.project.util.ValidationUtil;
 
@@ -27,6 +33,16 @@ public class HomeController {
 	
 	@Autowired
 	private ValidationUtil validationUtil;
+
+	@Autowired
+    private ChartRepository chartRepository;
+
+	@GetMapping("/")
+    public String getChart(Chart track, Model model, HttpSession ses) throws IOException {
+        List<Chart> trackList = chartRepository.findAll();
+        model.addAttribute("trackList", trackList);
+        return "/index";
+    }
 	
 	// 로그인
 	@GetMapping("/login")
