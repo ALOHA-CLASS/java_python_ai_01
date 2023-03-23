@@ -1,7 +1,5 @@
 package com.human.project.mapper;
 
-import java.util.List;
-
 import org.apache.ibatis.annotations.Mapper;
 
 import com.human.project.domain.UserAuth;
@@ -19,6 +17,4 @@ public interface UserMapper {
 	// 회원조회
 	public Users select(Users user) throws Exception;
 	
-	// 회원 목록
-	public List<Users> list() throws Exception;
 }

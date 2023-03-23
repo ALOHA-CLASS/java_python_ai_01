@@ -22,13 +22,6 @@
 		  FROM users
 		 WHERE user_id = #{userId} 
 	</select>
-	
-	<!-- 회원 목록 -->
-	<select id="list" resultType="Users">
-		SELECT *
-		  FROM users 
-	  ORDER BY user_no ASC;
-	</select>
 
 
 </mapper>

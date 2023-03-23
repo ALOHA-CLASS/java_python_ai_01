@@ -1,67 +1,33 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
-				xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-			    layout:decorate="~{ui/user/layouts/main_template}"
 	 			xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-
 <head>
 	<meta charset="UTF-8">
 	<title>관리자 페이지</title>
 </head>
-<body layout:fragment="content">
-	<style>
-		.font {
-			font-size: 20px;
-			color: white;
-		}
-	</style>
-
-<div class="container">
-	<div class="row">
-		<div class="col-lg-12">
-			<div class="page-content">
-				<h1>관리자 페이지</h1>
-				<h3>ROLE_ADMIN 권한</h3>
-				
-				<table border="1">
-					<th:block th:each="user : ${usersList}">
-						<tr>
-							<td><input type="checkbox" name="" id=""> </td>
-							<td class="font" width="50" align="center" th:text=${user.userNo}></td>
-							<td class="font" width="150" align="center" th:text=${user.userId}></td>
-							<td class="font" width="100" align="center" th:text=${user.name}></td>
-							<td class="font" width="150" align="center" th:text=${user.email}></td>
-							<td class="font" width="200" align="center">
-					 			<span th:text="${ #temporals.format(user.regDate, 'yyyy-MM-dd HH:mm:ss') }"></span>
-					 		</td>
-					 		<td class="font" width="200" align="center">
-					 			<span th:text="${ #temporals.format(user.updDate, 'yyyy-MM-dd HH:mm:ss') }"></span>
-					 		</td>
-					 		<td align="center" th:text=${user.enabled}></td>
-						</tr>
-					</th:block>
-				</table>
-				
-<!-- 				익명 사용자 (비로그인) -->
-<!-- 				<th:block sec:authorize="isAnonymous()"> -->
-<!-- 					<div> -->
-<!-- 						<a href="/login">로그인</a> -->
-<!-- 					</div> -->
-<!-- 				</th:block> -->
-<!-- 				인증된 사용자 (로그인) -->
-<!-- 				<th:block sec:authorize="isAuthenticated()"> -->
-<!-- 					<div> -->
-<!-- 						<form action="/logout"> -->
-<!-- 							<span sec:authentication="principal.username"></span> -->
-<!-- 							<span sec:authentication="principal.authorities"></span> -->
-<!-- 							<button type="submit">로그아웃</button> -->
-<!-- 						</form>		 -->
-<!-- 					</div> -->
-<!-- 				</th:block> -->
-			</div>
+<body>
+	<h1>관리자 페이지</h1>
+	<h3>ROLE_ADMIN 권한</h3>
+	
+	<!-- 익명 사용자 (비로그인) -->
+	<th:block sec:authorize="isAnonymous()">
+		<div>
+			<a href="/login">로그인</a>
 		</div>
-	</div>
-</div>
+	</th:block>
+	
+	
+	<!-- 인증된 사용자 (로그인) -->
+	<th:block sec:authorize="isAuthenticated()">
+		<div>
+			<form action="/logout">
+				<span sec:authentication="principal.username"></span>
+				<span sec:authentication="principal.authorities"></span>
+				<button type="submit">로그아웃</button>
+			</form>		
+		</div>
+	</th:block>
+	
 	
 	
 </body>
