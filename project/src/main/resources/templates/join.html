@@ -63,157 +63,388 @@
 			font-family: 'Dongle', sans-serif;
             font-size: 20px;
 		}
-    </style>
+
+		.check-id { display: none; }
+		.check-nick { display: none; }
+		.check-phoneNumber { display: none; }
+		
+	</style>
 </head>
-<body layout:fragment="content">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="page-content">
-                <h1>Sign up</h1><br><br>
-                <form action="/join" method="post" th:object="${users}" onsubmit="return check()">
-                    <!-- csrf 토큰 -->
-                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                    <!-- 전송 가능 여부 - 가능(1), 불가능(0) -->
-                    <input type="hidden" value="-1" id="input-check" />
-                    <table class="sign-up">
-                        <tr>
-                            <td width="150">아이디</td>
-                            <td>
-                                <input type="text" id="userId" name="userId" th:field="*{userId}" th:errorclass="field-error" class="form-control input-underline">
-                            </td>
-                            <td>
-                                <!-- <button type="button" onclick="checkUserId()" class="btn btn-primary">중복확인</button> -->
-                                <div class="main-button">
-                                    <a href="javascript:;" onclick="checkUserId()" id="double-check">중복확인</a>
-                               
-                                <font color=#9bf525 id="id-check" class="check-id"><span>사용 가능한 아이디입니다.</span></font>
-                                <font color="red" id="id-duplicated" class="check-id" ><span>중복된 아이디입니다.</span></font>
-								<font color="red">
-                                    <th:block th:if="${ #fields.hasErrors('userId') }">
-                                        <span th:errors="*{userId}"></span>
-                                    </th:block>
-                                </font>
-							</div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="150">비밀번호</td>
-                            <td colspan="2">
-                                <input type="password" name="userPw" th:field="*{userPw}" th:errorclass="field-error" class="form-control input-underline">
-                                <font color="red">
-                                    <th:block th:if="${ #fields.hasErrors('userPw') }">
-                                        <span th:errors="*{userPw}"></span>
-                                    </th:block>
-                                </font>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="150">비밀번호 확인</td>
-                            <td colspan="2">
-                                <input type="password" name="userPwChk" th:field="*{userPwChk}" th:errorclass="field-error" class="form-control input-underline"> 
-                                <font color="red">
-                                    <th:block th:if="${ #fields.hasErrors('userPwChk') }">
-                                        <span th:errors="*{userPwChk}"></span>
-                                    </th:block>
-                                </font>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="150">이름</td>
-                            <td colspan="2">
-                                <input type="text" name="name" th:field="*{name}" th:errorclass="field-error" class="form-control input-underline"> 
-                                <font color="red">
-                                    <th:block th:if="${ #fields.hasErrors('name') }">
-                                        <span th:errors="*{name}"></span>
-                                    </th:block>
-                                </font>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td width="150">이메일</td>
-                            <td colspan="2">
-                                <input type="text" name="email" th:field="*{email}" th:errorclass="field-error" class="form-control input-underline"> <br>
-                                <font color="red">
-                                    <th:block th:if="${ #fields.hasErrors('email') }">
-                                        <span th:errors="*{email}"></span>
-                                    </th:block>
-                                </font>
-                            </td>
-                        </tr>
-                </table>
-                        <div><br><br>
-                            <div class="main-button">
-                                <a href="javascript:;" type="submit" id="submit">등록</a>
-                                <a href="javascript:;" type="reset" id="reset">취소</a>
-                            </div>
-                        </div>
-                    </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-<!--
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> -->
-    <script>
-        $(function() {
-        })
-        // 제출 전, 체크
-        function check() {
-            let check = $('#input-check').val()
-            if( check == 1 ) {
-                return true
-            }
-            if( check == -1 ) {
-                alert('아이디 중복 확인이 필요합니다.')
-                checkUserId()
-            }
-            return false
-        }
-        function checkUserId() {
-            asyncCheckUserId().then(function(result) {
-                // ID 미입력
-                if( result == null ) {
-                    return
-                }
-                // ID 사용가능
-                if( result == 'true' ) {
-                    alert('사용 가능한 아이디입니다.')
-                    $('#id-check').show()
-                    $('#id-duplicated').hide()
-                    $('#input-check').val(1)
-                }
-                // ID 중복
-                else {
-                    alert('중복된 아이디입니다')
-                    $('#id-duplicated').show()
-                    $('#id-check').hide()
-                    $('#input-check').val(0)
-                }
-            })
-        }
-        // ID 중복확인
-        async function asyncCheckUserId() {
-            var token = $("meta[name='_csrf']").attr("content");
-            var header = $("meta[name='_csrf_header']").attr("content");
-            let userId = $('#userId').val()
-            let data = {'userId' : userId}
-            if( userId == undefined || userId == '' ) {
-                alert('아이디를 입력해주세요.')
-                return null
-            }
-            const res = await $.ajax({
-                url:    '/user/check/id',       // 요청 경로
-                type:   'post',                 // 메소드 방식(get, post, put 등)
-                data:   data,                   // 전송할 데이터.
-                dataType: "text",
-                // 전송 전
-                beforeSend : function(xhr) {
-                    xhr.setRequestHeader(header, token)
-                },
-            })
-            return res
-        }
-    </script>
+<body>
+	<h1>회원가입</h1>
+
+	<form action="/join" method="post" th:object="${users}" onsubmit="return check()">
+		<!-- csrf 토큰 -->
+		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+		<!-- 전송 가능 여부 - 가능(1), 불가능(0) -->
+		<input type="hidden" value="-1" id="input-check" />
+		<input type="hidden" value="-1" id="input-nickname">
+		<input type="hidden" value="-1" id="input-phoneNumber">
+	
+
+		<table>
+			<tr>
+				<td width="150">아이디</td>
+				<td>
+					<input type="text" id="userId" name="userId" th:field="*{userId}" th:errorclass="field-error"> 
+					<button type="button" onclick="checkUserId()">중복확인</button>
+					<font color="green" id="id-check" class="check-id"><span>사용 가능한 아이디입니다.</span></font>
+					<font color="red" id="id-duplicated" class="check-id"><span>중복된 아이디입니다.</span></font>
+					<br>
+					<font color="red">
+						<th:block th:if="${ #fields.hasErrors('userId') }">
+							<span th:errors="*{userId}"></span>
+						</th:block>
+					</font>
+				</td>
+			</tr>
+			<tr>
+				<td width="150">비밀번호</td>
+				<td>
+					<input type="password" name="userPw" th:field="*{userPw}" th:errorclass="field-error"> <br>
+					<font color="red">
+						<th:block th:if="${ #fields.hasErrors('userPw') }">
+							<span th:errors="*{userPw}"></span>
+						</th:block>
+					</font>
+				</td>
+			</tr>
+			<tr>
+				<td width="150">비밀번호 확인</td>
+				<td>
+					<input type="password" name="userPwChk" th:field="*{userPwChk}" th:errorclass="field-error"> <br>
+					<font color="red">
+						<th:block th:if="${ #fields.hasErrors('userPwChk') }">
+							<span th:errors="*{userPwChk}"></span>
+						</th:block>
+					</font>
+				</td>
+			</tr>
+			<tr>
+				<td width="150">이름</td>
+				<td>
+					<input type="text" name="name" th:field="*{name}" th:errorclass="field-error"> <br>
+					<font color="red">
+						<th:block th:if="${ #fields.hasErrors('name') }">
+							<span th:errors="*{name}"></span>
+						</th:block>
+					</font>
+				</td>
+			</tr>
+			<tr>
+				<td width="150">닉네임</td>
+				<td>
+					<input type="text" name="nickname" th:field="*{nickname}" th:errorclass="field-error">
+					<button type="button" onclick="checkUserNickname()">중복확인</button>
+					<font color="green" id="nickname_success" class="check-nick"><span>사용 가능한 닉네임입니다.</span></font>
+					<font color="red" id="nickname_danger" class="check-nick"><span>중복된 닉네임입니다.</span></font>
+					<br>
+					<font color="red">
+						<th:block th:if="${ #fields.hasErrors('nickname') }">
+							<span th:errors="*{nickname}"></span>
+						</th:block>
+					</font>
+				</td>
+			</tr>
+			<tr>
+				<td width="150">이메일</td>
+				<td>
+					<input type="text" name="email" th:field="*{email}" th:errorclass="field-error"> <br>
+					<font color="red">
+						<th:block th:if="${ #fields.hasErrors('email') }">
+							<span th:errors="*{email}"></span>
+						</th:block>
+					</font>
+				</td>
+			</tr>
+			<tr>
+				<td width="150">핸드폰 번호</td>
+				<td>
+					<!-- pattern="^(010)[0-9]{3,4}[0-9]{4}$" -->
+					<input type="text" name="phoneNumber" id="phoneNumber" th:field="*{phoneNumber}" th:errorclass="field-error">
+					<button type="button" onclick="checkPhoneNumber()">중복확인</button>
+					<font color="green" id="phoneNum_success" class="check-phoneNumber"><span>핸드폰 번호입니다.</span></font>
+					<font color="red" id="phoneNum_danger" class="check-phoneNumber"><span>중복된 핸드폰 번호입니다.</span></font>
+					<br>
+					<font color="red">
+						<th:block th:if="${ #fields.hasErrors('phoneNumber') }">
+							<span th:errors="*{phoneNumber}"></span>
+						</th:block>
+					</font>
+				</td>
+			</tr>
+
+		</table>
+		<div>
+			<button type="submit">등록</button>
+			<button type="reset">취소</button>
+		</div>
+
+	</form>
+
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+	<script>
+		
+
+		
+		$(function() {
+			
+		})
+		
+		// 제출 전, ID 중복확인 버튼 체크
+		function check() {
+			
+			let check = $('#input-check').val()
+			
+			if( check == 1) {
+				return true
+			}
+			if( check == -1) {
+				alert('아이디 중복 확인이 필요합니다.')
+				checkUserId()
+			}
+			
+			
+			return false
+		}
+		
+		// ID 중복확인 했을 때
+		function checkUserId() {
+			asyncCheckUserId().then(function(result) {
+				
+				// ID 미입력
+				if( result == null ) {
+					return
+				}
+				
+				// ID 사용가능
+				if( result == 'true' ) {
+					alert('사용 가능한 아이디입니다.')
+					$('#id-check').show()
+					$('#id-duplicated').hide()
+					$('#input-check').val(1)
+				}
+				// ID 중복
+				else {
+					alert('중복된 아이디입니다')
+					$('#id-duplicated').show()
+					$('#id-check').hide()
+					$('#input-check').val(0)
+				}
+				
+			})
+		} 
+		
+		// 제출 전, 닉네임 중복확인 버튼 체크
+		function nickChk() {
+			
+			let nickChk = $('#input-nickname').val()
+			
+			if( nickChk == 1) {
+				return true
+			}
+			if( nickChk == -1) {
+				alert('닉네임 중복 확인이 필요합니다.')
+				checkUserNickname()
+			}
+			
+			
+			return false
+		}
+		
+		// 닉네임 중복확인 했을 때
+		function checkUserNickname() {
+			asyncCheckUserNickname().then(function(result) {
+				
+				// 닉네임 미입력
+				if( result == null ) {
+					return
+				}
+				
+				// 닉네임 사용가능
+				if( result == 'true' ) {
+					alert('사용 가능한 닉네임입니다.')
+					$('#nickname_success').show()
+					$('#nickname_danger').hide()
+					$('#input-nickname').val(1)
+				}
+				// 닉네임 중복
+				else {
+					alert('중복된 닉네임입니다')
+					$('#nickname_danger').show()
+					$('#nickname_success').hide()
+					$('#input-nickname').val(0)
+				}
+				
+			})
+		} 
+		
+		// 제출 전, 핸드폰 중복확인 버튼 체크
+		function phoneNumberChk() {
+			
+			let phoneNumChk = $('#input-phoneNumber').val()
+			
+			if( phoneNumChk == 1) {
+				return true
+			}
+			if( phoneNumChk == -1) {
+				alert('핸드폰 중복 확인이 필요합니다.')
+				checkPhoneNumber()
+			}
+			
+			
+			return false
+		}
+		
+		// 핸드폰번호 중복확인 했을 때
+		function checkPhoneNumber() {
+			asyncCheckPhoneNumber().then(function(result) {
+				
+				// 핸드폰 번호 미입력
+				if( result == null ) {
+					return
+				}
+
+				// 핸드폰 번호 사용가능
+				if( result == 'true') {
+					alert('사용 가능한 핸드폰 번호입니다.')
+					$('#phoneNum_success').show()
+					$('#phoneNum_danger').hide()
+					$('#input-phoneNumer').val(1)
+				}
+				// 핸드폰 번호 중복
+				else {
+					alert('중복된 핸드폰번호입니다')
+					$('#phoneNum_danger').show()
+					$('#phoneNum_success').hide()
+					$('#input-phoneNumer').val(0)
+				}
+				
+			})
+			
+		} 
+		
+		
+		// ID 중복확인
+		async function asyncCheckUserId() {
+			
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			
+			let userId = $('#userId').val()
+			let data = {'userId' : userId}
+			
+			if( userId == undefined || userId == '' ) {
+				alert('아이디를 입력해주세요.')
+				return null
+			}
+			
+			const res = await $.ajax({
+				url:	'/user/check/id',		// 요청 경로
+				type:	'post',					// 메소드 방식(get, post, put 등)
+				data:  	data,					// 전송할 데이터
+				dataType: "text",	
+
+				// 전송 전 
+				beforeSend : function(xhr) {
+					xhr.setRequestHeader(header, token)
+				},
+			})
+			
+			return res
+			
+		}
+		
+		// 닉네임 중복확인
+		async function asyncCheckUserNickname() {
+			
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			
+			let nickname = $('#nickname').val()
+			let data = {'nickname' : nickname}
+			
+			if( nickname == undefined || nickname == '' ) {
+				alert('닉네임을 입력해주세요.')
+				return null
+			}
+			
+			const res = await $.ajax({
+				url:	'/user/check/nickname',		// 요청 경로
+				type:	'post',						// 메소드 방식(get, post, put 등)
+				data:  	data,						// 전송할 데이터
+				dataType: "text",	
+
+				// 전송 전 
+				beforeSend : function(xhr) {
+					xhr.setRequestHeader(header, token)
+				},
+			})
+			
+			return res
+			
+		} 
+		
+		// 핸드폰번호 중복확인
+		async function asyncCheckPhoneNumber() {
+			
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			
+			let phoneNumber = $('#phoneNumber').val()
+			let data = {'phoneNumber' : phoneNumber}
+			
+			let phonePattern = /^(010)[0-9]{3,4}[0-9]{4}$/
+// 			let phonePattern = /^01(?:0|1|[6-9])[.-]?(\\d{3}|\\d{4})[.-]?(\\d{4})$/
+			
+			if( phoneNumber == undefined || phoneNumber == '') {
+				alert('핸드폰 번호를 입력해주세요.')
+				return null
+			}
+			
+			// 전화번호 정규식 확인
+			if( phonePattern.test(phoneNumber) ) {
+// 				alert('전화번호 형식입니다.')
+			} else {
+				alert('전화번호 형식이 아닙니다.')
+				return
+			}
+
+			const res = await $.ajax({
+				url:	'/user/check/phoneNumber',		// 요청 경로
+				type:	'post',						// 메소드 방식(get, post, put 등)
+				data:  	data,						// 전송할 데이터
+				dataType: "text",	
+
+				// 전송 전 
+				beforeSend : function(xhr) {
+					xhr.setRequestHeader(header, token)
+				},
+			})
+			
+			return res
+			
+		} 
+		
+/*  		async function asyncCheckPhoneNumber(phoneNumber) {
+			// 전화번호 정규식 패턴.
+			let phonePattern = /^(010)[0-9]{3,4}[0-9]{4}$/;
+			
+			 // 전화번호가 패턴에 맞는지 검사.
+			 if (phonePattern.test(phoneNumber)) {
+				 
+			     return true;
+			 } 
+			 else {
+			   	 return false;
+			  }
+		}  */
+		
+	</script>
+	
 </body>
 </html>
+
+
+
+
