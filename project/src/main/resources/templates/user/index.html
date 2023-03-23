@@ -3,11 +3,11 @@
 				xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 	<meta charset="UTF-8">
-	<title>관리자 페이지</title>
+	<title>사용자 페이지</title>
 </head>
 <body>
-	<h1>관리자 페이지</h1>
-	<h2>ROLE_ADMIN 권한</h2>
+	<h1>사용자 페이지</h1>
+	<h2>ROLE_USER 권한</h2>
 	
 	<div>
 		<a href="/login">로그인</a>
@@ -22,9 +22,9 @@
 	</th:block>
 	
 	<!-- 인증된 사용자 (로그인) -->
-	<th:block sec:authorize="isAutothenticated()">
+	<th:block sec:authorize="isAuthenticated()">
 		<div>
-			<form action="/logout">
+			<form action="logout">
 				<span sec:authentication="principal.username"></span>
 				<span sec:authentication="principal.authorities"></span>
 				<button type="submit">로그아웃</button>

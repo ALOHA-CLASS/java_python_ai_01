@@ -17,4 +17,7 @@ public interface UserMapper {
 	// 회원조회
 	public Users select(Users user) throws Exception;
 	
+	// 아이디 찾기
+
+	
 }

@@ -77,7 +77,7 @@ public class UserServiceImpl implements UserService {
 		// 토큰에 요청정보 등록
 		token.setDetails( new WebAuthenticationDetails(request) );
 		
-		// 토큰을 이요하여 인증(로그인)
+		// 토큰을 이용하여 인증(로그인)
 		Authentication authentication = authenticationManager.authenticate(token);
 		
 		// 인증 성공 여부
@@ -98,8 +98,8 @@ public class UserServiceImpl implements UserService {
 		
 		return true;
 	}
-	
-	
+
+
 
 }
 
