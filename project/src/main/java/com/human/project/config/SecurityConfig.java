@@ -49,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// * 문자열 형태로 Role 을 지정 --> "ROLE_" 접두사가 자동으로 붙는다
 		// ex) USER  -->  ROLE_USER
 		http.authorizeRequests()
-//					.antMatchers("/*").permitAll()
+			.antMatchers("/*").permitAll()
 			.antMatchers("/logout").permitAll()
 			.antMatchers("/join").permitAll()
 			.antMatchers("/user/check/id").permitAll()

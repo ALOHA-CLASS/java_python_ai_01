@@ -48,7 +48,14 @@ public class UserController {
 		log.info("ID 사용가능 : " + userId);
 		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 	}
+
+
  
+    // @RequestMapping("/find_id")
+    // @ResponseBody
+    // public String doFind_id(@RequestParam("name") String name, @RequestParam("email") String email, @RequestParam("phoneNumber") String phoneNumber) {
+        
+    // }
 }
 
 

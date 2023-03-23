@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-    <title>회원가입</title>
+    <title>아이디/비밀번호 찾기</title>
     <style>
         body{
             text-align: center;
@@ -50,7 +50,39 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="page-content">
-                <h1>Sign up</h1><br><br>
+                <h1>아이디/비밀번호 찾기</h1><br><br>
+                <input type="radio" name="findOption" id="findId"> 아이디 찾기
+                <input type="radio" name="findOption" id="findPw"> 비밀번호 찾기
+                <div id="findIdForm" style="display:none;">
+                    <table>
+                        <tr>
+                            <td width="150">이름</td>
+                            <td colspan="2">
+                                <input type="text" name="name" th:field="*{name}" th:errorclass="field-error" class="form-control input-underline"> <br>
+                                <font color="red">
+                                    <th:block th:if="${ #fields.hasErrors('name') }">
+                                        <span th:errors="*{name}"></span>
+                                    </th:block>
+                                </font>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="150">이메일</td>
+                            <td colspan="2">
+                                <input type="text" name="email" th:field="*{email}" th:errorclass="field-error" class="form-control input-underline"> <br>
+                                <font color="red">
+                                    <th:block th:if="${ #fields.hasErrors('email') }">
+                                        <span th:errors="*{email}"></span>
+                                    </th:block>
+                                </font>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div id="findPasswordForm" style="display:none;">
+                
+                </div>
                 <form action="/join" method="post" th:object="${users}" onsubmit="return check()">
                     <!-- csrf 토큰 -->
                     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
@@ -124,6 +156,7 @@
                         <div><br><br>
                             <div class="main-button">
                                 <a href="javascript:;" type="submit">등록</a>
+                                <a href="javascript:;" type="reset">취소</a>
                             </div>
                         </div>
                     </form>
