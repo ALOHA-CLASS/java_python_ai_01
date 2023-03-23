@@ -89,30 +89,30 @@
 			  <div class="heading-section">
 				<h4><em>Charts</em><br> Real Time</h4>
 			  </div>
-				  <table>
+				<table>
 					<tr>
-					  <th>순위</th>
-					  <th></th>
-					  <th>제목</th>
-					  <th>가수</th>
+						<th>순위</th>
+						<th></th>
+						<th>제목</th>
+						<th>가수</th>
 					</tr>
-					<c:forEach var="track" items="${trackList}" varStatus="status">
-					  <tr>
-						<td>${status.count}</td>
-						<td id="size"><div class="image-container">
-						  <a href="${pageContext.request.contextPath}/${track.id}">
-							  <img src="${pageContext.request.contextPath}/${track.id}" alt="${track.name}">
-						  </a>
-						  <div class="text-overlay">
-							<p style="color: #FFFFFF;">Play</p>
-						  </div>
-						 </div>
+					<tr th:each="track, status : ${trackList}">
+						<td th:text="${status.count}" style="color:white;"></td>
+						<td id="size">
+							<a th:href="${track.videoUrl}">
+								<div class="image-container">
+									<img th:src="@{${track.id}}" th:alt="${track.name}">
+									<div class="text-overlay">
+										<p style="color: #FFFFFF;">Play</p>
+									</div>
+								</div>
+							</a>
 						</td>
-						<td>${track.name}</td>
-						<td>${track.artist}</td>
-					  </tr>
-					</c:forEach>
-				  </table>
+						<td th:text="${track.name}" style="color:white;"></td>
+						<td th:text="${track.artist}" style="color:white;"></td>
+					</tr>
+					</th:block>
+				</table>
 				  <div class="main-button">
 					<a href="/browse">Move browse</a>	
 				  </div>
