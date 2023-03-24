@@ -136,13 +136,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		String sql1 = " SELECT user_id AS username "
 				+ " 	  ,user_pw AS password "
 				+ "       ,enabled "
-				+ " FROM users_test "
+				+ " FROM users "
 				+ " WHERE user_id = ? "
 				;
 	
 	String sql2 = " SELECT user_id AS username "
 				+ " 	  ,auth AS authority "
-				+ " FROM user_auth_test "
+				+ " FROM user_auth "
 				+ " WHERE user_id = ? "
 				;
 		

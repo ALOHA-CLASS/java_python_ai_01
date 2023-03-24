@@ -35,10 +35,6 @@ public class Users {
 	@Email(message = "*이메일 형식으로 입력해야합니다.")
 	private String email;
 	
-	@NotBlank(message = "*반드시 입력해야합니다.")
-	@Pattern(regexp = "^(010)[0-9]{3,4}[0-9]{4}$", message="핸드폰번호 형식이 아닙니다.")
-	private String phoneNumber;
-	
 	private boolean enabled;
 	private LocalDateTime regDate;
 	private LocalDateTime updDate;
