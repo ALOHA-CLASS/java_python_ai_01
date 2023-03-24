@@ -161,29 +161,6 @@ public class HomeController {
 		user.setUserId(userId);
 		Users selectedUser = userService.select(user);
 		model.addAttribute("user", selectedUser);
-
-		if( principal != null ) {
-			Map<String, Object> map = principal.getAttributes();
-			log.info("map : " + map);
-			log.info("map : " + map.get("properties"));
-			
-			Map<String, Object> proMap = (Map<String, Object>) map.get("properties");
-			Map<String, Object> accountMap = (Map<String, Object>) map.get("kakao_account");
-			
-			String profile_image = String.valueOf( proMap.get("profile_image") );
-			String thumbnail_image = String.valueOf( proMap.get("thumbnail_image") );
-			
-			String email = String.valueOf( accountMap.get("email") );
-			
-			
-			log.info("map : " + proMap);
-			log.info("email : " + email);
-			log.info("profile_image : " + proMap.get("profile_image"));
-			
-			model.addAttribute("email", email);
-			model.addAttribute("profile_image", profile_image);
-			model.addAttribute("thumbnail_image", thumbnail_image);
-		}
 		return "/profile";
 	}
 	
