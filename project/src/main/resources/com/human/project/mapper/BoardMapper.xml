@@ -1,7 +1,6 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
     
 <!-- namespace : 매퍼 인터페이스의 경로 작성 -->
 <mapper namespace="com.human.project.mapper.BoardMapper">

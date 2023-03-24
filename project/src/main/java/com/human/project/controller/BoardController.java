@@ -1,6 +1,5 @@
 package com.human.project.controller;
 
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +13,11 @@ import com.human.project.domain.Board;
 import com.human.project.domain.Comment;
 import com.human.project.domain.Option;
 import com.human.project.domain.Page;
+import com.human.project.domain.Reply;
 import com.human.project.domain.Users;
 import com.human.project.service.BoardService;
 import com.human.project.service.CommentService;
+import com.human.project.service.ReplyService;
 
 import lombok.extern.slf4j.Slf4j;
 

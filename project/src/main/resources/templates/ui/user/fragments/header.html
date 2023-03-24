@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-
 <!-- th:fragment 속성으로 공통으로 사용할 프래그먼트를 정의 -->
 <body th:fragment="header">
 <!-- ***** Header Area Start ***** -->
@@ -23,26 +22,34 @@
                   </div>
                   <!-- ***** Search End ***** -->
                   <!-- ***** Menu Start ***** -->
+                  <style>
+                    .logout{
+                      background-color: transparent;
+                      color: #666;
+                      border: none;
+                      position: relative;
+                      top: 11px;
+                      font-size: 15px;
+                    }
+                    .logout:hover {
+                      color: #D204A9;
+                    }
+                  </style>
                   <ul class="nav">
+                      <li><a href="/index" class="active">Home</a></li>
                       <li><a href="/board/list">Community</a></li>
-                      <form id="login" action="/login" method="get">
-                        <li sec:authorize="isAnonymous()"><a href="javascript:;" onclick=btn_login()>Log in</a></li>
-                      </form>
-                      <form id="join" action="/join" method="get">
-                        <li sec:authorize="isAnonymous()"><a href="javascript:;" onclick=btn_join()>Sign in</a></li>
-                      </form>
+                      <th:block sec:authorize="!isAuthenticated()">
+                        <li><a href="/login">Sign in</a></li>
+                      </th:block>
                       <th:block sec:authorize="isAuthenticated()">
-                      <div>
-                        <form id="logout" action="/logout" method="post">
-                          <!-- csrf 토큰 -->
-                          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                          <span style="cursor:hand;color:white" sec:authentication="principal.username"></span>
-                          <a href="javascript:;" onclick=btn_logout()>로그아웃</button>
-                        </form>		
-                      </div>
+                          <form action="/logout" method="post">
+                            <!-- csrf 토큰 -->
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                            <li><button type="submit" class="logout">Sign Out</button></li>
+                          </form>
                   </th:block>
-                      <li sec:authorize="isAuthenticated()"><a href="profile.html">Profile <img src="/cyborg/assets/images/avatar.jpg" alt=""></a></li>
-                  </ul>   
+                      <li><a href="profile.html">Profile <img src="/cyborg/assets/images/avatar.jpg" alt=""></a></li>
+                  </ul>
                   <a class='menu-trigger'>
                       <span>Menu</span>
                   </a>
