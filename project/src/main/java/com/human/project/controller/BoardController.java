@@ -16,11 +16,12 @@ import com.human.project.domain.Page;
 import com.human.project.service.BoardService;
 import com.human.project.service.CommentService;
 
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-@RequestMapping("/board")
+@RequestMapping("/board") // Mapping에서 /board생략해도 연결됨
 public class BoardController {
 	
 	@Autowired
@@ -33,15 +34,8 @@ public class BoardController {
 	@GetMapping("/list")
 	public String list(Model model, Option option, Page page) throws Exception {
 		
-//		log.info("##### 페이징 처리 전 - page #####");
-//		log.info(page.toString());
-//		log.info("keyword : " + option.getKeyword());
-		
 		// 게시글 목록 요청
 		List<Board> boardList = boardService.list(page, option);
-		
-//		log.info("##### 페이징 처리 후 - page #####");
-//		log.info(page.toString());
 		
 		log.info("boardList : " +boardList);
 		
@@ -65,16 +59,11 @@ public class BoardController {
 	@PostMapping("/insert")
 	public String insertPro(Board board) throws Exception {
 		
-//		log.info("title : " + board.getTitle());
-//		log.info("writer : " + board.getWriter());
-//		log.info("content : " + board.getContent());
 
 // 댓글 등록 참고함 > 로그인된 유저의 userNo 불러오기
 //		int userNo = user.getUserNo();
 //		List<Board> boardList = boardService.list(userNo);
 //		model.
-		
-		
 		
 //		log.info("user : " +user);
 		
@@ -95,6 +84,7 @@ public class BoardController {
 		model.addAttribute("board", board);
 		
 		List<Comment> replyList = replyService.list(boardNo);
+
 		model.addAttribute("replyList", replyList);
 		
 		return "/board/read";
@@ -130,20 +120,13 @@ public class BoardController {
 		
 		if( result > 0 ) 	log.info("게시글 삭제 성공...");
 		else 				log.info("게시글 삭제 실패...");
+
 		
 		return "redirect:/board/list";
 	}
-	
+		
+
 	
 	
 
 }
-
-
-
-
-
-
-
-
-

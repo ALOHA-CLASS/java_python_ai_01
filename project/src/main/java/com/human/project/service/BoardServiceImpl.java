@@ -24,6 +24,7 @@ public class BoardServiceImpl implements BoardService {
 	public List<Board> list() throws Exception {
 		
 		// BoardMapper 의 list() 메소드 호출
+
 		List<Board> boardList = boardMapper.list();
 		
 		return boardList;
@@ -31,9 +32,7 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public int insert(Board board) throws Exception {
-		
 		int result = boardMapper.insert(board);
-		
 		return result;
 	}
 
@@ -87,30 +86,34 @@ public class BoardServiceImpl implements BoardService {
 		return count;
 	}
 
-	@Override
+
+	@Override 
 	public List<Board> list(Page page, String keyword) throws Exception {
-		
-		// 검색어가 없을 때
-		// if( keyword == null ) keyword = "";
-		
-		// 검색어 포함 게시글 수
-		// list(page, option) 으로 전환함
-		// int totalCount = boardMapper.countWithKeyword(keyword);
-		// log.info("totalCount : " + totalCount);
-		
-		// 페이징 처리
-		// page.setTotalCount(totalCount);
-		// page.calc(page);
-		
-		// list(page, option) 으로 전환함
-		// List<Board> boardList = boardMapper.boardList(page, keyword);
-		
-		// return boardList;
+//		
+//		// 검색어가 없을 때
+//		if(keyword == null) keyword = "";
+//		
+//		// 검색어 포함 게시글 수
+//		int totalCount = boardMapper.countWithKeyword(keyword);
+//		log.info("totalCount : " + totalCount);
+//		
+//		// 페이징 처리
+//		page.setTotalCount(totalCount);
+//		page.calc(page);
+//		
+//		List<Board> boardList = boardMapper.boardList(page, keyword);
+//		
+//		return boardList;
 		return null;
-	}
+	} 
+//	List<Board> list(Page page, Option option) 로 전환
 
 	@Override
 	public List<Board> list(Page page, Option option) throws Exception {
+
+		// 검색어가 없을 때
+//		if(option.getKeyword() == null) option.getKeyword() = "";
+//		생성자에서 ""를 정의하여 필요없음
 		
 		// 검색어 포함 게시글 수
 		int totalCount = boardMapper.countWithKeyword(option);
@@ -125,7 +128,9 @@ public class BoardServiceImpl implements BoardService {
 		return boardList;
 	}
 
+
 }
+
 
 
 

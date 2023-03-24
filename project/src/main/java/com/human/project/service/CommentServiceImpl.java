@@ -15,39 +15,39 @@ import lombok.extern.slf4j.Slf4j;
 public class CommentServiceImpl implements CommentService {
 	
 	@Autowired
-	private CommentMapper replyMapper;
+	private CommentMapper commentMapper;
 
 	@Override
 	public List<Comment> list() throws Exception {
-		List<Comment> replyList = replyMapper.list();
+		List<Comment> commentList = commentMapper.list();
 		
 		
-		for (Comment comment : replyList) {
+		for (Comment comment : commentList) {
 			log.info(comment.toString());
 		}
 		
 		
-		return replyList;
+		return commentList;
 	}
 
 	@Override
 	public List<Comment> list(int boardNo) throws Exception {
-		List<Comment> replyList = replyMapper.listByBoardNo(boardNo);
-		return replyList;
+		List<Comment> commentList = commentMapper.listByBoardNo(boardNo);
+		return commentList;
 	}
 
 	@Override
 	public int insert(Comment comment) throws Exception {
 		
-		int result = replyMapper.insert(comment);
+		int result = commentMapper.insert(comment);
 		
 		// 댓글 번호 최댓값
-		int replyNo = replyMapper.maxCommentNo();
-		log.info("replyNo : " + replyNo);
-		comment.setCommentNo(replyNo);
-		comment.setGroupNo(replyNo);
+		int commentNo = commentMapper.maxCommentNo();
+		log.info("commentNo : " + commentNo);
+		comment.setCommentNo(commentNo);
+		comment.setGroupNo(commentNo);
 		
-		result = replyMapper.update(comment);
+		result = commentMapper.update(comment);
 		
 		
 		return result;
@@ -55,29 +55,29 @@ public class CommentServiceImpl implements CommentService {
 
 	@Override
 	public int update(Comment comment) throws Exception {
-		int result = replyMapper.update(comment);
+		int result = commentMapper.update(comment);
 		return result;
 	}
 
 	@Override
-	public int delete(int replyNo) throws Exception {
+	public int delete(int commentNo) throws Exception {
 		int result = 0;
 		
 		// 삭제할 댓글 정보 조회
-		Comment comment = replyMapper.select(replyNo);
+		Comment comment = commentMapper.select(commentNo);
 		
 		int subCount = comment.getSubCount();
 		
 		// 자식 댓글이 없으면, 삭제
 		if( subCount == 0 ) {
 			// 삭제요청
-			result = replyMapper.delete(replyNo);
+			result = commentMapper.delete(commentNo);
 		}
 		// 자식 댓글이 있으면, "삭제된 게시글 입니다" 로 내용 수정
 		else {
 			comment.setWriter("---");
 			comment.setContent("삭제된 게시글 입니다");
-			result = replyMapper.update(comment);
+			result = commentMapper.update(comment);
 			return result;
 		}
 		
@@ -100,10 +100,10 @@ public class CommentServiceImpl implements CommentService {
 		comment.setSeqNo(seqNo);
 		
 		// 뒤의 순서번호 + 1
-		replyMapper.syncSeqNo(comment);
+		commentMapper.syncSeqNo(comment);
 		
 		// 답글 등록
-		int result = replyMapper.insert(comment);
+		int result = commentMapper.insert(comment);
 		
 		// 부모글의 자식 개수 + 1
 		int parentNo = comment.getParentNo();
@@ -121,7 +121,7 @@ public class CommentServiceImpl implements CommentService {
 	public void syncSubCount(int parentNo, int no) throws Exception {
 		
 		// 부모 정보 조회
-		Comment comment = replyMapper.select(parentNo);
+		Comment comment = commentMapper.select(parentNo);
 		
 		if( comment == null ) return;
 		
@@ -129,7 +129,7 @@ public class CommentServiceImpl implements CommentService {
 		int ancestorNo = comment.getParentNo();
 		
 		// 부모 댓글 자식개수 갱신
-		replyMapper.syncSubCount(parentNo, no);
+		commentMapper.syncSubCount(parentNo, no);
 
 		// (종료조건) 원본 댓글에서 멈춤
 		if( ancestorNo == 0 ) return;

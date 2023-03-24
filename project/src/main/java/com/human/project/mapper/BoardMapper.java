@@ -11,7 +11,7 @@ import com.human.project.domain.Page;
 
 @Mapper
 public interface BoardMapper {
-	
+
 	// 게시글 목록
 	public List<Board> list() throws Exception;
 	
@@ -27,7 +27,7 @@ public interface BoardMapper {
 	// 게시글 삭제
 	public int delete(int boardNo) throws Exception;
 
-	// 검색
+	// 게시글 검색
 	public List<Board> search(String keyword) throws Exception;
 	
 	// [페이지] 게시글 목록
@@ -36,20 +36,13 @@ public interface BoardMapper {
 	// 게시글 개수
 	public int count() throws Exception;
 	
-	// [검색][페이지] 게시글 모록
+	// [검색][페이지] 게시글 목록
 	public List<Board> boardList(@Param("page") Page page, @Param("option") Option option) throws Exception;
 	
 	// [검색] 게시글 개수
 	public int countWithKeyword(@Param("option") Option option) throws Exception;
 	
 }
-
-
-
-
-
-
-
 
 
 

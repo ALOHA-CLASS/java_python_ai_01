@@ -48,9 +48,47 @@ public class UserController {
 		log.info("ID 사용가능 : " + userId);
 		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 	}
- 
-}
+	
+	// 닉네임 중복확인
+		@ResponseBody
+		@PostMapping("/check/nickname")
+		public ResponseEntity<Boolean> checkUserNickname(Users user) throws Exception {
+			
+			Users selectedNickname = userService.select(user);
+			String nickname = user.getNickname();
+			
+			// 닉네임 중복 (사용불가)
+			if( selectedNickname != null ) {
+				log.info("닉네임 중복... : " + nickname);
+				return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+			}
+			
+			// 닉네임 중복 아님(사용가능)
+			log.info("닉네임 사용가능 : " + nickname);
+			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+		}
+		
+		// 핸드폰 중복확인
+		@ResponseBody
+		@PostMapping("/check/phoneNumber")
+		public ResponseEntity<Boolean> checkPhoneNumber(Users user) throws Exception {
+			
+			Users selectedPhoneNum = userService.select(user);
+			String phoneNum = user.getPhoneNumber();
+			
+			// 핸드폰번호 중복 (사용불가)
+			if( selectedPhoneNum != null ) {
+				log.info("핸드폰번호 중복... : " + phoneNum);
+				return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+			}
+			
+			// 핸드폰번호 중복 아님(사용가능)
+			log.info("핸드폰번호 사용가능 : " + phoneNum);
+			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+		}
+		
 
+}
 
 
 

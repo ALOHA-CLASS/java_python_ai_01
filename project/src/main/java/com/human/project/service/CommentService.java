@@ -13,16 +13,16 @@ public interface CommentService {
 	public List<Comment> list(int boardNo) throws Exception;
 	
 	// 댓글 등록
-	public int insert(Comment reply) throws Exception;
+	public int insert(Comment comment) throws Exception;
 	
 	// 댓글 수정
-	public int update(Comment reply) throws Exception;
+	public int update(Comment comment) throws Exception;
 	
 	// 댓글 삭제
-	public int delete(int replyNo) throws Exception;
+	public int delete(int commentNo) throws Exception;
 	
 	// 답글 등록
-	public int insertAnswer(Comment reply) throws Exception;
+	public int insertAnswer(Comment comment) throws Exception;
 	
 	
 }

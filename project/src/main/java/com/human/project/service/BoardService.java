@@ -23,7 +23,7 @@ public interface BoardService {
 	// 게시글 삭제
 	public int delete(int boardNo) throws Exception;
 
-	// 검색
+	// 게시글 검색
 	public List<Board> list(String keyword) throws Exception;
 	
 	// [페이지] 게시글 목록
@@ -35,30 +35,7 @@ public interface BoardService {
 	// [검색][페이지] 게시글 목록
 	public List<Board> list(Page page, String keyword) throws Exception;
 
-	// [검색+옵션][페이지] 게시글 목록
-	public List<Board> list(Page page, Option option)  throws Exception;
-	
-	
-	
+	// [검색 + 옵션][페이지] 게시글 목록
+	public List<Board> list(Page page, Option option) throws Exception;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
