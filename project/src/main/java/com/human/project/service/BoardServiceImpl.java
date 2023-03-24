@@ -12,17 +12,19 @@ import com.human.project.mapper.BoardMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
+
 @Slf4j
 @Service
 public class BoardServiceImpl implements BoardService {
-
+	
 	@Autowired
 	private BoardMapper boardMapper;
-	
+
 	@Override
 	public List<Board> list() throws Exception {
 		
-		// BoardMapper의 list() 메소드 호출
+		// BoardMapper 의 list() 메소드 호출
+
 		List<Board> boardList = boardMapper.list();
 		
 		return boardList;
@@ -30,7 +32,6 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public int insert(Board board) throws Exception {
-		
 		int result = boardMapper.insert(board);
 		return result;
 	}
@@ -55,8 +56,9 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public List<Board> list(String keyword) throws Exception {
+		
 		// 검색어가 없을 때
-		if(keyword == null) keyword = ""; 
+		if( keyword == null ) keyword = "";
 		
 		List<Board> boardList = boardMapper.search(keyword);
 		return boardList;
@@ -64,7 +66,7 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public List<Board> list(Page page) throws Exception {
-		
+
 		// 전체 게시글 수
 		int totalCount = boardMapper.count();
 		log.info("totalCount : " + totalCount);
@@ -83,6 +85,7 @@ public class BoardServiceImpl implements BoardService {
 		int count = boardMapper.count();
 		return count;
 	}
+
 
 	@Override 
 	public List<Board> list(Page page, String keyword) throws Exception {
@@ -107,7 +110,7 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public List<Board> list(Page page, Option option) throws Exception {
-		
+
 		// 검색어가 없을 때
 //		if(option.getKeyword() == null) option.getKeyword() = "";
 //		생성자에서 ""를 정의하여 필요없음
@@ -124,7 +127,17 @@ public class BoardServiceImpl implements BoardService {
 		
 		return boardList;
 	}
-	
-	
+
 
 }
+
+
+
+
+
+
+
+
+
+
+
