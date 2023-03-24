@@ -55,7 +55,7 @@ public class UserController {
 	public ResponseEntity<Boolean> checkUserNickname(Users user) throws Exception {
 		
 		Users selectedNickname = userService.select(user);
-		String nickname = user.getNickname();
+		String nickname = user.getUserNick();
 		
 		// 닉네임 중복 (사용불가)
 		if( selectedNickname != null ) {

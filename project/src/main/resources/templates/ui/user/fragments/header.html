@@ -28,8 +28,8 @@
                       <form id="login" action="/login" method="get">
                         <li sec:authorize="isAnonymous()"><a href="javascript:;" onclick=btn_login()>Log in</a></li>
                       </form>
-                      <form id="join" action="/join" method="get">
-                        <li sec:authorize="isAnonymous()"><a href="javascript:;" onclick=btn_join()>Sign in</a></li>
+                      <form id="join3" action="/join" method="get">
+                        <li sec:authorize="isAnonymous()"><a href="javascript:;" onclick=btn_join()>Sign up</a></li>
                       </form>
                       <th:block sec:authorize="isAuthenticated()">
                       <div>
@@ -41,7 +41,7 @@
                         </form>		
                       </div>
                   </th:block>
-                      <li sec:authorize="isAuthenticated()"><a href="profile.html">Profile <img src="/cyborg/assets/images/avatar.jpg" alt=""></a></li>
+                      <li sec:authorize="isAuthenticated()"><a href="profile">Profile <img src="/cyborg/assets/images/avatar.jpg" alt=""></a></li>
                   </ul>   
                   <a class='menu-trigger'>
                       <span>Menu</span>
@@ -58,7 +58,7 @@
     document.getElementById("login").submit();
   }
   function btn_join(){
-    document.getElementById("join").submit();
+    document.getElementById("join3").submit();
   }
   function btn_logout(){
     document.getElementById("logout").submit();
