@@ -28,7 +28,7 @@
 	 -->
 	<insert id="insert">
 		INSERT INTO board ( title, user_id, content )
-		VALUES ( #{title}, #{user_id}, #{content} )
+		VALUES ( #{title}, #{userId}, #{content} )
 	</insert>
 	
 	<!-- 게시글 읽기 -->

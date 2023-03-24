@@ -16,6 +16,8 @@
 		<result column="board_no" property="boardNo"/>
 
 		<result column="user_id" property="userId"/>
+		
+		<result column="user_nick" property="userNick"/>
 
 		<result column="content" property="content"/>
 		

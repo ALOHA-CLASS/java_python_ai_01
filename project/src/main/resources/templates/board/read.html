@@ -40,15 +40,17 @@
 			
 			<tr>
 				<td><b>작성자</b></td>
-				<td th:text="${board.userNick}"></td>
-				<td><b>작성일</b></td>
-				<td th:text="${board.updDate}"></td>
+				<td colspan=2 th:text="${board.userNick}"></td>
 				<td><b>조회</b></td><td th:text="${board.joinCnt}"></td>
+
 			</tr>
-			
 			<tr>
+			<td><b>작성시각</b></td>
+				<td colspan=2 th:text="${board.regDate}"></td>
+			<td><b>수정시각</b></td>
+				<td th:text="${board.updDate}"></td>
 			</tr>
-			
+			<tr><td colspan=5>------------------------------------------------------------------------</td></tr>
 			<tr><td colspan=5><b>내용</b></td></tr>
 			<tr>
 				<td style="border:1;" colspan=5 th:text="${board.content}"></td>

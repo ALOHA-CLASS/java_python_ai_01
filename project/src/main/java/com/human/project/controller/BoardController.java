@@ -1,5 +1,6 @@
 package com.human.project.controller;
 
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import com.human.project.domain.Board;
 import com.human.project.domain.Comment;
 import com.human.project.domain.Option;
 import com.human.project.domain.Page;
+import com.human.project.domain.Users;
 import com.human.project.service.BoardService;
 import com.human.project.service.CommentService;
 
@@ -56,15 +58,13 @@ public class BoardController {
 	// 요청파라미터 연결 : @RequestParam("title") String title
 	// * 요청파라미터 이름과 실제 매개변수 이름이 같으면 어노테이션 생략 가능
 	@PostMapping("/insert")
-	public String insertPro(Board board) throws Exception {
+	public String insertPro(Board board, Users user, Model model) throws Exception {
 		
-
-// 댓글 등록 참고함 > 로그인된 유저의 userNo 불러오기
-//		int userNo = user.getUserNo();
-//		List<Board> boardList = boardService.list(userNo);
-//		model.
+		String userId = user.getUserId();
+		List<Board> boardList = boardService.list(userId);
+		model.addAttribute("boardList", boardList);
 		
-//		log.info("user : " +user);
+		log.info("user : " +user);
 		
 		// 게시글 쓰기 요청
 		int result = boardService.insert(board);
