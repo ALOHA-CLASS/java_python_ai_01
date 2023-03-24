@@ -10,7 +10,6 @@ import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -44,8 +43,10 @@ public class HomeController {
 	@Autowired
     private ChartRepository chartRepository;
 
-	@GetMapping("/")
-    public String getChart(Chart track, Model model, HttpSession ses
+
+	
+	@GetMapping({"", "/", "/index"})
+    public String getChart(Chart track, Model model
                           ,@AuthenticationPrincipal OAuth2User principal) throws IOException {
         List<Chart> trackList = chartRepository.findAll();
         model.addAttribute("trackList", trackList);
@@ -73,12 +74,6 @@ public class HomeController {
         model.addAttribute("profile_image", profile_image);
         model.addAttribute("thumbnail_image", thumbnail_image);
       }
-        
-        return "/index";
-    }
-	
-	@GetMapping({"", "/", "/index"})
-	public String index() {
 		return "/index";
 	}
 	
@@ -161,8 +156,10 @@ public class HomeController {
 	
 	
 	
-
 }
+
+
+
 
 
 
