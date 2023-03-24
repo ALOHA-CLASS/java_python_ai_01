@@ -107,6 +107,22 @@ public class UserServiceImpl implements UserService {
 		List<Users> usersList = userMapper.list();
 		return usersList;
 	}
+
+	@Override
+	public int delete(List<String> userNoList) throws Exception {
+		String noList = "";
+		for (int i = 0; i < userNoList.size(); i++) {
+			noList += userNoList.get(i);
+			if (i+1 != userNoList.size() ) {
+				noList += ", ";
+			}
+		}
+		log.info("noList : " +  noList );
+		
+		int result = userMapper.delete(noList);
+		
+		return result;
+	}
 	
 
 

@@ -29,6 +29,11 @@ public class AdminController {
 		log.info("관리자 페이지...");
 		
 		List<Users> usersList = userService.list();
+
+		for (Users users : usersList) {
+			log.info(users.toString());
+		}
+
 		model.addAttribute("usersList",usersList);
 		
 		return "/admin/index";
