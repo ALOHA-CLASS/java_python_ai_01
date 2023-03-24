@@ -34,7 +34,8 @@ public interface BoardService {
 	
 	// [검색][페이지] 게시글 목록
 	public List<Board> list(Page page, String keyword) throws Exception;
-	
+
 	// [검색 + 옵션][페이지] 게시글 목록
 	public List<Board> list(Page page, Option option) throws Exception;
 }
+

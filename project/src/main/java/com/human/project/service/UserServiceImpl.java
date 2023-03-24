@@ -101,7 +101,6 @@ public class UserServiceImpl implements UserService {
 		return true;
 	}
 
-
 	@Override
 	public List<Users> list() throws Exception {
 		List<Users> usersList = userMapper.list();
@@ -111,7 +110,6 @@ public class UserServiceImpl implements UserService {
 
 
 }
-
 
 
 

@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// * 문자열 형태로 Role 을 지정 --> "ROLE_" 접두사가 자동으로 붙는다
 		// ex) USER  -->  ROLE_USER
 		http.authorizeRequests()
-	//		.antMatchers("/*").permitAll()
+			.antMatchers("/*").permitAll()	// board 기능 테스트용
 			.antMatchers("/logout").permitAll()
 			.antMatchers("/join").permitAll()
 			.antMatchers("/user/check/id").permitAll()
@@ -136,13 +136,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		String sql1 = " SELECT user_id AS username "
 				+ " 	  ,user_pw AS password "
 				+ "       ,enabled "
-				+ " FROM users_test "
+				+ " FROM users "
 				+ " WHERE user_id = ? "
 				;
 	
 	String sql2 = " SELECT user_id AS username "
 				+ " 	  ,auth AS authority "
-				+ " FROM user_auth_test "
+				+ " FROM user_auth "
 				+ " WHERE user_id = ? "
 				;
 		
@@ -185,3 +185,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
 }
+

@@ -2,219 +2,244 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
-	<title>글 읽기</title>
+	<title>제목</title>
+
+	<style>
+
+		.indent { margin-left: 100px; }
+
+		.comment_wrap {
+			display: flex;
+		}
+
+		.comment_box {
+			min-width: 500px;
+			max-width: 100vw;
+			padding: 20px;
+			border: 1px solid black;
+		}
+		
+	</style>
 </head>
-<style>
-	/* .reply_list div { border: 1px solid black; margin-bottom: 10px;}
-	.reply_box_0 { padding-left: 0px;}
-	.reply_box_1 { padding-left: calc(40px * 1);}
-	.reply_box_2 { padding-left: calc(40px * 2);}
-	.reply_box_3 { padding-left: calc(40px * 3);}
-	.reply_box_4 { padding-left: calc(40px * 4);} */
-	.indent { margin-left: 100px; }
-
-	.reply_wrap {
-		display: flex;
-		
-	}
-
-	.reply_box {
-		min-width: 500px;
-		max-width: 100vw;
-		padding: 20px;
-		border: 1px solid black;
-	}
-		
-</style>
 <body>
-	<h1>글 읽기</h1>
-	
+	<h1>글읽기</h1>
+	<hr>
 	<form action="/board/delete" method="post" id="form">
+	
 		<input type="hidden" name="boardNo" th:value="${board.boardNo}" readonly>
-		<table>
+		
+		<table width=500>
 			<tr>
-				<td>제목</td>
-				<td><input type="text" name="title" th:value="${board.title}" readonly/></td>
+				<td colspan=4 th:style="${'font-size:25px'}">
+					<label th:text="${board.title}"></label>
+				</td>
+			</tr>
+			
+			<tr>
+			</tr>
+			
+			<tr>
+				<td><b>작성자</b></td>
+				<td colspan=2 th:text="${board.userNick}"></td>
+				<td><b>조회</b></td><td th:text="${board.joinCnt}"></td>
+
 			</tr>
 			<tr>
-				<td>작성자</td>
-				<td><input type="text" name="writer" th:value="${board.writer}" readonly/></td>
+			<td><b>작성시각</b></td>
+				<td colspan=2 th:text="${board.regDate}"></td>
+			<td><b>수정시각</b></td>
+				<td th:text="${board.updDate}"></td>
 			</tr>
+			<tr><td colspan=5>------------------------------------------------------------------------</td></tr>
+			<tr><td colspan=5><b>내용</b></td></tr>
 			<tr>
-				<td>내용</td>
-				<td><textarea rows="10" cols="40" name="content"  th:text="${board.content}" readonly></textarea></td>
+				<td style="border:1;" colspan=5 th:text="${board.content}"></td>
 			</tr>
 		</table>
-		<!-- 버튼 -->
-		<div>
-			<button type="button" onclick="boardUpdate()">수정</button>
-			<button type="button" onclick="boardDelete()">삭제</button>
-			<button type="button" onclick="moveList()">목록</button>
-		</div>
-
-		<br>
-		
-		<!-- 댓글 목록 -->
-		<!-- <div id="reply_list">
-			<ul class="reply_list">
-				<th:block th:each="reply: ${replyList}">
-					<li>
-						// 자식 댓글인 경우 
-						<div th:class="|reply_box_${reply.depthNo}|">
-							<span class="reply_writer" th:text="${reply.writer}"></span>
-							<span class="reply_date" th:text="${reply.regDate}"></span>
-							<button type="button" class="btn_reply_update">수정</button>
-							<button type="button" class="btn_reply_delete">삭제</button>
-							<p class="reply_content" th:text="${reply.content}"></p>
-						</div>
-					</li>
-				</th:block>
-			</ul>
-		</div>		 -->
-		<div id="reply_list">
-
-			<!-- <th:block th:each=" reply : ${replyList} ">
-				<div class="reply_wrap">
-					<th:block th:if="${reply.replyNo != reply.groupNo}">
-						<th:block th:each=" no : ${ #numbers.sequence(1, reply.depthNo) }">
-							<div class="indent"></div>
-						</th:block>
-					</th:block>
-				
-					<div th:class="reply_box">
-						<span class="reply_writer" th:text="${reply.writer}"></span>
-						<span class="reply_date" th:text="${reply.regDate}"></span>
-						<button type="button" class="btn_reply_update" th:data="${reply.replyNo}">수정</button>
-						<button type="button" class="btn_reply_delete" th:data="${reply.replyNo}">삭제</button>
-						<p class="reply_content" th:text="${reply.content}"></p>
-					</div>
-				</div>
-			</th:block> -->
 	
-		</div>
-		
-		<!-- <th:block th:if="${reply.replyNo} != ${reply.groupNo}"> 한 줄만 들어가게 됨--> 
-							<!-- <th:block th:each="no : ${ #numbers.sequence(1, reply.depthNo)}"> -->
-								<!-- <div class="reply_box" style="padding-left: 40px;"></span> -->
-							<!-- </th:block> -->
-						<!-- </th:block> -->
-
-		<!-- 댓글 입력 -->
-		<div class="reply_txt">
-			<div class="top">
-				<h3>댓글</h3>
-			</div>
-			<div class="reply_input">
-				<input type="text" name="replyWriter" id="replyWriter" class="writer" placeholder="작성자">
-				<br>
-				<textarea name="replyContent" id="replyContent" cols="60" rows="5" placeholder="댓글을 작성해주세요."></textarea>
-				<div class="btn_area">
-					<button type="button" id="btn_reply_insert" class="btn_reply">등록</button>
+	</form>
+	
+	<hr>
+	<h2>댓글</h2>
+	
+	<!-- 댓글 목록 -->
+	<div id="comment_list">
+		<th:block th:each=" comment: ${commentList} ">
+			<div class="comment_wrap">
+				<th:block th:if="${comment.commentNo != comment.groupNo}">
+					<th:block th:each=" no : ${ #numbers.sequence(1, comment.depthNo) }">
+						<div class="indent"></div>
+					</th:block>
+				</th:block>
+			
+				<div th:class="comment_box">
+					<span class="comment_nick" th:text="${comment.userNick}"></span>
+					<span class="comment_date" th:text="${comment.regDate}"></span>
+					<button type="button" class="btn_comment_update" th:data="${comment.commentNo}">수정</button>
+					<button type="button" class="btn_comment_delete" th:data="${comment.commentNo}">삭제</button>
+					<p class="comment_content" th:text="${comment.content}"></p>
 				</div>
 			</div>
-			<br>
+		</th:block>
+	</div>
+
+	<!-- 댓글 입력 -->
+	<div class="comment_txt">
+		<div class="top">
 		</div>
-		
-		
-	</form>
+		<div class="comment_input">
+			<!-- <input type="text" name="commentWriter" id="commentWriter" class="writer" 
+				   placeholder="작성자">  -->
+			<br>
+			<textarea name="commentContent" id="commentContent" rows="5" cols="60" 
+					  placeholder="댓글을 작성해주세요."></textarea>
+			<div class="btn_area">
+				<button type="button" id="btn_comment_insert" class="btn_comment">등록</button>
+			</div>
+		</div>
+		<br>
+	</div>
+	
+	
+	
+	<!-- 버튼 -->
+	<div>
+		<button type="button" onclick="moveUpdate()">수정</button>
+		<button type="button" onclick="boardDelete()">삭제</button>
+		<button type="button" onclick="moveList()">목록</button>
+	</div>
+	
+	
+	
+	
 	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 	<script>
+	
 		let form = document.getElementById("form")
 		let boardNo = "[[${board.boardNo}]]"
-
+		
 		// 문서 준비 이벤트
-		$(function(){
-			
+		$(function() {
+
 			// 댓글 목록 가져오기
-			replyList()
-			
+			commentList()
+
 			// 이벤트 등록
 			addEvent()
+
 		})
 		
 		// 댓글 목록 가져오기
-		function replyList(){
+		function commentList() {
 			
-			let reply = {
-				'boardNo' : boardNo
+			let comment = {
+				'boardNo' 	: boardNo,
 			}
 
 			$.ajax({
-				url: '/reply/list',		// 요청 경로
-				type: 'get',				// 메소드 방식(get, post, put 등)
-				data: reply,				// 전송할 데이터
-				dataType: "text",
+				url:	'/comment/list',		// 요청 경로
+				type:	'get',					// 메소드 방식(get, post, put 등)
+				data:  	comment,					// 전송할 데이터
+				dataType: "text",				
 
 				// 서버로부터 정상적인 응답
-				success: function(data){
+				success: function(data) {
 					// 댓글 목록 갱신
-					$('#reply_list').empty()
-					$('#reply_list').append(data)
+					$('#comment_list').empty()
+					$('#comment_list').append(data)
 				},
 				// 에러
-				error: function(request, status, error){
+				error: function(request, status, error) {
 					alert('댓글 목록 조회 중 에러가 발생하였습니다.')
 				},
 			})
+			
 		}
 
 		// 댓글 등록
-		function insertReply(writer, content){
-
-			let reply = {
-				'boardNo' : boardNo,
-				'writer'  : writer,
-				'content' : content
+		function insertcomment( content ) {
+			let comment = {
+				'boardNo' 	: boardNo,
+				'content' 	: content
 			}
 
 			$.ajax({
-				url: '/reply/insert',		// 요청 경로
-				type: 'post',				// 메소드 방식(get, post, put 등)
-				data: reply,				// 전송할 데이터
-				dataType: "text",
+				url:	'/comment/insert',		// 요청 경로
+				type:	'post',					// 메소드 방식(get, post, put 등)
+				data:  	comment,					// 전송할 데이터
+				dataType: "text",				
 
 				// 서버로부터 정상적인 응답
-				success: function(data){
+				success: function(data) {
 					// 댓글 목록 갱신
-					$('#reply_list').empty()
-					$('#reply_list').append(data)
+					$('#comment_list').empty()
+					$('#comment_list').append(data)
 					
 					// 작성한 댓글 내용 초기화
-					$('#replyWriter').val('')
-					$('#replyContent').val('')
+					$('#commentContent').val('')
+					
 				},
 				// 에러
-				error: function(request, status, error){
+				error: function(request, status, error) {
 					alert('댓글 등록 중 에러가 발생하였습니다.')
 				},
 			})
+
 		}
-		
 		
 		
 		// 이벤트 등록
-		function addEvent(){
+		function addEvent() {
 			// 등록 버튼 클릭 이벤트
-			$('#btn_reply_insert').on('click', function(){
-				let writer = $('#replyWriter').val()
-				let content = $('#replyContent').val()
+			$('#btn_comment_insert').on('click', function() {
+				// let writer = $('#commentWriter').val()
+				let content = $('#commentContent').val()
 
-				insertReply(writer, content)
+				insertComment( writer, content )
 			})
+			
 		}
+
+
 	
-		function moveList(){
-			location.href = "/board/list";
+		function moveUpdate() {
+			location.href = "/board/update?boardNo=" + boardNo	
 		}
-		function boardUpdate(){
-			location.href = "/board/update?boardNo=" + boardNo;
-		}
-		function boardDelete(){
+		
+		function boardDelete() {
 			let check = confirm("정말로 삭제하시겠습니까?")
-			if(check){
+			if( check ) {
 				form.submit()
 			}
 		}
+		
+		function moveList() {
+			location.href = "/board/list"	
+		}	
 	</script>
+	
+	
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
