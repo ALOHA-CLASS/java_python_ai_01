@@ -60,9 +60,9 @@ public class BoardController {
 	@PostMapping("/insert")
 	public String insertPro(Board board, Users user, Model model) throws Exception {
 		
-		String userId = user.getUserId();
-		List<Board> boardList = boardService.list(userId);
-		model.addAttribute("boardList", boardList);
+//		String userId = user.getUserId();
+//		List<Board> boardList = boardService.list(userId);
+//		model.addAttribute("boardList", boardList);
 		
 		log.info("user : " +user);
 		
