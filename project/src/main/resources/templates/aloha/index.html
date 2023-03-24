@@ -54,6 +54,7 @@
     }
   </style>
 <body layout:fragment="content">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
      <!-- ***** Preloader Start ***** -->
 	 <div id="js-preloader" class="js-preloader">
 		<div class="preloader-inner">
@@ -87,6 +88,7 @@
 			  <!-- ***** Banner End ***** -->
 			  <br><br><br>	
 			  <!-- ***** Most Popular Start ***** -->
+			  <!-- 
 			  <div class="most-popular">
 				<div class="row">
 				  <div class="col-lg-12">
@@ -97,8 +99,6 @@
 					  <th:block th:each="track, status : ${trackList}">
 						  <div class="col-lg-3 col-sm-6">
 							<div class="item">
-							  <!-- <img src="/cyborg/assets/images/popular-01.jpg" alt=""> -->
-							  <!-- <img th:src="@{${track.id}}" th:alt="${track.name}"> -->
 							  <a th:href="${track.videoUrl}" target="_blank">
 								  <img th:src="|/${track.id}|" th:alt="${track.name}">
 							  </a>
@@ -106,10 +106,6 @@
 								<span th:text="${track.name}"></span><br>
 								<span th:text="${track.artist}">아티스트</span>
 							  </h4>
-							  <!-- <ul>
-								<li><i class="fa fa-star"></i> 4.8</li>
-								<li><i class="fa fa-download"></i> 2.3M</li>
-							  </ul> -->
 							</div>
 						  </div>
 					  </th:block>
@@ -123,36 +119,56 @@
 				  </div>
 				</div>
 			  </div>
+			  -->
 			  <!-- ***** Most Popular End ***** -->
-			
-		
-				  <table>
-					<tr>
-					  <th>순위</th>
-					  <th></th>
-					  <th>제목</th>
-					  <th>가수</th>
-					</tr>
-					<c:forEach var="track" items="${trackList}" varStatus="status">
-					  <tr>
-						<td>${status.count}</td>
-						<td id="size"><div class="image-container">
-						  <a href="${pageContext.request.contextPath}/${track.id}">
-							  <img src="${pageContext.request.contextPath}/${track.id}" alt="${track.name}">
-						  </a>
-						  <div class="text-overlay">
-							<p style="color: #FFFFFF;">Play</p>
-						  </div>
-						 </div>
-						</td>
-						<td>${track.name}</td>
-						<td>${track.artist}</td>
-					  </tr>
-					</c:forEach>
-				  </table>
-				  <div class="main-button">
-					<a href="/browse">Move browse</a>	
+
+			  <!-- ***** Gaming Library Start ***** -->
+			  <div class="gaming-library">
+				<div class="col-lg-12">
+				  <div class="heading-section">
+					<h4><em>Charts</em> Real Time</h4>
 				  </div>
+				  <th:block th:each="track, status : ${trackList}">
+					  <div class="item">
+						<ul class="">
+							<li>
+								<span th:text="${status.count}"></span>
+							</li>
+							<li>
+								<a th:href="${track.videoUrl}" target="_blank">
+									<img th:src="|/${track.id}|" th:alt="${track.name}" class="templatemo-item"></li>
+								</a>
+							</li>
+							<li>
+								<h4 th:text="${track.name}">Dota 2</h4>
+								<span th:text="${track.artist}"></span>
+							</li>
+							<li>
+								<div class="main-border-button ">
+								<a th:href="${track.videoUrl}" target="_blank">
+									Youtube
+									<i class="fa fa-youtube-play"></i>
+								</a>
+
+							</li>
+						</ul>
+					  </div>
+				  </th:block>
+				</div>
+				<div class="col-lg-12">
+				  <div class="main-button">
+					<a href="profile.html">View Your Library</a>
+				  </div>
+				</div>
+			  </div>
+			  <!-- ***** Gaming Library End ***** -->
+
+
+			
+		</div>
+	</div>
+</div>
+				
 <script>
 	$(function() {
 				//.
