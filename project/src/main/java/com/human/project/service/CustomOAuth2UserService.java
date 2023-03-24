@@ -43,6 +43,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 		
 		String nameAttributeKey = attributes.getNameAttributeKey();
 		String name = attributes.getName();
+		String nickname = attributes.getNickname();
 		String email = attributes.getEmail();
 		String picture = attributes.getPicture();
 		String id = attributes.getId();

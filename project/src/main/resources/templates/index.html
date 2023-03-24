@@ -3,11 +3,11 @@
 				xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 	<meta charset="UTF-8">
-	<title>메인</title>
+	<title>INDEX</title>
 </head>
 <body>
 	<h1>SPRING SECURITY</h1>
-	<H3>서브웨이</H3>
+	<H3>INDEX</H3>
 	<UL>
 		<li>기본 id: user</li>
 		<li>기본 pw: 서버 실행 시, 로그에 출력된 uid 형식</li>
@@ -15,6 +15,7 @@
 		<li>기본 로그아웃 경로: /logout</li>
 		<li><a href="/user">사용자 페이지</a></li>
 		<li><a href="/admin">관리자 페이지</a></li>
+		<li><a href="/chart">차트</a></li>
 	</UL>
 	
 	<!-- 인증 된 사용자 (로그인) -->
@@ -31,8 +32,13 @@
 			<form action='logout' method="post">
 				<!-- csrf 토큰 -->
 				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+				
+				<img th:src="${thumbnail_image}" />
+				
 				<span sec:authentication="principal.username"></span>
+				<span th:text="${email}"></span>
 				<span sec:authentication="principal.authorities"></span>
+				
 				<button type="submit">로그아웃</button>
 			</form>
 		</div>

@@ -27,6 +27,9 @@ public class Users {
 	private String userPwChk;
 	
 	@NotBlank(message = "반드시 입력해야합니다.")
+	private String userNick;
+	
+	@NotBlank(message = "반드시 입력해야합니다.")
 	private String name;
 	
 	@Email(message = "이메일 형식으로 입력해야합니다.")
@@ -38,6 +41,7 @@ public class Users {
 
 	// 권한목록
 	private List<UserAuth> authList;
+	private List<UserSocial> socialList;
 }
 
 

@@ -3,6 +3,7 @@ package com.human.project.service;
 import javax.servlet.http.HttpServletRequest;
 
 import com.human.project.domain.UserAuth;
+import com.human.project.domain.UserSocial;
 import com.human.project.domain.Users;
 
 public interface UserService {
@@ -12,6 +13,9 @@ public interface UserService {
 	
 	// 권한등록
 	public int insertAuth(UserAuth userAuth) throws Exception;
+	
+	// social 회원가입
+	public int insertSocial(UserSocial userSocial) throws Exception;
 	
 	// 회원조회
 	public Users select(Users user) throws Exception;

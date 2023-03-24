@@ -6,8 +6,8 @@
 
 	<!-- 회원가입 -->
 	<insert id="join">
-		INSERT INTO users ( user_id, user_pw, name, email )
-		VALUES ( #{userId}, #{userPw}, #{name}, #{email} )
+		INSERT INTO users ( user_id, user_nick, user_pw, name, email )
+		VALUES ( #{userId}, #{userNick}, #{userPw}, #{name}, #{email} )
 	</insert>
 	
 	<!-- 권한등록 -->
@@ -16,12 +16,19 @@
 		VALUES ( #{userId}, #{auth} )
 	</insert>
 	
+	<!-- social 회원가입 -->
+	<insert id="insertSocial">
+		INSERT INTO user_social ( user_id, social_type )
+		VALUES ( #{userId}, #{socialType} )
+	</insert>
+	
 	<!-- 아이디 조회 -->
 	<select id="select" resultType="Users">
 		SELECT *
 		  FROM users
 		 WHERE user_id = #{userId} 
 	</select>
+
 
 
 </mapper>

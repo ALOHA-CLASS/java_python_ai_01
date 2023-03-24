@@ -13,6 +13,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Service;
 
 import com.human.project.domain.UserAuth;
+import com.human.project.domain.UserSocial;
 import com.human.project.domain.Users;
 import com.human.project.mapper.UserMapper;
 
@@ -43,10 +44,14 @@ public class UserServiceImpl implements UserService {
 		// 기본 사용자 권한 등록
 		if( result > 0 ) {
 			UserAuth userAuth = new UserAuth();
+			UserSocial userSocial = new UserSocial();
 			String userId = user.getUserId();
 			userAuth.setUserId(userId);
 			userAuth.setAuth("ROLE_USER");
 			userMapper.insertAuth(userAuth);
+			userSocial.setUserId(userId);
+			userSocial.setSocialType("NORMAL");
+			userMapper.insertSocial(userSocial);
 		}
 		
 		return result;
@@ -58,6 +63,12 @@ public class UserServiceImpl implements UserService {
 		return result;
 	}
 
+	@Override
+	public int insertSocial(UserSocial userSocial) throws Exception {
+		int result = userMapper.insertSocial(userSocial);
+		return result;
+	}
+	
 	@Override
 	public Users select(Users user) throws Exception {
 		Users selectedUser = userMapper.select(user);
@@ -98,8 +109,6 @@ public class UserServiceImpl implements UserService {
 		
 		return true;
 	}
-	
-	
 
 }
 

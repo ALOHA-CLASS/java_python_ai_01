@@ -1,9 +1,13 @@
 package com.human.project.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,10 +27,55 @@ import lombok.extern.slf4j.Slf4j;
 public class HomeController {
 	
 	@Autowired
-	private UserService userService;
-	
+	private UserService userService;	
 	@Autowired
 	private ValidationUtil validationUtil;
+	
+	@GetMapping("/")
+	public String index(@AuthenticationPrincipal OAuth2User principal
+			   ,Model model) {
+
+		if( principal != null ) {
+			Map<String, Object> map = principal.getAttributes();
+			log.info("map : " + map);
+			log.info("proMap : " + map.get("properties"));
+			log.info("accountMap : " + map.get("kakao_account"));
+			
+			Map<String, Object> proMap = (Map<String, Object>) map.get("properties");
+			Map<String, Object> accountMap = (Map<String, Object>) map.get("kakao_account");
+			
+			String profile_image = String.valueOf( proMap.get("profile_image") );
+			String thumbnail_image = String.valueOf( proMap.get("thumbnail_image") );
+			
+			String email = String.valueOf( accountMap.get("email") );
+			String nickname = String.valueOf( proMap.get("nickname") );
+			String socialType = String.valueOf( map.get("socialType") );
+			
+			log.info("email : " + email);
+			log.info("profile_image : " + proMap.get("profile_image"));
+			log.info("accesstoken : " + proMap.get("accesstoken"));
+			log.info("nickname : " + nickname);
+			log.info("socialType : " + socialType);
+			
+			model.addAttribute("email", email);
+			model.addAttribute("profile_image", profile_image);
+			model.addAttribute("thumbnail_image", thumbnail_image);
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+		}
+		
+		
+		return "/index";
+	}
 	
 	// 로그인
 	@GetMapping("/login")
@@ -51,12 +100,12 @@ public class HomeController {
 	
 	// 회원가입
 	@GetMapping("/join")
-	public String join(Users user) {
-		log.info("회원가입 화면...");
-		
-		return "/join";
-	}
+	public String join(Users user) { return "/join"; }
 	
+	@GetMapping("/chart")
+    public String getlist() { return "chart"; }
+	
+		
 	/**
 	 * 회원가입 처리
 	 * 
@@ -67,7 +116,9 @@ public class HomeController {
 	 * @throws Exception
 	 */
 	@PostMapping("/join")
-	public String joinPro(@Validated Users user, BindingResult bindingResult, HttpServletRequest request) throws Exception {
+	public String joinPro(@Validated Users user, 
+						   BindingResult bindingResult, 
+						   HttpServletRequest request) throws Exception {		
 		
 		// 유효성 검증 오류확인
 		if( validationUtil.joinCheckError(bindingResult, user) ) {

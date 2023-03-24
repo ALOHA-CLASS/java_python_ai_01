@@ -36,7 +36,7 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16' // SQL Log
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'	// 타임리프 레이아웃
-	implementation 'io.github.cdimascio:dotenv-java:5.3.0' // dotenv
+	implementation 'io.github.cdimascio:dotenv-java:2.2.0' // dotenv
 }
 
 tasks.named('test') {
