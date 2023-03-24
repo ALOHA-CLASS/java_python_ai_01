@@ -1,5 +1,7 @@
 package com.human.project.service;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,6 +99,12 @@ public class UserServiceImpl implements UserService {
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		
 		return true;
+	}
+
+	@Override
+	public List<Users> list() throws Exception {
+		List<Users> usersList = userMapper.list();
+		return usersList;
 	}
 	
 	
