@@ -12,9 +12,9 @@
 
 	<!-- 게시글 목록 -->
 	<select id="list" resultType="Board">
-		SELECT b.board_no, b.title, b.user_no, u.user_nick, b.content, b.join_cnt, b.reg_date, b.upd_date
+		SELECT b.board_no, b.title, b.user_id, u.user_nick, b.content, b.join_cnt, b.reg_date, b.upd_date
 		FROM board b, users u
-		WHERE b.user_no = u.user_no
+		WHERE b.user_id = u.user_id
 		ORDER BY b.reg_date DESC
 	</select>
 	
@@ -27,16 +27,16 @@
 				   ex) VALUES ( #{0}, #{1}, #{2} )
 	 -->
 	<insert id="insert">
-		INSERT INTO board ( title, user_no, content )
-		VALUES ( #{title}, #{user_no}, #{content} )
+		INSERT INTO board ( title, user_id, content )
+		VALUES ( #{title}, #{user_id}, #{content} )
 	</insert>
 	
 	<!-- 게시글 읽기 -->
 	<select id="read" resultType="Board">
-		SELECT b.board_no, b.title, b.user_no, u.user_nick, b.content, b.join_cnt, b.reg_date, b.upd_date
+		SELECT b.board_no, b.title, b.user_id, u.user_nick, b.content, b.join_cnt, b.reg_date, b.upd_date
 		FROM board b, users u
 		WHERE board_no = #{boardNo}
-		  AND b.user_no = u.user_no
+		  AND b.user_id = u.user_id
 
 
 	</select>
@@ -45,7 +45,6 @@
 	<update id="update">
 		UPDATE board
 		   SET title = #{title}
-		      ,user_no = #{user_no}
 		      ,content = #{content}
 		      ,upd_date = now()
 		WHERE board_no = #{boardNo}
@@ -63,7 +62,7 @@
 				b.join_cnt, b.reg_date, b.upd_date
 		FROM board b, users u
 		WHERE b.board_no > 0
-		  AND b.user_no=u.user_no
+		  AND b.user_id=u.user_id
 		  AND (
 		  	  b.title LIKE CONCAT('%',#{keyword},'%')
 		   OR u.user_nick LIKE CONCAT('%',#{keyword},'%')
@@ -92,7 +91,7 @@
 				b.join_cnt, b.reg_date, b.upd_date
 		FROM board b, users u
 		WHERE b.board_no > 0
-		  AND b.user_no=u.user_no
+		  AND b.user_id=u.user_id
 		  AND (
 		  		<if test="option.optionCode == 0">
 						b.title LIKE CONCAT('%',#{option.keyword},'%')
@@ -123,7 +122,7 @@
 		SELECT count(*)
 		FROM board b, users u
 		WHERE b.board_no > 0
-		  AND b.user_no=u.user_no
+		  AND b.user_id=u.user_id
 		  AND (
 		  		<if test="option.optionCode == 0">
 						b.title LIKE CONCAT('%',#{option.keyword},'%')
@@ -141,7 +140,7 @@
 					OR  b.content LIKE CONCAT('%',#{option.keyword},'%')
 		  		</if>
 		  		<if test="option.optionCode == 4">
-				   		b.writer LIKE CONCAT('%',#{option.keyword},'%')
+				   		u.user_nick LIKE CONCAT('%',#{option.keyword},'%')
 		  		</if>
 		  )
 	</select>

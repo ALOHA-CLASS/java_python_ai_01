@@ -44,10 +44,10 @@ public class HomeController {
 	@Autowired
     private ChartRepository chartRepository;
 
-	@GetMapping("/find")
-	public String find(){
-		return "/find";
-	}
+//	@GetMapping("/find")
+//	public String find(){
+//		return "/find";
+//	}
 
 	@GetMapping("/")
     public String getChart(Chart track, Model model, HttpSession ses

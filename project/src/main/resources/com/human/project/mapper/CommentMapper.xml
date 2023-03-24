@@ -12,12 +12,12 @@
 	<resultMap id="commentMap" type="Comment">
 
 		<id column="comment_no" property="commentNo"/>
-
-		<result column="writer" property="writer"/>
-
-		<result column="content" property="content"/>
 		
 		<result column="board_no" property="boardNo"/>
+
+		<result column="user_id" property="userId"/>
+
+		<result column="content" property="content"/>
 		
 		<result column="group_no" property="groupNo"/>
 		
@@ -27,11 +27,11 @@
 		
 		<result column="seq_no" property="seqNo"/>
 		
+		<result column="sub_cnt" property="subCnt"/>
+		
 		<result column="reg_date" property="regDate"/>
 		
 		<result column="upd_date" property="updDate"/>
-		
-		<result column="sub_count" property="subCount"/>
 		
 		<collection property="subList" resultMap="subCommentMap"/>
 
@@ -42,11 +42,11 @@
 
 		<id column="sub_comment_no" property="commentNo"/>
 		
-		<result column="sub_writer" property="writer"/>
+		<result column="sub_board_no" property="boardNo"/>
+		
+		<result column="sub_user_id" property="userId"/>
 		
 		<result column="sub_content" property="content"/>
-		
-		<result column="sub_board_no" property="boardNo"/>
 		
 		<result column="sub_group_no" property="groupNo"/>
 		
@@ -56,11 +56,11 @@
 		
 		<result column="sub_seq_no" property="seqNo"/>
 		
+		<result column="sub_sub_cnt" property="subCnt"/>
+		
 		<result column="sub_reg_date" property="regDate"/>
 		
 		<result column="sub_upd_date" property="updDate"/>
-		
-		<result column="sub_sub_count" property="subCount"/>
 
 	</resultMap>
 
@@ -70,23 +70,25 @@
 		<![CDATA[
 			SELECT r1.*
 			      ,r2.comment_no 	sub_comment_no
-			      ,r2.writer 	sub_writer
-			      ,r2.content 	sub_content
 			      ,r2.board_no 	sub_board_no
+			      ,r2.user_id 	sub_user_id
+			      ,r2.content 	sub_content
 			      ,r2.group_no 	sub_group_no
 			      ,r2.parent_no sub_parent_no
 			      ,r2.depth_no 	sub_depth_no
 			      ,r2.seq_no 	sub_seq_no
+			      ,r2.sub_cnt sub_sub_cnt
 			      ,r2.reg_date 	sub_reg_date
 			      ,r2.upd_date 	sub_upd_date
-			      ,r2.sub_count sub_sub_count
-			  FROM comment r1
+			      ,u.user_nick
+			  FROM users u, comment r1
 			       LEFT JOIN (
 								SELECT *
 								FROM comment
 								WHERE comment_no <> group_no
 							) r2
 			       ON r1.group_no = r2.group_no
+			   WHERE r1.user_id = u.user_id
 			ORDER BY r1.group_no ASC
 			        ,r1.seq_no ASC
 			        ,r1.depth_no ASC
@@ -100,7 +102,7 @@
 		<![CDATA[
 			SELECT r1.*
 			      ,r2.comment_no 	sub_comment_no
-			      ,r2.writer 	sub_writer
+			      ,r2.user_id 	sub_user_id
 			      ,r2.content 	sub_content
 			      ,r2.board_no 	sub_board_no
 			      ,r2.group_no 	sub_group_no
@@ -109,8 +111,9 @@
 			      ,r2.seq_no 	sub_seq_no
 			      ,r2.reg_date 	sub_reg_date
 			      ,r2.upd_date 	sub_upd_date
-			      ,r2.sub_count sub_sub_count
-			  FROM comment r1
+			      ,r2.sub_cnt sub_sub_cnt
+			      ,u.user_nick
+			  FROM users u, comment r1
 			       LEFT JOIN (
 								SELECT *
 								FROM comment
@@ -118,6 +121,7 @@
 							) r2
 			       ON r1.group_no = r2.group_no
 			WHERE r1.board_no = #{boardNo}
+			  AND r1.user_id = u.user_id
 			ORDER BY r1.group_no ASC
 			        ,r1.seq_no ASC
 			        ,r1.depth_no ASC
@@ -126,10 +130,10 @@
 	</select>
 
 	<!-- 댓글 등록 -->
-	<insert id="insert">INSERT INTO comment ( writer, content, board_no, group_no, parent_no, depth_no, seq_no )VALUES ( #{writer}, #{content}, #{boardNo}, #{groupNo}, #{parentNo}, #{depthNo}, #{seqNo} ) </insert>
+	<insert id="insert">INSERT INTO comment ( user_id, content, board_no, group_no, parent_no, depth_no, seq_no )VALUES ( #{user_id}, #{content}, #{boardNo}, #{groupNo}, #{parentNo}, #{depthNo}, #{seqNo} ) </insert>
 
 	<!-- 댓글 수정 -->
-	<update id="update">UPDATE commentSET writer = #{writer},content = #{content},group_no = #{groupNo},parent_no = #{parentNo},depth_no = #{depthNo},seq_no = #{seqNo},upd_date = now()WHERE comment_no = #{commentNo} </update>
+	<update id="update">UPDATE commentSET user_id = #{user_id},content = #{content},group_no = #{groupNo},parent_no = #{parentNo},depth_no = #{depthNo},seq_no = #{seqNo},upd_date = now()WHERE comment_no = #{commentNo} </update>
 
 	<!-- 댓글 삭제 -->
 	<delete id="delete">DELETE FROM commentWHERE comment_no = #{commentNo} </delete>
@@ -142,7 +146,7 @@
 	<update id="syncSeqNo">UPDATE commentSET seq_no = seq_no + 1WHERE group_no = #{groupNo}AND seq_no >= #{seqNo} </update>
 
 	<!-- 부모댓글의 자식개수 갱신 -->
-	<update id="syncSubCount">UPDATE commentSET sub_count = sub_count + #{no}WHERE comment_no = #{parentNo} </update>
+	<update id="syncSubCnt">UPDATE commentSET sub_cnt = sub_cnt + #{no}WHERE comment_no = #{parentNo} </update>
 
 	<!-- 댓글 조회 -->
 	<select id="select" resultType="Comment">SELECT *FROM commentWHERE comment_no = #{commentNo} </select>

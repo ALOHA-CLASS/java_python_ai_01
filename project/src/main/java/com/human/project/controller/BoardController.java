@@ -16,7 +16,6 @@ import com.human.project.domain.Page;
 import com.human.project.service.BoardService;
 import com.human.project.service.CommentService;
 
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -28,7 +27,7 @@ public class BoardController {
 	private BoardService boardService;
 	
 	@Autowired
-	private CommentService replyService;
+	private CommentService commentService;
 	
 	// 게시글 목록
 	@GetMapping("/list")
@@ -83,9 +82,9 @@ public class BoardController {
 		Board board = boardService.read(boardNo);
 		model.addAttribute("board", board);
 		
-		List<Comment> replyList = replyService.list(boardNo);
+		List<Comment> commentList = commentService.list(boardNo);
 
-		model.addAttribute("replyList", replyList);
+		model.addAttribute("commentList", commentList);
 		
 		return "/board/read";
 	}
