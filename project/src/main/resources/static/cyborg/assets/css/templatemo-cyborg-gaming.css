@@ -159,7 +159,7 @@ p {
 .main-button a {
   font-size: 14px;
   color: #fff;
-  background-color: #e75e8d;
+  background-color: #d204a9;
   padding: 12px 30px;
   display: inline-block;
   border-radius: 25px;
@@ -479,13 +479,13 @@ Header Style
 
 .header-area .main-nav .nav li:hover a,
 .header-area .main-nav .nav li a.active {
-  color: #e75e8d !important;
+  color: #d204a9 !important;
 }
 
 .header-area .main-nav .nav li:last-child:hover a,
 .header-area .main-nav .nav li:last-child a.active {
   color: #fff !important;
-  background-color: #e75e8d !important;
+  background-color: #d204a9 !important;
 }
 
 .background-header .main-nav .nav li:hover a,
@@ -773,7 +773,7 @@ Banner Style
 */
 
 .main-banner {
-  background-image: url(../images/banner-bg.jpg);
+  background-image: url(../images/banner.png);
   background-position: center center;
   background-size: cover;
   min-height: 380px;
