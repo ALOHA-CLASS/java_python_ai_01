@@ -49,9 +49,6 @@
 	
 	<table border="1">
 		<tr>
-			<th:block sec:authorize="hasAnyRole('ROLE_ADMIN')">
-				<th><input type="checkbox" id="checkall"></th>
-			</th:block>
 			<th width="50">번호</th>
 			<th width="300">제목</th>
 			<th width="100">작성자</th>
@@ -77,9 +74,6 @@
 		 -->
 		 <th:block th:each="board : ${boardList}">
 		 	<tr>
-				<th:block sec:authorize="hasAnyRole('ROLE_ADMIN')">
-					<td><input type="checkbox" name="boardNo" th:value=${board.boardNo} class="input-check"></td>
-				</th:block>
 		 		<td width="50" align="center" th:text="${board.boardNo}"></td>
 		 		<td width="300">
 		 			<a th:href="|/board/read?boardNo=${board.boardNo}|" th:text="${board.title}"></a>
@@ -103,24 +97,12 @@
 		 		<!-- <td width="200" align="center">
 		 			<span th:text="${ #temporals.format(board.updDate, 'yyyy-MM-dd HH:mm:ss') }"></span>       
 		 		</td>  -->
-			</tr>
-		</th:block>
-		<!-- 
-		-->
+		 	</tr>
+		 </th:block>
+		 <!-- 
+		  -->
 		
 	</table>
-
-	<div align="left">
-	   <th:block sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
-		   <a href="/board/insert">글쓰기</a>
-	   </th:block>
-   </div>
-
-   <div align="right">
-	   <th:block sec:authorize="hasAnyRole('ROLE_ADMIN')">
-		   <button type="button" id="btn_board_del" onclick="btnBoardDel()">삭제</button>
-	   </th:block>
-   </div>
 	
 	<!-- 페이지네이션 -->
 	<!-- 
@@ -218,19 +200,6 @@
 				change()
 			})
 
-			// Checkbox All 체크 여부
-			let checkall = document.getElementById('checkall')
-			checkall.addEventListener('click', function(){
-				var chk = checkall.checked;
-				if (chk){
-					// $('input[name=boardNo]:checkbox').attr("checked",true);
-					$('.input-check').prop('checked', true)
-				}else{
-					// $('input[name=boardNo]:checkbox').attr("checked",false);
-					$('.input-check').prop('checked', false)
-				}
-			})
-
 		})
 		
 		// 페이지 이동 
@@ -241,42 +210,6 @@
 						  + "&pageCount=" + page.pageCount
 						  + "&keyword=" + option.keyword
 						  + "&optionCode=" + option.optionCode
-		}
-
-		function btnBoardDel(){
-			let chkarr = [];
-			var token = $("meta[name='_csrf']").attr("content");
-			var header = $("meta[name='_csrf_header']").attr("content");
-
-			let result = confirm("삭제 하시겠습니까?")
-			if (result) {
-				// $('input:checkbox[name=boardNo]:checked').each(function(){
-				$('.input-check:checked').each(function(){
-					// chkall = chkall + " " + $(this).val();
-					chkarr.push($(this).val());
-				})
-
-				
-
-				$.ajax({
-					url: '/board/delete',		// 요청 경로
-					type: 'post',				// 메소드 방식(get, post, put 등)
-					data: {chkbox : chkarr},				// 전송할 데이터
-					
-					beforeSend : function(xhr) {
-						xhr.setRequestHeader(header, token)
-					},
-					// 서버로부터 정상적인 응답
-					success: function(data){
-						// alert("성공")
-						location.reload()
-					},
-					// 에러
-					error: function(request, status, error){
-						alert('게시글 삭제 중 에러가 발생하였습니다.')
-					},
-				})
-			}
 		}
 	
 	</script>

@@ -25,7 +25,7 @@ public interface BoardMapper {
 	public int update(Board board) throws Exception;
 	
 	// 게시글 삭제
-	public int delete(String noList) throws Exception;
+	public int delete(int boardNo) throws Exception;
 
 	// 게시글 검색
 	public List<Board> search(String keyword) throws Exception;
