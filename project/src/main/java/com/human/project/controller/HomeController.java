@@ -46,7 +46,7 @@ public class HomeController {
 
 	@GetMapping("/")
     public String getChart(Chart track, Model model, HttpSession ses
-                          ,@AuthenticationPrincipal OAuth2User principal, Model model) throws IOException {
+                          ,@AuthenticationPrincipal OAuth2User principal) throws IOException {
         List<Chart> trackList = chartRepository.findAll();
         model.addAttribute("trackList", trackList);
         
@@ -164,10 +164,6 @@ public class HomeController {
 
 }
 
-
-
-
-}
 
 
 
