@@ -6,40 +6,21 @@
 
 	<!-- 회원가입 -->
 	<insert id="join">
-		INSERT INTO users_test ( user_id, user_pw, name, nickname, email, phoneNumber )
-		VALUES ( #{userId}, #{userPw}, #{name}, #{nickname}, #{email}, #{phoneNumber})
+		INSERT INTO users ( user_id, user_pw, name, email )
+		VALUES ( #{userId}, #{userPw}, #{name}, #{email} )
 	</insert>
 	
 	<!-- 권한등록 -->
 	<insert id="insertAuth">
-
-		INSERT INTO user_auth_test ( user_id, auth )
-
+		INSERT INTO user_auth ( user_id, auth )
 		VALUES ( #{userId}, #{auth} )
 	</insert>
 	
 	<!-- 아이디 조회 -->
 	<select id="select" resultType="Users">
 		SELECT *
-		  FROM users_test
-		 WHERE user_id = #{userId} 
-	</select>
-	
-	<!-- 아이디 찾기 -->
-	<select id="findId">
-		SELECT *
-		FROM users_test
-		WHERE name = #{name} and email = #{email} and phoneNumber = #{phoneNumber}
-
 		  FROM users
 		 WHERE user_id = #{userId} 
-	</select>
-	
-	<!-- 회원 목록 -->
-	<select id="list" resultType="Users">
-		SELECT *
-		  FROM users 
-	  ORDER BY user_no ASC;
 	</select>
 
 
