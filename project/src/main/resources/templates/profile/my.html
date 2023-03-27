@@ -73,9 +73,6 @@
                     <!-- 전송 가능 여부 - 가능(1), 불가능(0) -->
                     <table class="sign-up">
                         <tr>
-                            <td rowspan="4">
-                                <span th:text="${user.userNick}"></span>
-                            </td>
                             <td width="150">아이디</td>
                             <td>
                                 <span th:text="${user.userId}"></span>
@@ -84,7 +81,7 @@
                         <tr>
                             <td width="150">닉네임</td>
                             <td>
-                                <span th:text="${user.userNick}"></span>
+                                <span th:text="${user.nickname}"></span>
                             </td>
                         </tr>
 						<tr>
