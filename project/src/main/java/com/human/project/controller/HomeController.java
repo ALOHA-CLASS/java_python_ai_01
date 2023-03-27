@@ -2,11 +2,10 @@ package com.human.project.controller;
 
 
 
-import java.util.Map;
 
 import java.io.IOException;
 import java.util.List;
-
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -35,7 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 public class HomeController {
 	
 	@Autowired
-	private UserService userService;
+	private UserService userService;	
 	
 	@Autowired
 	private ValidationUtil validationUtil;
@@ -102,6 +101,10 @@ public class HomeController {
 		return "/join";
 	}
 	
+	@GetMapping("/chart")
+    public String getlist() { return "chart"; }
+	
+		
 	/**
 	 * 회원가입 처리
 	 * 
@@ -113,7 +116,9 @@ public class HomeController {
 	 */
 	
 	@PostMapping("/join")
-	public String joinPro(@Validated Users user, BindingResult bindingResult, HttpServletRequest request) throws Exception {
+	public String joinPro(@Validated Users user, 
+						   BindingResult bindingResult, 
+						   HttpServletRequest request) throws Exception {		
 		
 		// 유효성 검증 오류확인
 		if(validationUtil.joinCheckError(bindingResult, user)) {
