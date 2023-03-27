@@ -29,6 +29,7 @@ public class CommentController {
 		List<Comment> commentList = commentService.list(boardNo);
 		model.addAttribute("commentList", commentList);
 		
+
 		return "/comment/list";
 	}
 	
@@ -97,7 +98,7 @@ public class CommentController {
 		int boardNo = comment.getBoardNo();
 		List<Comment> commentList = commentService.list(boardNo);
 		model.addAttribute("commentList", commentList);
-		
+
 		return "/comment/list";
 	}
 	

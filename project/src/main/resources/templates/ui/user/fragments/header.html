@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-
 <!-- th:fragment 속성으로 공통으로 사용할 프래그먼트를 정의 -->
 <body th:fragment="header">
 <!-- ***** Header Area Start ***** -->
@@ -50,8 +49,8 @@
                             <li><button type="submit" class="logout">Sign Out</button></li>
                           </form>		
                   </th:block>
-                      <li sec:authorize="isAuthenticated()"><a href="profile.html">Profile <img src="/cyborg/assets/images/avatar.jpg" alt=""></a></li>
-                  </ul>   
+                      <li><a href="profile.html">Profile <img src="/cyborg/assets/images/avatar.jpg" alt=""></a></li>
+                  </ul>
                   <a class='menu-trigger'>
                       <span>Menu</span>
                   </a>
