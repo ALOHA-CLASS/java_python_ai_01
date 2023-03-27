@@ -58,7 +58,7 @@ public class UserController {
 	public ResponseEntity<Boolean> checkUserNickname(Users user) throws Exception {
 		
 		Users selectedNickname = userService.select(user);
-		String nickname = user.getUserNick();
+		String nickname = user.getNickname();
 		log.info("닉네임" + nickname);
 		log.info("selected" + selectedNickname);
 		

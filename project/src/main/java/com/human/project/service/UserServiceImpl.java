@@ -202,7 +202,7 @@ public class UserServiceImpl implements UserService {
 		}
 		log.info("noList : " +  noList );
 		
-		int result = userMapper.delete(noList);
+		int result = userMapper.deleteSelectedUser(noList);
 		
 		return result;
 	}

@@ -43,6 +43,9 @@ public interface UserService {
 	// 회원 삭제
 	public int delete(Users user) throws Exception;
 
+	// 선택 회원 삭제
+	public int delete(List<String> userNoList) throws Exception;
+
 	// 모든 쿠키 삭제
 	public boolean deleteCookies(HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

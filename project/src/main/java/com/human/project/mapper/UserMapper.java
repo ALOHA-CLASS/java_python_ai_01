@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.human.project.domain.UserAuth;
 import com.human.project.domain.UserSocial;
@@ -46,4 +47,7 @@ public interface UserMapper {
 	
 	// 회원 삭제
 	public int delete(Users user) throws Exception;
+
+	// 선택 회원 삭제
+	public int deleteSelectedUser(@Param("noList") String noList) throws Exception;
 }

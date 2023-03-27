@@ -27,7 +27,7 @@ public class Users {
 	private String userPwChk;
 	
 	@NotBlank(message = "*반드시 입력해야합니다.")
-	private String userNick;
+	private String nickname;
 
 	@NotBlank(message = "*반드시 입력해야합니다.")
 	private String name;
