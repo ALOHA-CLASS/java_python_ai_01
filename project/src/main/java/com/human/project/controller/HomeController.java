@@ -124,12 +124,11 @@ public class HomeController {
 		
 		// 회원가입 처리
 		int result = userService.join(user);
-		
 		boolean isAuthentication = false;
 		if(result > 0 ) {
 			log.info("회원가입 성공..");
 			// 바로 로그인
-			userService.tokenAuthentication(user, request);
+			isAuthentication = userService.tokenAuthentication(user, request);
 		}
 		else {
 			log.info("회원가입 실패..");

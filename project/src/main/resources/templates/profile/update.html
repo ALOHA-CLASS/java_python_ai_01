@@ -71,9 +71,10 @@
                     <!-- csrf 토큰 -->
                     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                     <!-- 전송 가능 여부 - 가능(1), 불가능(0) -->
+                    <form id="update" action="/profile/update" method="post" th:object="${users}" onsubmit="return check()">
                     <table class="sign-up">
                         <tr>
-                            <td rowspan="4">
+                            <td rowspan="7">
                                 <span th:text="${user.userNick}">
                             </td>
                             <td width="150">아이디</td>
@@ -81,28 +82,58 @@
                                 <span th:text="${user.userId}">
                             </td>
                         </tr>
+                        <tr><td><br></td></tr>
+                        <input type="hidden" value="-1" id="input-check" />
                         <tr>
                             <td width="150">닉네임</td>
                             <td>
-                                <input type="text" th:value="${user.userNick}">
+                                <input type="text" id="nickname" name="nickname" th:field="*{userNick}" th:value="${user.userNick}" th:errorclass="field-error" class="form-control input-underline">
                             </td>
+                            <td>
+                                <div class="main-button">
+                                    <a href="javascript:;" onclick="checkNickname()">중복확인</a>
+                                </div>
+                            </td>
+                            <tr class="error-row">
+                                <td width="150">&nbsp;</td>
+                                <td colspan="2" align="left">
+                                    <font color=#9bf525 id="nickname-check" class="check-nickname"><span>사용 가능한 닉네임입니다.</span></font>
+                                    <font color="red" id="nickname-duplicated" class="check-nickname" ><span>중복된 닉네임입니다.</span></font>
+                                    <font color="red">
+                                        <th:block th:if="${ #fields.hasErrors('userNick') }">
+                                            <span th:errors="*{userNick}"></span>
+                                        </th:block>
+                                    </font>
+                                </td>
+                            </tr>
                         </tr>
 						<tr>
                             <td width="150">이름</td>
                             <td colspan="2">
-                                <input type="text" th:value="${user.name}">
+                                <input type="text" name="name" th:value="${user.name}"  th:errorclass="field-error" class="form-control input-underline">
+                                
+                            </td>
+                        </tr>
+                        <tr class="error-row">
+                            <td width="150">&nbsp;</td>
+                            <td colspan="2" align="left">
+                                <font color="red">
+                                    <th:block th:if="${ #fields.hasErrors('name') }">
+                                        <span th:errors="*{name}"></span>
+                                    </th:block>
+                                </font>
                             </td>
                         </tr>
                         <tr>
                             <td width="150">이메일</td>
                             <td colspan="2">
-                                <input type="text" th:value="${user.email}">
+                                <input type="text" name="email" th:value="${user.email}"  th:errorclass="field-error" class="form-control input-underline"> <br>
+                               
                             </td>
                         </tr>
                 </table>
                         <div><br><br>
                             <div class="main-button">
-                                <form id="update" action="/update" method="POST">
                                     <a href="javascript:;" onclick=btn_update()>수정 완료</a>
                                 </form>
                             </div>
@@ -114,6 +145,65 @@
         </div>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
+    function check(){
+        function check() {
+            let check = $('#input-check').val()
+            if( check == 1 ) {
+                return true
+            }
+            if( check == -1 ) {
+                alert('아이디 중복 확인이 필요합니다.')
+                checkUserId()
+            }
+            return false
+        }
+    }
+
+    function checkNickname() {
+            asyncCheckNickname().then(function(result_n) {
+                // 닉네임 미입력
+                if( result_n == null ) {
+                    return
+                }
+                // 닉네임 사용가능
+                if( result_n == 'true' ) {
+                    alert('사용 가능한 닉네임입니다.')
+                    $('#nickname-check').show()
+                    $('#nickname-duplicated').hide()
+                    $('#input-n-check').val(1)
+                }
+                // 닉네임 중복
+                else {
+                    alert('중복된 닉네임입니다')
+                    $('#nickname-duplicated').show()
+                    $('#nickname-check').hide()
+                    $('#input-n-check').val(0)
+                }
+            })
+        }
+        // ID 중복확인
+        async function asyncCheckNickname() {
+            var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
+            let userNick = $('#nickname').val()
+            let data = {'userNick' : userNick}
+            if( userNick == undefined || userNick == '' ) {
+                alert('닉네임을 입력해주세요.')
+                return null
+            }
+            const res = await $.ajax({
+                url:    '/user/check/nickname',       // 요청 경로
+                type:   'post',                 // 메소드 방식(get, post, put 등)
+                data:   data,                   // 전송할 데이터.
+                dataType: "text",
+                // 전송
+                beforeSend : function(xhr) {
+                    xhr.setRequestHeader(header, token)
+                },
+            })
+            return res
+        }
+
     function btn_update(){
         document.getElementById('update').submit();
     }

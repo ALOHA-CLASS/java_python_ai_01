@@ -40,16 +40,17 @@ public class ProfileController {
 		return "/profile/update";
 	}
 	
-	// 게시글 수정 - 처리
 	@PostMapping("/update")
 	public String updatePro(Users user) throws Exception {
 
 		int result = userService.update(user);
+		String re = String.valueOf(result);
+		log.info("하하" + re);
 
 		if (result > 0) log.info("회원정보 수정 성공");
 		else			log.info("회원정보 수정 실패");
 
-		return "redirect:/profile/list";
+		return "redirect:/profile/my";
 	}
 	
 }
