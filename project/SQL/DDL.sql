@@ -115,12 +115,12 @@ COMMENT = '댓글 테이블';
 -- Table `human`.`persistent_logins`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `human`.`persistent_logins` (
-  `user_id` VARCHAR(50) NOT NULL COMMENT '회원 ID',
+  `username` VARCHAR(50) NOT NULL COMMENT '회원 ID',
   `series` VARCHAR(64) NOT NULL COMMENT '토큰 인증 키',
   `token` VARCHAR(64) NOT NULL COMMENT '회원 인증 토큰',
   `last_used` TIMESTAMP NOT NULL COMMENT '마지막 사용 시간',
   PRIMARY KEY (`series`),
-  UNIQUE INDEX `unique_name` (`user_id` ASC) VISIBLE)
+  UNIQUE INDEX `unique_name` (`username` ASC) VISIBLE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci
