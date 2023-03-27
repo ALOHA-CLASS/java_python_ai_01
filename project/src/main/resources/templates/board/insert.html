@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+				xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <html>
 <head>
 	<meta charset="UTF-8">
@@ -11,6 +12,9 @@
 	<form action="/board/insert" method="post">
 		<!-- csrf 토큰 -->
     	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+    	
+    	<!-- userId를 히든 타입으로 불러옴 -->
+    	<input type="hidden" th:name=userId th:value="${userId}"/>
 	
 		<table>
 			<tr>
@@ -19,13 +23,11 @@
 					<input type="text" name="title" >
 				</td>
 			</tr>
+<!-- 			<tr>
+				<td>작성자</td>
+			 	<td th:name=userId th:text="${userId}"></td>
+			</tr>  -->
 			<tr>
-			<!--	<td>작성자</td>
-			 	<td>
-					<input type="text" name="writer" >
-				</td>
-			</tr>
-			<tr>  -->
 				<td>내용</td>
 				<td>
 					<textarea rows="10" cols="40" name="content"></textarea>
