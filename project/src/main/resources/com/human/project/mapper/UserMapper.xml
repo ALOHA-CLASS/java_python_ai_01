@@ -10,23 +10,52 @@
 		VALUES ( #{userId}, #{userNick}, #{userPw}, #{name}, #{email} )
 	</insert>
 	
-	<!-- 권한등록 -->
-	<insert id="insertAuth">
-		INSERT INTO user_auth ( user_id, auth )
-		VALUES ( #{userId}, #{auth} )
-	</insert>
 	
-	<!-- social 회원가입 -->
 	<insert id="insertSocial">
 		INSERT INTO user_social ( user_id, social_type )
 		VALUES ( #{userId}, #{socialType} )
 	</insert>
 	
+	
+	<!-- 권한등록 -->
+	<insert id="insertAuth">
+		INSERT INTO user_auth ( user_id, auth )
+		VALUES ( #{userId}, #{auth} )
+	</insert>
+
 	<!-- 아이디 조회 -->
 	<select id="select" resultType="Users">
 		SELECT *
 		  FROM users
 		 WHERE user_id = #{userId} 
+	</select>
+	
+	<!-- 아이디 조회 -->
+	<select id="selectSocial" resultType="UserSocial">
+		SELECT *
+		  FROM user_social
+		 WHERE user_id = #{userId} 
+	</select>
+	
+	<!-- 이메일 조회 -->
+	<select id="selectByEmail" resultType="Users">
+		SELECT *
+		  FROM users
+		 WHERE email = #{email} 
+	</select>
+	
+	<!-- 이메일 조회 -->
+	<select id="selectByEmail2" resultType="UserSocial">
+		<!-- SELECT *
+		  FROM  
+		 WHERE (
+		 		SELECT * FROM user_social where users.user_id = user_social.user_id
+		 ) 
+		 AND email = #{email}  -->
+		SELECT user_social.*
+		FROM user_social, users
+		INNER JOIN users ON users.user_id = user_social.user_id
+		WHERE users.email = #{email} 
 	</select>
 
 

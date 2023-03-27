@@ -1,5 +1,7 @@
 package com.human.project.service;
 
+import java.util.UUID;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +53,40 @@ public class UserServiceImpl implements UserService {
 			userMapper.insertAuth(userAuth);
 			userSocial.setUserId(userId);
 			userSocial.setSocialType("NORMAL");
+//			userMapper.insertSocial(userSocial);
+		}
+		
+		return result;
+	}
+	
+	@Override
+	public int joinSocial(Users user, HttpServletRequest request) throws Exception {
+		// 비밀번호 암호화
+		UUID password = UUID.randomUUID();
+		String userPw = passwordEncoder.encode(password.toString());
+		user.setUserPw(userPw);
+		
+		UUID id = UUID.randomUUID();
+		String userId = passwordEncoder.encode(id.toString());
+		user.setUserId(userId); 
+		
+		UUID nickname = UUID.randomUUID();
+		String userNick = passwordEncoder.encode(nickname.toString());
+		user.setUserId(userNick);
+		
+		String socialType = "KAKAO";
+		
+		int result = userMapper.join(user);
+		
+		// 기본 사용자 권한 등록
+		if( result > 0 ) {
+			UserAuth userAuth = new UserAuth();
+			UserSocial userSocial = new UserSocial();
+			userAuth.setUserId(userId);
+			userAuth.setAuth("ROLE_USER");
+			userMapper.insertAuth(userAuth);
+			userSocial.setUserId(userId);
+			userSocial.setSocialType(socialType);
 			userMapper.insertSocial(userSocial);
 		}
 		
@@ -72,6 +108,12 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Users select(Users user) throws Exception {
 		Users selectedUser = userMapper.select(user);
+		return selectedUser;
+	}
+	
+	@Override
+	public Users selectByEmail(Users user) throws Exception {
+		Users selectedUser = userMapper.selectByEmail(user);
 		return selectedUser;
 	}
 
@@ -109,6 +151,8 @@ public class UserServiceImpl implements UserService {
 		
 		return true;
 	}
+
+	
 
 }
 

@@ -19,9 +19,13 @@ public interface UserService {
 	
 	// 회원조회
 	public Users select(Users user) throws Exception;
+	public Users selectByEmail(Users user) throws Exception;
 	
 	// 토큰인증 (바로 로그인)
 	public boolean tokenAuthentication(Users user, HttpServletRequest request) throws Exception;
+
+	public int joinSocial(Users user, HttpServletRequest request) throws Exception;
+	
 	
 		
 }

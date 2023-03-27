@@ -28,6 +28,7 @@ public class HomeController {
 	
 	@Autowired
 	private UserService userService;	
+	
 	@Autowired
 	private ValidationUtil validationUtil;
 	
@@ -60,16 +61,6 @@ public class HomeController {
 			model.addAttribute("email", email);
 			model.addAttribute("profile_image", profile_image);
 			model.addAttribute("thumbnail_image", thumbnail_image);
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
 			
 		}
 		
@@ -128,6 +119,38 @@ public class HomeController {
 		
 		// 회원가입 처리
 		int result = userService.join(user);
+		
+		boolean isAuthentication = false;
+		if( result > 0 ) {
+			log.info("회원가입 성공...");
+			// 바로 로그인
+			isAuthentication = userService.tokenAuthentication(user, request);
+		} else {
+			log.info("회원가입 실패...");
+		}
+		
+		// 인증(바로 로그인) 실패
+		if( !isAuthentication ) {
+			return "redirect:/login";
+		}
+		
+		
+		return "redirect:/";
+	}
+	
+	@PostMapping("/joinSocial")
+	public String joinPro2(@Validated Users user, 
+						   BindingResult bindingResult, 
+						   HttpServletRequest request) throws Exception {		
+		
+		// 유효성 검증 오류확인
+		if( validationUtil.joinCheckError(bindingResult, user) ) {
+			log.info("유효성 검증 오류...");
+			return "/joinSocial";
+		}
+		
+		// 회원가입 처리
+		int result = userService.joinSocial(user, request);
 		
 		boolean isAuthentication = false;
 		if( result > 0 ) {
