@@ -30,7 +30,7 @@ public class CommentController {
 		model.addAttribute("commentList", commentList);
 		
 
-		return "/comment/list";
+		return "comment/list";
 	}
 	
 	// 댓글 등록
@@ -46,7 +46,7 @@ public class CommentController {
 		List<Comment> commentList = commentService.list(boardNo);
 		model.addAttribute("commentList", commentList);
 		
-		return "/comment/list";
+		return "comment/list";
 	}
 	
 	// 댓글 수정
@@ -62,7 +62,7 @@ public class CommentController {
 		List<Comment> commentList = commentService.list(boardNo);
 		model.addAttribute("commentList", commentList);
 		
-		return "/Comment/list";
+		return "comment/list";
 	}
 	
 	
@@ -81,7 +81,7 @@ public class CommentController {
 		List<Comment> commentList = commentService.list(boardNo);
 		model.addAttribute("commentList", commentList);
 		
-		return "/Comment/list";
+		return "comment/list";
 	}
 	
 	// 답글
@@ -99,7 +99,7 @@ public class CommentController {
 		List<Comment> commentList = commentService.list(boardNo);
 		model.addAttribute("commentList", commentList);
 
-		return "/comment/list";
+		return "comment/list";
 	}
 	
 	
