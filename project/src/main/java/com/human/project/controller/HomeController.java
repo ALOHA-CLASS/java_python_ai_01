@@ -154,8 +154,16 @@ public class HomeController {
 		return "/main";
 	}
 	
+	@GetMapping("/profile")
+	public String information(Model model, Users user, Authentication authentication) throws Exception{
+		String userId = authentication.getName();
+		user.setUserId(userId);
+		Users selectedUser = userService.select(user);
+		model.addAttribute("user", selectedUser);
+		return "/profile";
+	}
+	
+
+
+
 }
-
-
-
-
