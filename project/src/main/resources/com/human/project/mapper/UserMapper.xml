@@ -12,9 +12,7 @@
 	
 	<!-- 권한등록 -->
 	<insert id="insertAuth">
-
 		INSERT INTO user_auth ( user_id, auth )
-
 		VALUES ( #{userId}, #{auth} )
 	</insert>
 	
@@ -37,9 +35,12 @@
 	
 	<!-- 회원 목록 -->
 	<select id="list" resultType="Users">
-		SELECT *
-		  FROM users 
-	  ORDER BY user_no ASC;
+		SELECT u.*
+			  ,a.auth_no
+		      ,a.auth
+	      FROM users u 
+     LEFT JOIN user_auth a ON u.user_id = a.user_id
+	  ORDER BY u.user_no
 	</select>
 
 	<!-- 회원 삭제 -->
