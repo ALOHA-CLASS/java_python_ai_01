@@ -14,7 +14,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema human
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `human` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
+CREATE SCHEMA IF NOT EXISTS `human` DEFAULT CHARACTER SET utf8mb4;
 USE `human` ;
 
 -- -----------------------------------------------------
@@ -31,11 +31,10 @@ CREATE TABLE IF NOT EXISTS `human`.`users` (
   `upd_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '회원 수정 일자',
   `enabled` INT NULL DEFAULT '1' COMMENT '회원 활성화 여부',
   PRIMARY KEY (`user_id`),
-  UNIQUE INDEX `unique_name` (`user_nick` ASC, `email` ASC) VISIBLE,
-  UNIQUE INDEX `user_no_UNIQUE` (`user_no` ASC) VISIBLE)
+  UNIQUE INDEX `unique_name` (`user_nick` ASC, `email` ASC) ,
+  UNIQUE INDEX `user_no_UNIQUE` (`user_no` ASC) )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci
 COMMENT = '회원 테이블';
 
 
@@ -51,7 +50,7 @@ CREATE TABLE IF NOT EXISTS `human`.`board` (
   `reg_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '게시글 등록 일자',
   `upd_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '게시글 수정 일자',
   PRIMARY KEY (`board_no`),
-  INDEX `fk_board_users1_idx` (`user_id` ASC) VISIBLE,
+  INDEX `fk_board_users1_idx` (`user_id` ASC) ,
   CONSTRAINT `fk_board_users1`
     FOREIGN KEY (`user_id`)
     REFERENCES `human`.`users` (`user_id`)
@@ -59,7 +58,6 @@ CREATE TABLE IF NOT EXISTS `human`.`board` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci
 COMMENT = '게시판 테이블';
 
 
@@ -75,7 +73,6 @@ CREATE TABLE IF NOT EXISTS `human`.`charts` (
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci
 COMMENT = '차트 테이블';
 
 
@@ -95,8 +92,8 @@ CREATE TABLE IF NOT EXISTS `human`.`comment` (
   `reg_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '댓글 등록 일자',
   `upd_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '댓글 수정 일자',
   PRIMARY KEY (`comment_no`),
-  INDEX `FK_board_TO_comment` (`board_no` ASC) VISIBLE,
-  INDEX `fk_comment_users1_idx` (`user_id` ASC) VISIBLE,
+  INDEX `FK_board_TO_comment` (`board_no` ASC) ,
+  INDEX `fk_comment_users1_idx` (`user_id` ASC) ,
   CONSTRAINT `FK_board_TO_comment`
     FOREIGN KEY (`board_no`)
     REFERENCES `human`.`board` (`board_no`),
@@ -107,7 +104,6 @@ CREATE TABLE IF NOT EXISTS `human`.`comment` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci
 COMMENT = '댓글 테이블';
 
 
@@ -120,10 +116,9 @@ CREATE TABLE IF NOT EXISTS `human`.`persistent_logins` (
   `token` VARCHAR(64) NOT NULL COMMENT '회원 인증 토큰',
   `last_used` TIMESTAMP NOT NULL COMMENT '마지막 사용 시간',
   PRIMARY KEY (`series`),
-  UNIQUE INDEX `unique_name` (`username` ASC) VISIBLE)
+  UNIQUE INDEX `unique_name` (`username` ASC) )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci
 COMMENT = '로그인 유지 테이블';
 
 
@@ -135,7 +130,7 @@ CREATE TABLE IF NOT EXISTS `human`.`user_auth` (
   `auth` VARCHAR(20) NOT NULL COMMENT '회원 권한 등급',
   `user_id` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`auth_no`),
-  INDEX `fk_user_auth_users1_idx` (`user_id` ASC) VISIBLE,
+  INDEX `fk_user_auth_users1_idx` (`user_id` ASC) ,
   CONSTRAINT `fk_user_auth_users1`
     FOREIGN KEY (`user_id`)
     REFERENCES `human`.`users` (`user_id`)
@@ -143,7 +138,6 @@ CREATE TABLE IF NOT EXISTS `human`.`user_auth` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci
 COMMENT = '회원 권한 테이블';
 
 
@@ -154,9 +148,9 @@ CREATE TABLE IF NOT EXISTS `human`.`user_social` (
   `social_no` INT NOT NULL AUTO_INCREMENT COMMENT '소셜 번호',
   `user_id` VARCHAR(50) NOT NULL,
   `social_type` VARCHAR(20) NOT NULL COMMENT '소셜 가입 구분',
-  `access_token` VARCHAR(200) NOT NULL COMMENT '소셜 인증 토큰',
+  `access_token` VARCHAR(200) NULL COMMENT '소셜 인증 토큰',
   PRIMARY KEY (`social_no`),
-  INDEX `fk_user_social_users1_idx` (`user_id` ASC) VISIBLE,
+  INDEX `fk_user_social_users1_idx` (`user_id` ASC) ,
   CONSTRAINT `fk_user_social_users1`
     FOREIGN KEY (`user_id`)
     REFERENCES `human`.`users` (`user_id`)
@@ -164,7 +158,6 @@ CREATE TABLE IF NOT EXISTS `human`.`user_social` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci
 COMMENT = '회원 소셜 테이블';
 
 
