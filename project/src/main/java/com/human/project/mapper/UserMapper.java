@@ -19,6 +19,12 @@ public interface UserMapper {
 	// 회원조회
 	public Users select(Users user) throws Exception;
 	
+
+	// 아이디 찾기
+
+	
+
 	// 회원 목록
 	public List<Users> list() throws Exception;
+
 }

@@ -48,9 +48,27 @@ public class UserController {
 		log.info("ID 사용가능 : " + userId);
 		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 	}
- 
+	
+	// 닉네임 중복확인
+	@ResponseBody
+	@PostMapping("/check/nickname")
+	public ResponseEntity<Boolean> checkUserNickname(Users user) throws Exception {
+		
+		Users selectedNickname = userService.select(user);
+		String nickname = user.getNickname();
+		
+		// 닉네임 중복 (사용불가)
+		if( selectedNickname != null ) {
+			log.info("닉네임 중복... : " + nickname);
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+		}
+		
+		// 닉네임 중복 아님(사용가능)
+		log.info("닉네임 사용가능 : " + nickname);
+		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+	}
+	
 }
-
 
 
 

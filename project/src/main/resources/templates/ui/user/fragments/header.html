@@ -50,7 +50,7 @@
                             <li><button type="submit" class="logout">Sign Out</button></li>
                           </form>		
                   </th:block>
-                      <li><a href="profile.html">Profile <img src="/cyborg/assets/images/avatar.jpg" alt=""></a></li>
+                      <li sec:authorize="isAuthenticated()"><a href="profile.html">Profile <img src="/cyborg/assets/images/avatar.jpg" alt=""></a></li>
                   </ul>   
                   <a class='menu-trigger'>
                       <span>Menu</span>
@@ -62,5 +62,17 @@
   </div>
 </header>
 <!-- ***** Header Area End. ***** -->
+
+<script>
+  function btn_login(){
+    document.getElementById("login").submit();
+  }
+  function btn_join(){
+    document.getElementById("join").submit();
+  }
+  function btn_logout(){
+    document.getElementById("logout").submit();
+  }
+</script>
 </body>
 </html>
