@@ -94,11 +94,11 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 		String userId = userid.toString();
 		
 		UUID kakaoNickname = UUID.randomUUID();
-		String userNick = kakaoNickname.toString();
+		String nickName = kakaoNickname.toString();
 				
 		user.setUserId(userId); 
 		user.setUserPw(userPw);
-		user.setUserNick(userNick);
+		user.setNickname(nickName);
 		user.setName(name);
 		user.setEmail(email);
 		userAuth.setUserId(userId);
