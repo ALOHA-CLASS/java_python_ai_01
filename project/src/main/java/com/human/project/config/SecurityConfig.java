@@ -37,6 +37,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private CustomOAuth2UserService customOAuth2UserService;
 
 	
+
+	
 	// 설정 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -94,6 +96,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.logout()
 			.logoutUrl("/logout")			// 로그아웃 처리 URL 지정 (default : "/logout")
 			.logoutSuccessUrl("/") 			// 로그아웃 성공 시, 이동할 경로
+			// .deleteCookies("JSESSIONID", "remember-me", "remember-id")
+			.invalidateHttpSession(true)
 			.permitAll()
 			;
 		

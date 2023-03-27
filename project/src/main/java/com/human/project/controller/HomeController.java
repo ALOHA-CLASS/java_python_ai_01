@@ -75,7 +75,7 @@ public class HomeController {
         model.addAttribute("profile_image", profile_image);
         model.addAttribute("thumbnail_image", thumbnail_image);
       }
-		return "/index";
+		return "index";
 	}
 	
 	//로그인
@@ -92,7 +92,7 @@ public class HomeController {
 		model.addAttribute("userId", userId);
 		model.addAttribute("rememberId", rememberId);	
 		
-		return "/login";
+		return "login";
 	}
 	
 	// 회원가입 화면
@@ -100,7 +100,7 @@ public class HomeController {
 	public String join(Users user) {
 		log.info("회원가입 화면 ..");
 		
-		return "/join";
+		return "join";
 	}
 	
 	/**
@@ -119,7 +119,7 @@ public class HomeController {
 		// 유효성 검증 오류확인
 		if(validationUtil.joinCheckError(bindingResult, user)) {
 			log.info("유효성 검증 오류..");
-			return "/join";
+			return "join";
 		}
 		
 		// 회원가입 처리
@@ -145,12 +145,12 @@ public class HomeController {
     //아이디&비밀번호 찾기
     @GetMapping("/find")
     public String doFind() {
-        return "/find";
+        return "find";
     }
     
     // 아이디 찾기
 	@GetMapping("/main")
 	public String community() {
-		return "/main";
+		return "main";
 	}
 }

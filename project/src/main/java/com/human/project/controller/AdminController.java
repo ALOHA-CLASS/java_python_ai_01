@@ -30,7 +30,7 @@ public class AdminController {
 		List<Users> usersList = userService.list();
 		model.addAttribute("usersList",usersList);
 		
-		return "/admin/index";
+		return "admin/index";
 		
 	}
 
@@ -39,7 +39,7 @@ public class AdminController {
 	public String tset() {
 		log.info("테스트... (삭제 예정)");
 
-		return "/admin/test";
+		return "admin/test";
 	}
 
 

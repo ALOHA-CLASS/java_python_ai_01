@@ -53,6 +53,11 @@
 		WHERE 	user_id = #{userId}
 	</update>
 
+	<delete id="delete">
+		DELETE 
+		FROM users
+		WHERE  user_id = #{userId}
+	</delete>
 
 </mapper>
 

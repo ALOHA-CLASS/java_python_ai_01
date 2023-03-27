@@ -102,8 +102,13 @@
                 </table>
                         <div><br><br>
                             <div class="main-button">
-                                <form id="update" action="/profile/update" method="get">
-                                    <a href="javascript:;" onclick=btn_update()>내 정보 수정</a>
+                                <!-- <form id="update" action="/profile/update" method="get"> -->
+                                    <!-- onclick=btn_update() -->
+                                    <a href="/profile/update" >내 정보 수정</a>
+                                <!-- </form> -->
+                                <form id="delete" action="/profile/delete" method="POST">
+                                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                                    <a href="javascript:;" onclick=btn_delete()>회원 탈퇴</a>
                                 </form>
                             </div>
                         </div>
@@ -116,6 +121,10 @@
 <script>
     function btn_update(){
         document.getElementById('update').submit();
+    }
+
+    function btn_delete(){
+        document.getElementById('delete').submit();
     }
 </script>
 </body>

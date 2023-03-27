@@ -3,6 +3,7 @@ package com.human.project.service;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.human.project.domain.UserAuth;
 import com.human.project.domain.Users;
@@ -32,5 +33,8 @@ public interface UserService {
 	public int update(Users user) throws Exception;
 	
 	// 회원 삭제
+	public int delete(Users user) throws Exception;
 
+	// 모든 쿠키 삭제
+	public boolean deleteCookies(HttpServletRequest request, HttpServletResponse response) throws Exception;
 }

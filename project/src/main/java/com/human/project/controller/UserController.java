@@ -27,7 +27,7 @@ public class UserController {
 	public String index() {
 		log.info("사용자 페이지...");
 		
-		return "/user/index";
+		return "user/index";
 	}
 	
 	// ID 중복확인

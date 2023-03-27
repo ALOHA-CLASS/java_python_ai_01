@@ -69,10 +69,11 @@
                 <div class="page-content">
                 <h1>Profile</h1><br><br>
                     <!-- csrf 토큰 -->
-                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                    
                     <!-- 전송 가능 여부 - 가능(1), 불가능(0) -->
                     <form id="update" action="/profile/update" method="post" th:object="${users}" onsubmit="return check()">
-                    <table class="sign-up">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                        <table class="sign-up">
                         <tr>
                             <td rowspan="7">
                                 <span th:text="${user.userNick}">
