@@ -4,6 +4,26 @@
 
 <mapper namespace="com.human.project.mapper.UserMapper">
 
+	<!-- 유저 매핑 -->
+	<resultMap type="Users" id="userMap">
+		<id property="userId" column="user_id"/>
+		<result property="userNo" column="user_no"/>
+		<result property="userPw" column="user_pw"/>
+		<result property="name" column="name"/>
+		<result property="email" column="email"/>
+		<result property="enabled" column="enabled"/>
+		<result property="regDate" column="reg_date"/>
+		<result property="updDate" column="upd_date"/>
+		<collection property="authList" resultMap="authMap"></collection>
+	</resultMap>
+	
+	<!-- 권한 매핑 -->
+	<resultMap type="UserAuth" id="authMap">
+		<id property="authNo" column="auth_no"/>
+		<result property="userId" column="user_id"/>
+		<result property="auth" column="auth"/>
+	</resultMap>
+
 	<!-- 회원가입 -->
 	<insert id="join">
 		INSERT INTO users ( user_id, user_pw, user_nick, name, email )
@@ -12,12 +32,9 @@
 	
 	<!-- 권한등록 -->
 	<insert id="insertAuth">
-
 		INSERT INTO user_auth ( user_id, auth )
-
 		VALUES ( #{userId}, #{auth} )
 	</insert>
-	
 	<!-- 아이디 조회 -->
 	<select id="select" resultType="Users">
 		SELECT *
@@ -37,10 +54,13 @@
 	</select>
 	
 	<!-- 회원 목록 -->
-	<select id="list" resultType="Users">
-		SELECT *
-		  FROM users 
-	  ORDER BY user_no ASC;
+	<select id="list" resultMap="userMap">
+		SELECT u.*
+			  ,a.auth_no
+		      ,a.auth
+	      FROM users u 
+     LEFT JOIN user_auth a ON u.user_id = a.user_id
+	  ORDER BY u.user_no
 	</select>
 
 	<!-- 회원 수정 -->
@@ -53,11 +73,42 @@
 		WHERE 	user_id = #{userId}
 	</update>
 
+	<!-- 회원 삭제 -->
 	<delete id="delete">
 		DELETE 
 		FROM users
 		WHERE  user_id = #{userId}
 	</delete>
+	
+	<!-- 아이디 조회 -->
+	<select id="selectSocial" resultType="UserSocial">
+		SELECT *
+		  FROM user_social
+		 WHERE user_id = #{userId} 
+	</select>
+	
+	<!-- 이메일 조회 -->
+	<select id="selectByEmail" resultType="Users">
+		SELECT *
+		  FROM users
+		 WHERE email = #{email} 
+	</select>
+	
+	<!-- 이메일 조회 -->
+	<select id="selectByEmail2" resultType="UserSocial">
+		<!-- SELECT *
+		  FROM  
+		 WHERE (
+		 		SELECT * FROM user_social where users.user_id = user_social.user_id
+		 ) 
+		 AND email = #{email}  -->
+		SELECT user_social.*
+		FROM user_social, users
+		INNER JOIN users ON users.user_id = user_social.user_id
+		WHERE users.email = #{email} 
+	</select>
+
+
 
 </mapper>
 

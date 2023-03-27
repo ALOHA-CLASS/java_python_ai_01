@@ -36,8 +36,6 @@
 		FROM board b, users u
 		WHERE board_no = #{boardNo}
 		  AND b.user_id = u.user_id
-
-
 	</select>
 	
 	<!-- 게시글 수정 -->
@@ -52,7 +50,7 @@
 	<!-- 게시글 삭제 -->
 	<delete id="delete">
 		DELETE FROM board
-		WHERE board_no = #{boardNo}
+		WHERE board_no in ( ${noList} )
 	</delete>
 	
 	<!-- 검색 -->

@@ -1,6 +1,5 @@
 package com.human.project.controller;
 
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-
-
+	
 	@Autowired
 	private UserService userService;
 	
@@ -28,12 +26,16 @@ public class AdminController {
 		log.info("관리자 페이지...");
 		
 		List<Users> usersList = userService.list();
+		
+		for (Users users : usersList) {
+			log.info(users.toString());
+		}
+		
 		model.addAttribute("usersList",usersList);
 		
 		return "admin/index";
 		
 	}
-
 
 	@GetMapping("/test")
 	public String tset() {
@@ -41,6 +43,5 @@ public class AdminController {
 
 		return "admin/test";
 	}
-
 
 }

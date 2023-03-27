@@ -1,20 +1,25 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
 				xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-			    layout:decorate="~{ui/user/layouts/main_template}"
+			    layout:decorate="~{ui/user/layouts/main_template}" 
 	 			xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
 	<meta charset="UTF-8">
+	<meta name="_csrf" th:content="${_csrf.token}"/>
+	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 	<title>관리자 페이지</title>
 </head>
 <body layout:fragment="content">
 	<style>
-		.font {
+		th, td {
 			font-size: 20px;
 			color: white;
+			text-align: center;
 		}
 	</style>
+	<!-- csrf 토큰 -->
+	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 
 <div class="container">
 	<div class="row">
@@ -24,64 +29,98 @@
 				<h3>ROLE_ADMIN 권한</h3>
 				
 				<table border="1">
+					<tr>
+						<th><input type="checkbox" id="checkall"></th>
+						<th width="100">회원 번호</th>
+						<th width="150">회원 ID</th>
+						<th width="100">회원 이름</th>
+						<th width="150">회원 Email</th>
+						<th width="200">회원 등록 일자</th>
+						<th>권한 등급</th>
+					</tr>
+
 					<th:block th:each="user : ${usersList}">
 						<tr>
-							<!-- <td><input type="checkbox" name="" id=""> </td> -->
-							<td class="font" width="50" align="center" th:text=${user.userNo}></td>
-							<td class="font" width="150" align="center" th:text=${user.userId}></td>
-							<td class="font" width="100" align="center" th:text=${user.name}></td>
-							<td class="font" width="150" align="center" th:text=${user.email}></td>
-							<td class="font" width="200" align="center">
-					 			<span th:text="${ #temporals.format(user.regDate, 'yyyy-MM-dd HH:mm:ss') }"></span>
+							<td><input type="checkbox" name="userNo" th:value=${user.userNo} class="input-check"></td>
+							<td th:text=${user.userNo}></td>
+							<td th:text=${user.userId}></td>
+							<td th:text=${user.name}></td>
+							<td th:text=${user.email}></td>
+							<td>
+					 			<span th:text="${ #temporals.format(user.regDate, 'yyyy-MM-dd') }"></span>
 					 		</td>
+							<!--
 					 		<td class="font" width="200" align="center">
-					 			<span th:text="${ #temporals.format(user.updDate, 'yyyy-MM-dd HH:mm:ss') }"></span>
+					 			<span th:text="${ #temporals.format(user.updDate, 'yyyy-MM-dd') }"></span>
 					 		</td>
-					 		<td align="center" th:text=${user.enabled}></td>
+							-->
+					 		<!-- <td class="font" align="center" th:text=${user.auth}></td> -->
+							<td>
+								<th:block th:each="userAuth : ${user.authList}">
+									<!-- <span th:text="${userAuth.auth}"></span> -->
+									<th:block th:if="${userAuth.auth == 'ROLE_USER'}">
+										사용자
+									</th:block>
+									<th:block th:if="${userAuth.auth == 'ROLE_ADMIN'}">
+										관리자
+									</th:block>
+								</th:block>
+							</td>
 						</tr>
 					</th:block>
 				</table>
+
+				<div>
+					<select name="" id="">
+						<option value="ROLE_USER">사용자</option>
+						<option value="ROLE_ADMIN">관리자</option>
+					</select>
+					<div align="right">
+						<button type="button" onclick="">추가</button>
+						<button type="button" onclick="btnUserDel()">삭제</button>
+					</div>
+				</div>
 				
-<!-- 				익명 사용자 (비로그인) -->
-<!-- 				<th:block sec:authorize="isAnonymous()"> -->
-<!-- 					<div> -->
-<!-- 						<a href="/login">로그인</a> -->
-<!-- 					</div> -->
-<!-- 				</th:block> -->
-<!-- 				인증된 사용자 (로그인) -->
-<!-- 				<th:block sec:authorize="isAuthenticated()"> -->
-<!-- 					<div> -->
-<!-- 						<form action="/logout"> -->
-<!-- 							<span sec:authentication="principal.username"></span> -->
-<!-- 							<span sec:authentication="principal.authorities"></span> -->
-<!-- 							<button type="submit">로그아웃</button> -->
-<!-- 						</form>		 -->
-<!-- 					</div> -->
-<!-- 				</th:block> -->
 			</div>
 		</div>
 	</div>
 </div>
-	
+<script>
+	function btnUserDel(){
+			let chkarr = [];
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			
+			let result = confirm("삭제 하시겠습니까?")
+			if (result) {
+					$('.input-check:checked').each(function(){
+					
+					chkarr.push($(this).val());
+				})
+
+				$.ajax({
+					url: '/user/delete',		// 요청 경로
+					type: 'post',				// 메소드 방식(get, post, put 등)
+					data: {chkbox : chkarr},				// 전송할 데이터
+					
+					beforeSend : function(xhr) {
+						xhr.setRequestHeader(header, token)
+					},
+					// 서버로부터 정상적인 응답
+					success: function(data){
+						// alert("성공")
+						location.reload()
+					},
+					// 에러
+					error: function(request, status, error){
+						alert('회원 삭제 중 에러가 발생하였습니다.')
+					},
+				})
+			}
+
+			
+		}
+</script>
 	
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
