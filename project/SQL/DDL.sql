@@ -8,19 +8,19 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- Schema mydb
 -- -----------------------------------------------------
 -- -----------------------------------------------------
--- Schema test
+-- Schema human
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema test
+-- Schema human
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `test` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
-USE `test` ;
+CREATE SCHEMA IF NOT EXISTS `human` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
+USE `human` ;
 
 -- -----------------------------------------------------
--- Table `test`.`users`
+-- Table `human`.`users`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `test`.`users` (
+CREATE TABLE IF NOT EXISTS `human`.`users` (
   `user_no` INT NOT NULL AUTO_INCREMENT COMMENT '회원 번호',
   `user_id` VARCHAR(50) NOT NULL COMMENT '회원 ID',
   `user_pw` VARCHAR(100) NOT NULL COMMENT '회원 PW',
@@ -40,9 +40,9 @@ COMMENT = '회원 테이블';
 
 
 -- -----------------------------------------------------
--- Table `test`.`board`
+-- Table `human`.`board`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `test`.`board` (
+CREATE TABLE IF NOT EXISTS `human`.`board` (
   `board_no` INT NOT NULL AUTO_INCREMENT COMMENT '게시글 번호',
   `title` VARCHAR(50) NOT NULL COMMENT '게시글 제목',
   `user_id` VARCHAR(50) NOT NULL,
@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `test`.`board` (
   INDEX `fk_board_users1_idx` (`user_id` ASC) VISIBLE,
   CONSTRAINT `fk_board_users1`
     FOREIGN KEY (`user_id`)
-    REFERENCES `test`.`users` (`user_id`)
+    REFERENCES `human`.`users` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -64,9 +64,9 @@ COMMENT = '게시판 테이블';
 
 
 -- -----------------------------------------------------
--- Table `test`.`charts`
+-- Table `human`.`charts`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `test`.`charts` (
+CREATE TABLE IF NOT EXISTS `human`.`charts` (
   `id` INT NOT NULL COMMENT 'charts 식별',
   `name` VARCHAR(400) NOT NULL COMMENT '노래 제목',
   `artist` VARCHAR(50) NOT NULL COMMENT '가수 이름',
@@ -80,9 +80,9 @@ COMMENT = '차트 테이블';
 
 
 -- -----------------------------------------------------
--- Table `test`.`comment`
+-- Table `human`.`comment`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `test`.`comment` (
+CREATE TABLE IF NOT EXISTS `human`.`comment` (
   `comment_no` INT NOT NULL AUTO_INCREMENT COMMENT '댓글 번호',
   `board_no` INT NOT NULL COMMENT '게시글 번호',
   `user_id` VARCHAR(50) NOT NULL,
@@ -99,10 +99,10 @@ CREATE TABLE IF NOT EXISTS `test`.`comment` (
   INDEX `fk_comment_users1_idx` (`user_id` ASC) VISIBLE,
   CONSTRAINT `FK_board_TO_comment`
     FOREIGN KEY (`board_no`)
-    REFERENCES `test`.`board` (`board_no`),
+    REFERENCES `human`.`board` (`board_no`),
   CONSTRAINT `fk_comment_users1`
     FOREIGN KEY (`user_id`)
-    REFERENCES `test`.`users` (`user_id`)
+    REFERENCES `human`.`users` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -112,9 +112,9 @@ COMMENT = '댓글 테이블';
 
 
 -- -----------------------------------------------------
--- Table `test`.`persistent_logins`
+-- Table `human`.`persistent_logins`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `test`.`persistent_logins` (
+CREATE TABLE IF NOT EXISTS `human`.`persistent_logins` (
   `user_id` VARCHAR(50) NOT NULL COMMENT '회원 ID',
   `series` VARCHAR(64) NOT NULL COMMENT '토큰 인증 키',
   `token` VARCHAR(64) NOT NULL COMMENT '회원 인증 토큰',
@@ -128,9 +128,9 @@ COMMENT = '로그인 유지 테이블';
 
 
 -- -----------------------------------------------------
--- Table `test`.`user_auth`
+-- Table `human`.`user_auth`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `test`.`user_auth` (
+CREATE TABLE IF NOT EXISTS `human`.`user_auth` (
   `auth_no` INT NOT NULL AUTO_INCREMENT COMMENT '회원 번호',
   `auth` VARCHAR(20) NOT NULL COMMENT '회원 권한 등급',
   `user_id` VARCHAR(50) NOT NULL,
@@ -138,7 +138,7 @@ CREATE TABLE IF NOT EXISTS `test`.`user_auth` (
   INDEX `fk_user_auth_users1_idx` (`user_id` ASC) VISIBLE,
   CONSTRAINT `fk_user_auth_users1`
     FOREIGN KEY (`user_id`)
-    REFERENCES `test`.`users` (`user_id`)
+    REFERENCES `human`.`users` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -148,9 +148,9 @@ COMMENT = '회원 권한 테이블';
 
 
 -- -----------------------------------------------------
--- Table `test`.`user_social`
+-- Table `human`.`user_social`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `test`.`user_social` (
+CREATE TABLE IF NOT EXISTS `human`.`user_social` (
   `social_no` INT NOT NULL AUTO_INCREMENT COMMENT '소셜 번호',
   `user_id` VARCHAR(50) NOT NULL,
   `social_type` VARCHAR(20) NOT NULL COMMENT '소셜 가입 구분',
@@ -159,7 +159,7 @@ CREATE TABLE IF NOT EXISTS `test`.`user_social` (
   INDEX `fk_user_social_users1_idx` (`user_id` ASC) VISIBLE,
   CONSTRAINT `fk_user_social_users1`
     FOREIGN KEY (`user_id`)
-    REFERENCES `test`.`users` (`user_id`)
+    REFERENCES `human`.`users` (`user_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
