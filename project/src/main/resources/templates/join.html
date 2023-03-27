@@ -63,9 +63,9 @@
             font-family: 'Dongle', sans-serif;
             font-size: 30px;
         }
-        #double-check{
+        .double-check{
             font-family: 'Dongle', sans-serif;
-            font-size: 20px;
+            font-size: 20px !important;
         }
         .main-button {
             display: flex;
@@ -117,7 +117,7 @@
                             <td>
                                 <!-- <button type="button" onclick="checkUserId()" class="btn btn-primary">중복확인</button> -->
                                 <div class="main-button">
-                                    <a href="javascript:;" onclick="checkUserId()" id="double-check">중복확인</a>
+                                    <a href="javascript:;" onclick="checkUserId()" class="double-check">중복확인</a>
                                 </div>
                             </td>
                         </tr>
@@ -175,10 +175,16 @@
                             </td>
                             <td>
                                 <div class="main-button">
-                                    <a href="javascript:;" onclick="checkNickname()">중복확인</a>
+                                    <a href="javascript:;" onclick="checkNickname()" class="double-check">중복확인</a>
                                 </div>
-                                <font color=#9bf525 id="nickname-check" class="check-nickname"><span>사용 가능한 아이디입니다.</span></font>
-                                <font color="red" id="nickname-duplicated" class="check-nickname"><span>중복된 아이디입니다.</span></font>
+                                
+                            </td>
+                        </tr>
+                        <tr class="error-row">
+                            <td width="150">&nbsp;</td>
+                            <td colspan="2" align="left">
+                                <font color=#9bf525 id="nickname-check" class="check-nickname"><span>사용 가능한 닉네임입니다.</span></font>
+                                <font color="red" id="nickname-duplicated" class="check-nickname"><span>중복된 닉네임입니다.</span></font>
                                 <font color="red">
                                     <th:block th:if="${ #fields.hasErrors('nickname') }">
                                         <span th:errors="*{nickname}"></span>
