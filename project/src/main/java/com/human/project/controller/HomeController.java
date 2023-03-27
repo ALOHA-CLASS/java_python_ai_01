@@ -43,6 +43,7 @@ public class HomeController {
 	@Autowired
     private ChartRepository chartRepository;
 
+
 	
 	@GetMapping({"", "/", "/index"})
     public String getChart(Chart track, Model model
@@ -155,7 +156,7 @@ public class HomeController {
 	
 	
 	
+
+
+
 }
-
-
-
