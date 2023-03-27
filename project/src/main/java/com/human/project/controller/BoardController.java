@@ -8,14 +8,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.human.project.domain.Board;
 import com.human.project.domain.Comment;
 import com.human.project.domain.Option;
 import com.human.project.domain.Page;
+import com.human.project.domain.Users;
 import com.human.project.service.BoardService;
 import com.human.project.service.CommentService;
-
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,7 +29,7 @@ public class BoardController {
 	private BoardService boardService;
 	
 	@Autowired
-	private CommentService replyService;
+	private CommentService commentService;
 	
 	// 게시글 목록
 	@GetMapping("/list")
@@ -57,15 +58,13 @@ public class BoardController {
 	// 요청파라미터 연결 : @RequestParam("title") String title
 	// * 요청파라미터 이름과 실제 매개변수 이름이 같으면 어노테이션 생략 가능
 	@PostMapping("/insert")
-	public String insertPro(Board board) throws Exception {
+	public String insertPro(Board board, Users user, Model model) throws Exception {
 		
-
-// 댓글 등록 참고함 > 로그인된 유저의 userNo 불러오기
-//		int userNo = user.getUserNo();
-//		List<Board> boardList = boardService.list(userNo);
-//		model.
+//		String userId = user.getUserId();
+//		List<Board> boardList = boardService.list(userId);
+//		model.addAttribute("boardList", boardList);
 		
-//		log.info("user : " +user);
+		log.info("user : " +user);
 		
 		// 게시글 쓰기 요청
 		int result = boardService.insert(board);
@@ -83,9 +82,9 @@ public class BoardController {
 		Board board = boardService.read(boardNo);
 		model.addAttribute("board", board);
 		
-		List<Comment> replyList = replyService.list(boardNo);
+		List<Comment> commentList = commentService.list(boardNo);
 
-		model.addAttribute("replyList", replyList);
+		model.addAttribute("commentList", commentList);
 		
 		return "/board/read";
 	}
@@ -113,14 +112,12 @@ public class BoardController {
 	}
 	
 	// 게시글 삭제
-	@PostMapping("/delete")
-	public String delete(int boardNo) throws Exception {
+	public String delete(@RequestParam(value="chkbox[]") List<String> boardNoList) throws Exception {
 		
-		int result = boardService.delete(boardNo);
+		int result = boardService.delete(boardNoList);
 		
-		if( result > 0 ) 	log.info("게시글 삭제 성공...");
-		else 				log.info("게시글 삭제 실패...");
-
+		if (result > 0) log.info("게시글 삭제 성공");
+		else 			log.info("게시글 삭제 실패");
 		
 		return "redirect:/board/list";
 	}

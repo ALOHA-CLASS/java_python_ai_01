@@ -49,8 +49,18 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public int delete(int boardNo) throws Exception {
-		int result = boardMapper.delete(boardNo);
+	public int delete(List<String> boardNoList) throws Exception {
+		
+		String noList = "";
+		for (int i = 0; i < boardNoList.size(); i++) {
+			noList += boardNoList.get(i);
+			if( i+1 != boardNoList.size() ) {
+				noList += ", ";
+			}
+		}
+		log.info("noList : " +  noList );
+		
+		int result = boardMapper.delete(noList);
 		return result;
 	}
 
@@ -66,7 +76,6 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public List<Board> list(Page page) throws Exception {
-
 		// 전체 게시글 수
 		int totalCount = boardMapper.count();
 		log.info("totalCount : " + totalCount);
@@ -85,7 +94,6 @@ public class BoardServiceImpl implements BoardService {
 		int count = boardMapper.count();
 		return count;
 	}
-
 
 	@Override 
 	public List<Board> list(Page page, String keyword) throws Exception {
@@ -110,7 +118,6 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public List<Board> list(Page page, Option option) throws Exception {
-
 		// 검색어가 없을 때
 //		if(option.getKeyword() == null) option.getKeyword() = "";
 //		생성자에서 ""를 정의하여 필요없음
