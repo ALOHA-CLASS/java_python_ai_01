@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `human`.`users` (
   `upd_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '회원 수정 일자',
   `enabled` INT NULL DEFAULT '1' COMMENT '회원 활성화 여부',
   PRIMARY KEY (`user_id`),
-  UNIQUE INDEX `unique_name` (`user_nick` ASC, `email` ASC) ,
+  UNIQUE INDEX `unique_name` (`nickname` ASC, `email` ASC) ,
   UNIQUE INDEX `user_no_UNIQUE` (`user_no` ASC) )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4

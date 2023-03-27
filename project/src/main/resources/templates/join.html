@@ -171,7 +171,7 @@
                         <tr>
                             <td width="150">닉네임</td>
                             <td>
-                                <input type="text" id="nickname" name="nickname" th:field="*{userNick}" th:errorclass="field-error" class="form-control input-underline">
+                                <input type="text" id="nickname" name="nickname" th:field="*{nickname}" th:errorclass="field-error" class="form-control input-underline">
                             </td>
                             <td>
                                 <div class="main-button">
@@ -197,8 +197,8 @@
                                     <font color=#9bf525 id="nickname-check" class="check-nickname"><span>사용 가능한 닉네임입니다.</span></font>
                                     <font color="red" id="nickname-duplicated" class="check-nickname" ><span>중복된 닉네임입니다.</span></font>
                                     <font color="red">
-                                        <th:block th:if="${ #fields.hasErrors('userNick') }">
-                                            <span th:errors="*{userNick}"></span>
+                                        <th:block th:if="${ #fields.hasErrors('nickname') }">
+                                            <span th:errors="*{nickname}"></span>
                                         </th:block>
                                     </font>
                                 </td>
@@ -241,10 +241,8 @@
                 </table>
                         <div><br><br>
                             <button type="submit" id="submit" class="btn">등록</button>
-                            &nbsp;&nbsp;&nbsp;<button type="reset" id="reset" class="btn">취소</button>
-                            <button type="submit" id="submit" class="btn">등록</button>
-                            &nbsp;&nbsp;&nbsp;<button type="reset" id="reset" class="btn">취소</button>
-                            
+                            &nbsp;&nbsp;&nbsp;
+                            <button type="reset" id="reset" class="btn">취소</button>
                         </div>
                     </form>
                     </div>
@@ -350,9 +348,9 @@
         async function asyncCheckNickname() {
             var token = $("meta[name='_csrf']").attr("content");
             var header = $("meta[name='_csrf_header']").attr("content");
-            let userNick = $('#nickname').val()
-            let data = {'userNick' : userNick}
-            if( userNick == undefined || userNick == '' ) {
+            let nickname = $('#nickname').val()
+            let data = {'nickname' : nickname}
+            if( nickname == undefined || nickname == '' ) {
                 alert('닉네임을 입력해주세요.')
                 return null
             }
