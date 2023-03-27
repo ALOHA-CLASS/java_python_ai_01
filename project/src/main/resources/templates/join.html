@@ -25,7 +25,9 @@
             font-size: 70px;
             color: #FC1F74;
         }
-        .check-id { display: none; }
+        .check-id {
+            display: none;
+        }
         .input-underline {
             background-color: transparent;
             border: 0;
@@ -33,7 +35,7 @@
             border-radius: 0;
             width: 250px;
             color: white;
-			font-family: 'Dongle', sans-serif;
+            font-family: 'Dongle', sans-serif;
             font-size: 30px;
         }
         .input-underline:focus {
@@ -43,10 +45,9 @@
             border-bottom: 2px solid #FC1F74;
             outline: 0;
             box-shadow: 0 0 0 0.25rem transparent;
-			font-family: 'Dongle', sans-serif;
+            font-family: 'Dongle', sans-serif;
             font-size: 30px;
         }
-    
         .sign-up {
             font-family: 'Dongle', sans-serif;
             font-size: 30px;
@@ -59,10 +60,38 @@
             font-family: 'Dongle', sans-serif;
             font-size: 30px;
         }
-		#double-check{
-			font-family: 'Dongle', sans-serif;
+        #double-check{
+            font-family: 'Dongle', sans-serif;
             font-size: 20px;
-		}
+        }
+        .main-button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            column-gap: 20px;
+        }
+        .error-row {
+            font-size: 20px;
+            height: 20px;
+        }
+        .btn {
+        font-size: 14px;
+        color: #fff;
+        background-color: #D204A9;
+        padding: 12px 30px;
+        display: inline-block;
+        border-radius: 25px;
+        font-weight: 400;
+        text-transform: capitalize;
+        letter-spacing: 0.5px;
+        transition: all .3s;
+        position: relative;
+        overflow: hidden;
+        }
+        .btn:hover {
+        background-color: #fff;
+        color: #D204A9;
+        }
     </style>
 </head>
 <body layout:fragment="content">
@@ -86,32 +115,46 @@
                                 <!-- <button type="button" onclick="checkUserId()" class="btn btn-primary">중복확인</button> -->
                                 <div class="main-button">
                                     <a href="javascript:;" onclick="checkUserId()" id="double-check">중복확인</a>
-                               
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="error-row">
+                            <td width="150">&nbsp;</td>
+                            <td colspan="2" align="left">
                                 <font color=#9bf525 id="id-check" class="check-id"><span>사용 가능한 아이디입니다.</span></font>
                                 <font color="red" id="id-duplicated" class="check-id" ><span>중복된 아이디입니다.</span></font>
-								<font color="red">
+                                <font color="red">
                                     <th:block th:if="${ #fields.hasErrors('userId') }">
                                         <span th:errors="*{userId}"></span>
                                     </th:block>
                                 </font>
-							</div>
                             </td>
                         </tr>
                         <tr>
                             <td width="150">비밀번호</td>
                             <td colspan="2">
                                 <input type="password" name="userPw" th:field="*{userPw}" th:errorclass="field-error" class="form-control input-underline">
+                        </tr>
+                        <tr class="error-row">
+                            <td width="150">&nbsp;</td>
+                            <td colspan="2" align="left">
                                 <font color="red">
                                     <th:block th:if="${ #fields.hasErrors('userPw') }">
                                         <span th:errors="*{userPw}"></span>
                                     </th:block>
                                 </font>
                             </td>
+                            </td>
                         </tr>
                         <tr>
                             <td width="150">비밀번호 확인</td>
                             <td colspan="2">
-                                <input type="password" name="userPwChk" th:field="*{userPwChk}" th:errorclass="field-error" class="form-control input-underline"> 
+                                <input type="password" name="userPwChk" th:field="*{userPwChk}" th:errorclass="field-error" class="form-control input-underline">
+                            </td>
+                        </tr>
+                        <tr class="error-row">
+                            <td width="150">&nbsp;</td>
+                            <td colspan="2" align="left">
                                 <font color="red">
                                     <th:block th:if="${ #fields.hasErrors('userPwChk') }">
                                         <span th:errors="*{userPwChk}"></span>
@@ -122,7 +165,12 @@
                         <tr>
                             <td width="150">이름</td>
                             <td colspan="2">
-                                <input type="text" name="name" th:field="*{name}" th:errorclass="field-error" class="form-control input-underline"> 
+                                <input type="text" name="name" th:field="*{name}" th:errorclass="field-error" class="form-control input-underline">
+                            </td>
+                        </tr>
+                        <tr class="error-row">
+                            <td width="150">&nbsp;</td>
+                            <td colspan="2" align="left">
                                 <font color="red">
                                     <th:block th:if="${ #fields.hasErrors('name') }">
                                         <span th:errors="*{name}"></span>
@@ -134,6 +182,11 @@
                             <td width="150">이메일</td>
                             <td colspan="2">
                                 <input type="text" name="email" th:field="*{email}" th:errorclass="field-error" class="form-control input-underline"> <br>
+                            </td>
+                        </tr>
+                        <tr class="error-row">
+                            <td width="150">&nbsp;</td>
+                            <td colspan="2" align="left">
                                 <font color="red">
                                     <th:block th:if="${ #fields.hasErrors('email') }">
                                         <span th:errors="*{email}"></span>
@@ -143,10 +196,9 @@
                         </tr>
                 </table>
                         <div><br><br>
-                            <div class="main-button">
-                                <a href="javascript:;" type="submit" id="submit">등록</a>
-                                <a href="javascript:;" type="reset" id="reset">취소</a>
-                            </div>
+                            <button type="submit" id="submit" class="btn">등록</button>
+                            &nbsp;&nbsp;&nbsp;<button type="reset" id="reset" class="btn">취소</button>
+                            
                         </div>
                     </form>
                     </div>
