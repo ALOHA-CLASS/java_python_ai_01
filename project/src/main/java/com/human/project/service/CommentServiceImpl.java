@@ -66,7 +66,7 @@ public class CommentServiceImpl implements CommentService {
 		// 삭제할 댓글 정보 조회
 		Comment comment = commentMapper.select(commentNo);
 		
-		int subCount = comment.getSubCount();
+		int subCount = comment.getSubCnt();
 		
 		// 자식 댓글이 없으면, 삭제
 		if( subCount == 0 ) {
@@ -75,7 +75,7 @@ public class CommentServiceImpl implements CommentService {
 		}
 		// 자식 댓글이 있으면, "삭제된 게시글 입니다" 로 내용 수정
 		else {
-			comment.setWriter("---");
+			comment.setUserNick("---");
 			comment.setContent("삭제된 게시글 입니다");
 			result = commentMapper.update(comment);
 			return result;
@@ -94,7 +94,7 @@ public class CommentServiceImpl implements CommentService {
 		// 계층번호 + 1
 		int depthNo = comment.getDepthNo() + 1;
 		// 순서번호  = 부모 댓글의 순서번호 + 부모 댓글의 자식개수 + 1
-		int seqNo = comment.getSeqNo() + comment.getSubCount() + 1;
+		int seqNo = comment.getSeqNo() + comment.getSubCnt() + 1;
 		
 		comment.setDepthNo(depthNo);
 		comment.setSeqNo(seqNo);
