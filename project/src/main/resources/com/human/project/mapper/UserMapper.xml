@@ -22,7 +22,8 @@
 	<select id="select" resultType="Users">
 		SELECT *
 		  FROM users
-		 WHERE user_id = #{userId} 
+		 WHERE user_id = #{userId}
+		 	OR user_nick = #{userNick}
 	</select>
 	
 	<!-- 아이디 찾기 -->

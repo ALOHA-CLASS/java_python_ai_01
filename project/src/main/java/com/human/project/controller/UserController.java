@@ -56,6 +56,8 @@ public class UserController {
 		
 		Users selectedNickname = userService.select(user);
 		String nickname = user.getUserNick();
+		log.info("닉네임" + nickname);
+		log.info("selected" + selectedNickname);
 		
 		// 닉네임 중복 (사용불가)
 		if( selectedNickname != null ) {

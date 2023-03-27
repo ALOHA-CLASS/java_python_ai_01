@@ -12,6 +12,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
@@ -153,17 +154,4 @@ public class HomeController {
 	public String community() {
 		return "/main";
 	}
-	
-	@GetMapping("/profile")
-	public String information(Model model, Users user, Authentication authentication) throws Exception{
-		String userId = authentication.getName();
-		user.setUserId(userId);
-		Users selectedUser = userService.select(user);
-		model.addAttribute("user", selectedUser);
-		return "/profile";
-	}
-	
-
-
-
 }
