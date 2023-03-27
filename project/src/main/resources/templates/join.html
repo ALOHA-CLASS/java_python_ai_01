@@ -28,6 +28,9 @@
         .check-id {
             display: none;
         }
+        .check-nickname {
+            display: none;
+        }
         .check-id { display: none; }
         .input-underline {
             background-color: transparent;
@@ -76,6 +79,24 @@
             font-size: 20px;
             height: 20px;
         }
+        .btn {
+		font-size: 14px;
+		color: #fff;
+		background-color: #d204a9;
+		padding: 12px 30px;
+		display: inline-block;
+		border-radius: 25px;
+		font-weight: 400;
+		text-transform: capitalize;
+		letter-spacing: 0.5px;
+		transition: all .3s;
+		position: relative;
+		overflow: hidden;
+		}
+		.btn:hover {
+		background-color: #fff;
+		color: #d204a9;
+		}
     </style>
 </head>
 <body layout:fragment="content">
@@ -174,6 +195,8 @@
                         </tr>
                     </table>
                         <div><br><br>
+                            <button type="submit" id="submit" class="btn">등록</button>
+                            &nbsp;&nbsp;&nbsp;<button type="reset" id="reset" class="btn">취소</button>
                             <button type="submit" id="submit" class="btn">등록</button>
                             &nbsp;&nbsp;&nbsp;<button type="reset" id="reset" class="btn">취소</button>
                             
