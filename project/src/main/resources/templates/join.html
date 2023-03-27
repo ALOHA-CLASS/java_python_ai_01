@@ -132,25 +132,6 @@
                                 </font>
                             </td>
                         </tr>
-						<input type="hidden" value="-1" id="input-n-check" />
-                        <tr>
-                            <td width="150">닉네임</td>
-                            <td>
-                                <input type="text" id="nickname" name="nickname" th:field="*{nickname}" th:errorclass="field-error" class="form-control input-underline">
-                            </td>
-                            <td>
-                                <div class="main-button">
-                                    <a href="javascript:;" onclick="checkNickname()">중복확인</a>
-                                </div>
-                                <font color=#9bf525 id="nickname-check" class="check-nickname"><span>사용 가능한 아이디입니다.</span></font>
-                                <font color="red" id="nickname-duplicated" class="check-nickname"><span>중복된 아이디입니다.</span></font>
-                                <font color="red">
-                                    <th:block th:if="${ #fields.hasErrors('nickname') }">
-                                        <span th:errors="*{nickname}"></span>
-                                    </th:block>
-                                </font>
-                            </td>
-                        </tr>
                         <input type="hidden" value="-1" id="input-n-check" />
                         <tr>
                             <td width="150">닉네임</td>
