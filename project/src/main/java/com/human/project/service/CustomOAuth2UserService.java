@@ -110,7 +110,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 		
 		try {
 			result1 = userMapper.selectByEmail(user);			
-			result2 = userMapper.selectByEmail2(email);			
+//			result2 = userMapper.selectByEmail2(email);			
 			log.info("result1: " + result1);
 			log.info("result2: " + result2);
 		} catch (Exception e) {
@@ -127,11 +127,14 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 				userMapper.insertAuth(userAuth);
 				userMapper.insertSocial(userSocial);
 				log.info("join, insertAuth, insertSocial 성공");
+				log.info("user: " + user);
+				log.info("user: " + userAuth);
+				log.info("user: " + userSocial);
 			} catch (Exception e) {
 				log.info("join, insertAuth, insertSocial 실패");
 				e.printStackTrace();
 			}
-		} else if( result2 == null ) {
+		} else {
 			try {
 				userId = userMapper.selectByEmail(user).getUserId();
 				userSocial.setUserId(userId);
