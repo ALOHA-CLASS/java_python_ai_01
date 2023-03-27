@@ -1,8 +1,10 @@
 package com.human.project.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,7 @@ import com.human.project.domain.Page;
 import com.human.project.domain.Users;
 import com.human.project.service.BoardService;
 import com.human.project.service.CommentService;
+import com.human.project.service.UserService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,45 +30,50 @@ public class BoardController {
 	
 	@Autowired
 	private BoardService boardService;
-	
 	@Autowired
 	private CommentService commentService;
 	
 	// 게시글 목록
 	@GetMapping("/list")
 	public String list(Model model, Option option, Page page) throws Exception {
-		
+        
+
 		// 게시글 목록 요청
 		List<Board> boardList = boardService.list(page, option);
 		
-		log.info("boardList : " +boardList);
+//		log.info("boardList : " +boardList);
 		
 		// 게시글 목록 모델에 등록
 		model.addAttribute("boardList", boardList);
 		model.addAttribute("page", page);
 		
-		return "/board/list";
+		return "board/list";
 	}
+	
 	
 	// 게시글 쓰기 - 화면
 	@GetMapping("/insert")
-	public String insert() {
+	public String insert(Board board, Principal principal, Model model) throws Exception {
 		
-		return "/board/insert";
+		// principal이 null값이 아닐 경우 userId를 불러옴
+		if (principal != null) {
+			
+		String userId = principal.getName();
+		model.addAttribute("userId", userId);
+        
+//        log.info("userId : "+userId);
+		}
+		
+		return "board/insert";
 	}
 	
 	// 게시글 쓰기 - 처리
 	// 요청파라미터 연결 : @RequestParam("title") String title
 	// * 요청파라미터 이름과 실제 매개변수 이름이 같으면 어노테이션 생략 가능
 	@PostMapping("/insert")
-	public String insertPro(Board board, Users user, Model model) throws Exception {
-		
-//		String userId = user.getUserId();
-//		List<Board> boardList = boardService.list(userId);
-//		model.addAttribute("boardList", boardList);
-		
-		log.info("user : " +user);
-		
+	public String insertPro(Board board, Principal principal, Model model) throws Exception {
+
+		log.info("board : " +board);
 		// 게시글 쓰기 요청
 		int result = boardService.insert(board);
 		
@@ -86,7 +94,7 @@ public class BoardController {
 
 		model.addAttribute("commentList", commentList);
 		
-		return "/board/read";
+		return "board/read";
 	}
 	
 	// 게시글 수정 - 화면
@@ -96,7 +104,7 @@ public class BoardController {
 		Board board = boardService.read(boardNo);
 		model.addAttribute("board", board);
 		
-		return "/board/update";
+		return "board/update";
 	}
 	
 	// 게시글 수정 - 처리

@@ -38,9 +38,12 @@
                   <ul class="nav">
                       <li><a href="/index" class="active">Home</a></li>
                       <li><a href="/board/list">Community</a></li>
-                      <th:block sec:authorize="!isAuthenticated()">
-                        <li><a href="/login">Sign in</a></li>
-                      </th:block>
+                      <form id="login" action="/login" method="get">
+                        <li sec:authorize="isAnonymous()"><a href="javascript:;" onclick=btn_login()>Log in</a></li>
+                      </form>
+                      <form id="join3" action="/join" method="get">
+                        <li sec:authorize="isAnonymous()"><a href="javascript:;" onclick=btn_join()>Sign up</a></li>
+                      </form>
                       <th:block sec:authorize="isAuthenticated()">
                         
                           <form action="/logout" method="post">
@@ -49,8 +52,8 @@
                             <li><button type="submit" class="logout">Sign Out</button></li>
                           </form>		
                   </th:block>
-                      <li><a href="profile.html">Profile <img src="/cyborg/assets/images/avatar.jpg" alt=""></a></li>
-                  </ul>
+                      <li sec:authorize="isAuthenticated()"><a href="profile/my">Profile <img src="/cyborg/assets/images/avatar.jpg" alt=""></a></li>
+                  </ul>   
                   <a class='menu-trigger'>
                       <span>Menu</span>
                   </a>
@@ -67,7 +70,7 @@
     document.getElementById("login").submit();
   }
   function btn_join(){
-    document.getElementById("join").submit();
+    document.getElementById("join3").submit();
   }
   function btn_logout(){
     document.getElementById("logout").submit();

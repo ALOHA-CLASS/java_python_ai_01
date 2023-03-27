@@ -30,7 +30,7 @@ public class UserController {
 	public String index() {
 		log.info("사용자 페이지...");
 		
-		return "/user/index";
+		return "user/index";
 	}
 	
 	// ID 중복확인
@@ -58,7 +58,9 @@ public class UserController {
 	public ResponseEntity<Boolean> checkUserNickname(Users user) throws Exception {
 		
 		Users selectedNickname = userService.select(user);
-		String nickname = user.getNickname();
+		String nickname = user.getUserNick();
+		log.info("닉네임" + nickname);
+		log.info("selected" + selectedNickname);
 		
 		// 닉네임 중복 (사용불가)
 		if( selectedNickname != null ) {

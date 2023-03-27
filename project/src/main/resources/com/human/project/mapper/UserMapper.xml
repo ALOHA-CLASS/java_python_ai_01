@@ -26,8 +26,8 @@
 
 	<!-- 회원가입 -->
 	<insert id="join">
-		INSERT INTO users ( user_id, user_pw, name, user_nick, email )
-		VALUES ( #{userId}, #{userPw}, #{name}, #{nickname}, #{email})
+		INSERT INTO users ( user_id, user_pw, user_nick, name, email )
+		VALUES ( #{userId}, #{userPw}, #{userNick}, #{name}, #{email})
 	</insert>
 	
 	<!-- 권한등록 -->
@@ -35,12 +35,12 @@
 		INSERT INTO user_auth ( user_id, auth )
 		VALUES ( #{userId}, #{auth} )
 	</insert>
-	
 	<!-- 아이디 조회 -->
 	<select id="select" resultType="Users">
 		SELECT *
 		  FROM users
-		 WHERE user_id = #{userId} 
+		 WHERE user_id = #{userId}
+		 	OR user_nick = #{userNick}
 	</select>
 	
 	<!-- 아이디 찾기 -->
@@ -63,11 +63,51 @@
 	  ORDER BY u.user_no
 	</select>
 
+	<!-- 회원 수정 -->
+	<update id="update">
+		UPDATE 	users
+		SET		user_nick = #{userNick},
+				name = #{name},
+				email = #{email},
+				upd_date = now()
+		WHERE 	user_id = #{userId}
+	</update>
+
 	<!-- 회원 삭제 -->
 	<delete id="delete">
-		DELETE FROM users
-		 WHERE user_no in ( ${noList} )
+		DELETE 
+		FROM users
+		WHERE  user_id = #{userId}
 	</delete>
+	
+	<!-- 아이디 조회 -->
+	<select id="selectSocial" resultType="UserSocial">
+		SELECT *
+		  FROM user_social
+		 WHERE user_id = #{userId} 
+	</select>
+	
+	<!-- 이메일 조회 -->
+	<select id="selectByEmail" resultType="Users">
+		SELECT *
+		  FROM users
+		 WHERE email = #{email} 
+	</select>
+	
+	<!-- 이메일 조회 -->
+	<select id="selectByEmail2" resultType="UserSocial">
+		<!-- SELECT *
+		  FROM  
+		 WHERE (
+		 		SELECT * FROM user_social where users.user_id = user_social.user_id
+		 ) 
+		 AND email = #{email}  -->
+		SELECT user_social.*
+		FROM user_social, users
+		INNER JOIN users ON users.user_id = user_social.user_id
+		WHERE users.email = #{email} 
+	</select>
+
 
 
 </mapper>

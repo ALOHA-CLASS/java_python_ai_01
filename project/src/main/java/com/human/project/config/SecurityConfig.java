@@ -37,6 +37,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private CustomOAuth2UserService customOAuth2UserService;
 
 	
+
+	
 	// 설정 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -68,7 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// OAuth2 로그인 기능 활성화
 		http.oauth2Login()
 			.loginPage("/login")
-			.userInfoEndpoint()						// OAuth2 로그인 설공후 사용자 정보 설정
+			.userInfoEndpoint()						// OAuth2 로그인 성공후 사용자 정보 설정
 			.userService(customOAuth2UserService)	// 로그인 성공 후 처리할 서비스 설정
 
 //			.antMatchers("/admin/**").hasRole("ADMIN") 				// 관리자만 접근 허용
@@ -94,6 +96,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.logout()
 			.logoutUrl("/logout")			// 로그아웃 처리 URL 지정 (default : "/logout")
 			.logoutSuccessUrl("/") 			// 로그아웃 성공 시, 이동할 경로
+			// .deleteCookies("JSESSIONID", "remember-me", "remember-id")
+			.invalidateHttpSession(true)
 			.permitAll()
 			;
 		
