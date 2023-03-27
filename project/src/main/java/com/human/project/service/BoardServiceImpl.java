@@ -49,8 +49,18 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public int delete(int boardNo) throws Exception {
-		int result = boardMapper.delete(boardNo);
+	public int delete(List<String> boardNoList) throws Exception {
+		
+		String noList = "";
+		for (int i = 0; i < boardNoList.size(); i++) {
+			noList += boardNoList.get(i);
+			if( i+1 != boardNoList.size() ) {
+				noList += ", ";
+			}
+		}
+		log.info("noList : " +  noList );
+		
+		int result = boardMapper.delete(noList);
 		return result;
 	}
 
