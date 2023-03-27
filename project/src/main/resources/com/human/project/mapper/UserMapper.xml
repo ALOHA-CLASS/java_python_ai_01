@@ -26,8 +26,8 @@
 
 	<!-- 회원가입 -->
 	<insert id="join">
-		INSERT INTO users ( user_id, user_pw, user_nick, name, email )
-		VALUES ( #{userId}, #{userPw}, #{userNick}, #{name}, #{email})
+		INSERT INTO users ( user_id, user_pw, nickname, name, email )
+		VALUES ( #{userId}, #{userPw}, #{nickname}, #{name}, #{email})
 	</insert>
 	
 	<!-- 권한등록 -->
@@ -40,7 +40,7 @@
 		SELECT *
 		  FROM users
 		 WHERE user_id = #{userId}
-		 	OR user_nick = #{userNick}
+		 	OR nickname = #{nickname}
 	</select>
 	
 	<!-- 아이디 찾기 -->
@@ -66,7 +66,7 @@
 	<!-- 회원 수정 -->
 	<update id="update">
 		UPDATE 	users
-		SET		user_nick = #{userNick},
+		SET		nickname = #{nickname},
 				name = #{name},
 				email = #{email},
 				upd_date = now()
@@ -108,6 +108,13 @@
 		INNER JOIN users ON users.user_id = user_social.user_id
 		WHERE users.email = #{email} 
 	</select>
+
+
+	<!-- 회원 삭제 -->
+	<delete id="deleteSelectedUser">
+		DELETE FROM users
+		 WHERE user_no in ( ${noList} )
+	</delete>
 
 
 
