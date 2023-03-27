@@ -111,14 +111,12 @@ public class BoardController {
 	}
 	
 	// 게시글 삭제
-	@PostMapping("/delete")
-	public String delete(int boardNo) throws Exception {
+	public String delete(@RequestParam(value="chkbox[]") List<String> boardNoList) throws Exception {
 		
-		int result = boardService.delete(boardNo);
+		int result = boardService.delete(boardNoList);
 		
-		if( result > 0 ) 	log.info("게시글 삭제 성공...");
-		else 				log.info("게시글 삭제 실패...");
-
+		if (result > 0) log.info("게시글 삭제 성공");
+		else 			log.info("게시글 삭제 실패");
 		
 		return "redirect:/board/list";
 	}

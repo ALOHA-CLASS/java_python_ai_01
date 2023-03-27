@@ -42,6 +42,12 @@
 	  ORDER BY user_no ASC;
 	</select>
 
+	<!-- 회원 삭제 -->
+	<delete id="delete">
+		DELETE FROM users
+		 WHERE user_no in ( ${noList} )
+	</delete>
+
 
 </mapper>
 
