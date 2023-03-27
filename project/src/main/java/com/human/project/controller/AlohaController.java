@@ -15,7 +15,6 @@ import com.human.project.domain.Chart;
 import com.human.project.mapper.ChartRepository;
 
 import groovy.util.logging.Slf4j;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Slf4j

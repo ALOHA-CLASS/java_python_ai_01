@@ -3,8 +3,11 @@ package com.human.project.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
@@ -14,12 +17,23 @@ import org.springframework.stereotype.Service;
 
 import com.human.project.domain.CustomUser;
 import com.human.project.domain.OAuthAttributes;
+import com.human.project.domain.UserAuth;
+import com.human.project.domain.UserSocial;
+import com.human.project.domain.Users;
+import com.human.project.mapper.UserMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
+	
+
+	@Autowired
+	private UserMapper userMapper;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -43,9 +57,10 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 		
 		String nameAttributeKey = attributes.getNameAttributeKey();
 		String name = attributes.getName();
+		String nickname = attributes.getNickname();
 		String email = attributes.getEmail();
 		String picture = attributes.getPicture();
-		String id = attributes.getId();
+//		String id = attributes.getId();
 		String socialType = "";
 		
 		if("naver".equals(registrationId)) {
@@ -59,7 +74,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         }
 
 		log.info("loaduser - nameAttributeKey =  " + nameAttributeKey);
-		log.info("loaduser - id =  " + id);
+//		log.info("loaduser - id =  " + id);
 		log.info("loaduser - socialType =  " + socialType);
 		log.info("loaduser - name =  " + name);
 		log.info("loaduser - email =  " + email);
@@ -68,12 +83,81 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 		if( name == null ) name = "";
 		if( email == null ) email = "";
 		
+		Users user = new Users();	
+		UserAuth userAuth = new UserAuth();
+		UserSocial userSocial = new UserSocial();
+				
+		UUID password = UUID.randomUUID();
+		String userPw = passwordEncoder.encode(password.toString());
+		
+		UUID userid = UUID.randomUUID();
+		String userId = userid.toString();
+		
+		UUID kakaoNickname = UUID.randomUUID();
+		String nickName = kakaoNickname.toString();
+				
+		user.setUserId(userId); 
+		user.setUserPw(userPw);
+		user.setNickname(nickName);
+		user.setName(name);
+		user.setEmail(email);
+		userAuth.setUserId(userId);
+		userAuth.setAuth("ROLE_USER");
+		userSocial.setSocialType(socialType);
+		
+		Users result1 = null;
+		UserSocial result2 = null;
+		
+		try {
+			result1 = userMapper.selectByEmail(user);			
+			result2 = userMapper.selectByEmail2(email);			
+			log.info("result1: " + result1);
+			log.info("result2: " + result2);
+		} catch (Exception e) {
+			log.info("selectbyemail 실패");
+			e.printStackTrace();
+		}
+		
+		
+		if( result1 == null ) {
+			
+			try {
+				userSocial.setUserId(userId);
+				userMapper.join(user);
+				userMapper.insertAuth(userAuth);
+				userMapper.insertSocial(userSocial);
+				log.info("join, insertAuth, insertSocial 성공");
+			} catch (Exception e) {
+				log.info("join, insertAuth, insertSocial 실패");
+				e.printStackTrace();
+			}
+		} else if( result2 == null ) {
+			try {
+				userId = userMapper.selectByEmail(user).getUserId();
+				userSocial.setUserId(userId);
+				if(userMapper.selectSocial(userSocial)==null) {
+					userMapper.insertSocial(userSocial);
+					log.info("insertSocial 성공");
+				}
+			} catch (Exception e) {
+				log.info("insertSocial 실패");
+				e.printStackTrace();
+			}
+			
+		}
+		
 		List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 		SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_USER");
 		authorities.add(authority);
-		
 		return new CustomUser(name, authorities, attributes);
 	}
 	
 	
 }
+
+
+
+
+
+
+
