@@ -42,6 +42,16 @@
 	  ORDER BY user_no ASC;
 	</select>
 
+	<!-- 회원 수정 -->
+	<update id="update">
+		UPDATE 	users
+		SET		user_nick = #{userNick},
+				name = #{name},
+				email = #{email},
+				upd_date = now()
+		WHERE 	user_id = #{userId}
+	</update>
+
 
 </mapper>
 

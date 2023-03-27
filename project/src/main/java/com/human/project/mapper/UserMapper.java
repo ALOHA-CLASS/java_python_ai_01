@@ -27,4 +27,8 @@ public interface UserMapper {
 	// 회원 목록
 	public List<Users> list() throws Exception;
 
+	// 회원 수정
+	public int update(Users user) throws Exception;
+	
+	// 회원 삭제
 }

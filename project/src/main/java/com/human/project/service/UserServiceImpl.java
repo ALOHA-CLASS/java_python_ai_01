@@ -107,6 +107,12 @@ public class UserServiceImpl implements UserService {
 		List<Users> usersList = userMapper.list();
 		return usersList;
 	}
+
+	@Override
+	public int update(Users user) throws Exception {
+		int result = userMapper.update(user);
+		return result;
+	}
 	
 
 

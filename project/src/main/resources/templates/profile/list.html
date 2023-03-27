@@ -102,7 +102,9 @@
                 </table>
                         <div><br><br>
                             <div class="main-button">
-                                <a href="javascript:;" onclick=btn_update()>내 정보 수정</a>
+                                <form id="update" action="/update" method="get">
+                                    <a href="javascript:;" onclick=btn_update()>내 정보 수정</a>
+                                </form>
                             </div>
                         </div>
                     </form>
@@ -111,6 +113,11 @@
             </div>
         </div>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    function btn_update(){
+        document.getElementById('update').submit();
+    }
+</script>
 </body>
 </html>
 
