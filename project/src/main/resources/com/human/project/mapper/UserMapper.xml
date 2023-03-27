@@ -73,6 +73,7 @@
 		WHERE 	user_id = #{userId}
 	</update>
 
+
 	<!-- 회원 삭제 -->
 	<delete id="delete">
 		DELETE 
