@@ -19,7 +19,7 @@
 				<input type="hidden" class="seq_no" th:value="${comment.seqNo}">
 				<input type="hidden" class="sub_count" th:value="${comment.subCnt}">
 				<!-- <p class="userId" style="font-size:5px" th:text="${userId}" id="userId"></p> -->
-				<input type="hidden" class="userId" th:value="${userId}" id="userId"/>
+				<input type="hidden" th:id='userId' th:value="${userId}"/>
 				<span class="nickname" th:text="${comment.nickname}"></span>
 				<span class="regDate" th:text="${comment.regDate}"></span>
 				<button type="button" class="btn_comment_update" th:data="${comment.commentNo}">수정</button>
@@ -47,7 +47,7 @@
 				// 댓글 번호
 				let commentNo = $(this).attr('data')
 				
-				deleteReply(commentNo, boardNo)
+				deleteComment(commentNo, boardNo)
 			})
 			
 			
@@ -67,7 +67,7 @@
 				comment_box.empty()
 				
 				let editor = "" 
-					+ "<input type='hidden' th:name='userId' class='userId' th:value='userId'>"
+					+ "<input type='hidden' th:id=userId th:value='${userId}'/>"
 					+ "<br>"
 					+ "<textarea rows='4' cols='50'>" + content + "</textarea>"
 					+ "<br>"
@@ -95,7 +95,7 @@
 						'seqNo' 	: seqNo,
 					}
 					
-					updateReply( comment )
+					updateComment( comment )
 				})
 				
 				// 댓글 취소 버튼 클릭 이벤트
@@ -122,13 +122,13 @@
 				let seqNo = $(this).parent().children('.seq_no').val()
 				let subCnt = $(this).parent().children('.sub_count').val()
 				
-				let userId = comment_box.children('.userId').text()
+				let userId = comment_box.children('.userId').val()
 				let content = comment_box.children('.content').text()
 				alert(userId)
 				let editor = "" 
 					+ "<div class='comment_wrap comment_answer'>"
 					+ "<div class='comment_box'>"
-					+ "<p class='userId' th:text='${userId}' id='userId'></p>"
+					+ "<input type='hidden' th:id=userId th:value='${userId}'/>"
 					+ "<textarea rows='4' cols='50'></textarea>"
 					+ "<br>"
 					+ "<button type='button' class='btn_comment_answer_insert' data='" + commentNo + "'>등록</button>"
@@ -144,7 +144,7 @@
 				$('.btn_comment_answer_insert').on('click', function() {
 					let btn = $(this)
 			
-					userId = btn.parent().children('input').text()
+					userId = btn.parent().children('input').val()
 					comment_content = btn.parent().children('textarea').val()
 					
 					let comment = {
@@ -178,7 +178,7 @@
 		}
 		
 		// 댓글 수정
-		function updateReply(comment) {
+		function updateComment(comment) {
 
 			$.ajax({
 				url:	'/comment/update',		// 요청 경로
@@ -201,7 +201,7 @@
 		}
 		
 		// 댓글 삭제
-		function deleteReply(commentNo, boardNo) {
+		function deleteComment(commentNo, boardNo) {
 			let comment = {
 				'commentNo'	: commentNo,
 				'boardNo' 	: boardNo
@@ -221,7 +221,7 @@
 					$('#comment_list').append(data)
 					
 					// 작성한 댓글 내용 초기화
-					$('#commentWriter').val('')
+					$('#userId').val('')
 					$('#commentContent').val('')
 					
 				},

@@ -129,5 +129,12 @@
                 </if>
           )
     </select>
+    
+    <!-- 조회수 -->
+    <update id="joinCntUp" >
+    	UPDATE board
+    	SET join_cnt = join_cnt + 1
+    	WHERE board_no = #{boardNo}
+	</update>
 </mapper>
 

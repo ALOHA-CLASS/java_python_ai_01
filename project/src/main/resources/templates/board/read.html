@@ -93,8 +93,9 @@
 		<div class="top">
 		</div>
 		<div class="comment_input">
-			<!-- <input type="hidden" th:name=userId th:value="${userId}"/> -->
-			<p class="userId" th:text="${userId}" id="userId"></p>
+			<br>
+			<input type="hidden" th:id=userId th:value="${userId}"/>
+			<!-- <p class="userId" th:text="${userId}" id="userId"></p>  -->
 			<textarea name="content" id="content" rows="5" cols="60" 
 					  placeholder="댓글을 작성해주세요."></textarea>
 			<div class="btn_area">
@@ -108,7 +109,7 @@
 	
 	<!-- 버튼 -->
 	<div>
-		<button type="button" onclick="moveUpdate()">수정</button>
+		<button type="button" onclick="moveUpdate()">수정</button> 
 		<button type="button" onclick="boardDelete()">삭제</button>
 		<button type="button" onclick="moveList()">목록</button>
 	</div>
@@ -206,7 +207,7 @@
 			// 등록 버튼 클릭 이벤트
 			$('#btn_comment_insert').on('click', function() {
 				// let writer = $('#commentWriter').val()
-				let userId = $('#userId').text()
+				let userId = $('#userId').val()
 				let content = $('#content').val()
 				
 				console.log("userId="+userId)
