@@ -3,7 +3,9 @@ package com.human.project.service;
 import java.util.List;
 import java.util.UUID;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -158,6 +160,36 @@ public class UserServiceImpl implements UserService {
 		List<Users> usersList = userMapper.list();
 		return usersList;
 	}
+
+	@Override
+	public int update(Users user) throws Exception {
+		int result = userMapper.update(user);
+		return result;
+	}
+
+	@Override
+	public int delete(Users user) throws Exception {
+		int result = userMapper.delete(user);
+		return result;
+	}
+
+	@Override
+	public boolean deleteCookies(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		Cookie[] cookies = request.getCookies();
+		int count = 0;
+		for (Cookie cookie : cookies) {
+			String cookieName = cookie.getName();
+			String cookieValue = cookie.getValue();
+			Cookie deletedCookie = new Cookie(cookieName, null);
+			deletedCookie.setMaxAge(0);
+			response.addCookie(deletedCookie);
+			count++;
+		}
+		if( count > 0 ) return true;
+
+		return false;
+	}
 	
 	@Override
 	public int delete(List<String> userNoList) throws Exception {
@@ -170,7 +202,7 @@ public class UserServiceImpl implements UserService {
 		}
 		log.info("noList : " +  noList );
 		
-		int result = userMapper.delete(noList);
+		int result = userMapper.deleteSelectedUser(noList);
 		
 		return result;
 	}

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.human.project.domain.UserAuth;
 import com.human.project.domain.UserSocial;
@@ -41,8 +42,12 @@ public interface UserMapper {
 	// 회원 목록
 	public List<Users> list() throws Exception;
 
+	// 회원 수정
+	public int update(Users user) throws Exception;
+	
 	// 회원 삭제
-	public int delete(String noList) throws Exception;
+	public int delete(Users user) throws Exception;
+
 
 	// 아이디 찾기
 	public Users findId(Users user) throws Exception;
@@ -52,5 +57,8 @@ public interface UserMapper {
 
 	// 임시 비밀번호 발급
 	public int newPw(Users user) throws Exception;
+
+	// 선택 회원 삭제
+	public int deleteSelectedUser(@Param("noList") String noList) throws Exception;
 
 }

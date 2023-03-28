@@ -12,8 +12,11 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -84,7 +87,7 @@ public class HomeController {
         model.addAttribute("profile_image", profile_image);
         model.addAttribute("thumbnail_image", thumbnail_image);
       }
-		return "/index";
+		return "index";
 	}
 	
 	//로그인
@@ -101,7 +104,7 @@ public class HomeController {
 		model.addAttribute("userId", userId);
 		model.addAttribute("rememberId", rememberId);	
 		
-		return "/login";
+		return "login";
 	}
 	
 	// 회원가입 화면
@@ -109,7 +112,7 @@ public class HomeController {
 	public String join(Users user) {
 		log.info("회원가입 화면 ..");
 		
-		return "/join";
+		return "join";
 	}
 	
 	@GetMapping("/chart")
@@ -126,25 +129,22 @@ public class HomeController {
 	 * @throws Exception
 	 */
 	
-	@PostMapping("/join")
-	public String joinPro(@Validated Users user, 
-						   BindingResult bindingResult, 
-						   HttpServletRequest request) throws Exception {		
+	 @PostMapping("/join")
+	public String joinPro(@Validated Users user, BindingResult bindingResult, HttpServletRequest request) throws Exception {
 		
 		// 유효성 검증 오류확인
 		if(validationUtil.joinCheckError(bindingResult, user)) {
 			log.info("유효성 검증 오류..");
-			return "/join";
+			return "join";
 		}
 		
 		// 회원가입 처리
 		int result = userService.join(user);
-		
 		boolean isAuthentication = false;
 		if(result > 0 ) {
 			log.info("회원가입 성공..");
 			// 바로 로그인
-			userService.tokenAuthentication(user, request);
+			isAuthentication = userService.tokenAuthentication(user, request);
 		}
 		else {
 			log.info("회원가입 실패..");
@@ -161,7 +161,7 @@ public class HomeController {
     //아이디&비밀번호 찾기
     @GetMapping("/find")
     public String doFind() {
-        return "/find";
+        return "find";
     }
 
 	// 아이디 찾기
@@ -206,7 +206,7 @@ public class HomeController {
     // 아이디 찾기
 	@GetMapping("/main")
 	public String community() {
-		return "/main";
+		return "main";
 	}
 
 }
