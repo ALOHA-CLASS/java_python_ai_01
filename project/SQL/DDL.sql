@@ -49,13 +49,7 @@ CREATE TABLE IF NOT EXISTS `human`.`board` (
   `join_cnt` INT NOT NULL DEFAULT '0' COMMENT '게시글 조회수',
   `reg_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '게시글 등록 일자',
   `upd_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '게시글 수정 일자',
-  PRIMARY KEY (`board_no`),
-  INDEX `fk_board_users1_idx` (`user_id` ASC) ,
-  CONSTRAINT `fk_board_users1`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `human`.`users` (`user_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  PRIMARY KEY (`board_no`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COMMENT = '게시판 테이블';
@@ -92,16 +86,12 @@ CREATE TABLE IF NOT EXISTS `human`.`comment` (
   `reg_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '댓글 등록 일자',
   `upd_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '댓글 수정 일자',
   PRIMARY KEY (`comment_no`),
-  INDEX `FK_board_TO_comment` (`board_no` ASC) ,
-  INDEX `fk_comment_users1_idx` (`user_id` ASC) ,
+  INDEX `FK_board_TO_comment` (`board_no` ASC),
   CONSTRAINT `FK_board_TO_comment`
     FOREIGN KEY (`board_no`)
-    REFERENCES `human`.`board` (`board_no`),
-  CONSTRAINT `fk_comment_users1`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `human`.`users` (`user_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    REFERENCES `human`.`board` (`board_no`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COMMENT = '댓글 테이블';
@@ -134,8 +124,8 @@ CREATE TABLE IF NOT EXISTS `human`.`user_auth` (
   CONSTRAINT `fk_user_auth_users1`
     FOREIGN KEY (`user_id`)
     REFERENCES `human`.`users` (`user_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COMMENT = '회원 권한 테이블';
@@ -154,8 +144,8 @@ CREATE TABLE IF NOT EXISTS `human`.`user_social` (
   CONSTRAINT `fk_user_social_users1`
     FOREIGN KEY (`user_id`)
     REFERENCES `human`.`users` (`user_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COMMENT = '회원 소셜 테이블';
