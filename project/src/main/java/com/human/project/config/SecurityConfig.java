@@ -68,7 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// OAuth2 로그인 기능 활성화
 		http.oauth2Login()
 			.loginPage("/login")
-			.userInfoEndpoint()						// OAuth2 로그인 설공후 사용자 정보 설정
+			.userInfoEndpoint()						// OAuth2 로그인 성공후 사용자 정보 설정
 			.userService(customOAuth2UserService)	// 로그인 성공 후 처리할 서비스 설정
 
 //			.antMatchers("/admin/**").hasRole("ADMIN") 				// 관리자만 접근 허용

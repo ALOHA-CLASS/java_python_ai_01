@@ -4,7 +4,6 @@ import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,10 +15,8 @@ import com.human.project.domain.Board;
 import com.human.project.domain.Comment;
 import com.human.project.domain.Option;
 import com.human.project.domain.Page;
-import com.human.project.domain.Users;
 import com.human.project.service.BoardService;
 import com.human.project.service.CommentService;
-import com.human.project.service.UserService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -55,13 +52,11 @@ public class BoardController {
 	@GetMapping("/insert")
 	public String insert(Board board, Principal principal, Model model) throws Exception {
 		
-		// principal이 null값이 아닐 경우 userId를 불러옴
 		if (principal != null) {
 			
 		String userId = principal.getName();
 		model.addAttribute("userId", userId);
         
-//        log.info("userId : "+userId);
 		}
 		
 		return "/board/insert";
@@ -85,7 +80,13 @@ public class BoardController {
 	
 	// 게시글 읽기 - 화면
 	@GetMapping("/read")
-	public String read(Model model, int boardNo) throws Exception {
+	public String read(Principal principal, Model model, int boardNo) throws Exception {
+		
+		if (principal != null) {
+			String userId = principal.getName();
+			model.addAttribute("userId", userId);
+	        log.info("userId : "+userId);
+		}
 		
 		Board board = boardService.read(boardNo);
 		model.addAttribute("board", board);

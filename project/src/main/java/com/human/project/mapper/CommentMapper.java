@@ -32,7 +32,7 @@ public interface CommentMapper {
 	public int syncSeqNo(Comment comment) throws Exception;
 
 	// 부모의 자식개수 갱신
-	public void syncSubCount(@Param("parentNo") int parentNo, @Param("no") int no) throws Exception;
+	public void syncsubCnt(@Param("parentNo") int parentNo, @Param("no") int no) throws Exception;
 
 	// 댓글 조회
 	public Comment select(int commentNo) throws Exception;

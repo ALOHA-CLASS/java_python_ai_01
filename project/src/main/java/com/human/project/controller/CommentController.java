@@ -1,5 +1,6 @@
 package com.human.project.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-@RequestMapping("/Comment")
+@RequestMapping("/comment")
 public class CommentController {
 	
 	@Autowired
@@ -24,7 +25,13 @@ public class CommentController {
 
 	// 댓글 목록
 	@GetMapping("/list")
-	public String list(Model model, int boardNo) throws Exception {
+	public String list(Model model, Principal principal, int boardNo) throws Exception {
+
+		if (principal != null) {
+			String userId = principal.getName();
+			model.addAttribute("userId", userId);
+	        log.info("userId : "+userId);
+		}
 		
 		List<Comment> commentList = commentService.list(boardNo);
 		model.addAttribute("commentList", commentList);
@@ -62,7 +69,7 @@ public class CommentController {
 		List<Comment> commentList = commentService.list(boardNo);
 		model.addAttribute("commentList", commentList);
 		
-		return "/Comment/list";
+		return "/comment/list";
 	}
 	
 	
