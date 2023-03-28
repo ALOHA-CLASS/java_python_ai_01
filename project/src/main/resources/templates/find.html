@@ -4,34 +4,32 @@
 <head>
 	<meta charset="UTF-8">
 	<title>아이디/비밀번호 찾기</title>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
 <body>
 	<h1>아이디/비밀번호 찾기</h1>
 	<input type="radio" name="findOption" id="findId"> 아이디 찾기
 	<input type="radio" name="findOption" id="findPw"> 비밀번호 찾기
-	<form method="POST" action="/find">
+	<form method="POST" action="/find_id">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+        
     	<div id="findIdForm" style="display:none;">
         	<table>
         	<!-- 아이디 찾기 폼 -->
-           	 <tr>
+           	    <tr>
 	                <td>이름</td>
 	                <td>
-	                <input type="text" name="name" id="find_name">
+	                <input type="text" name="name" id="name">
 	                </td>
             	</tr>
 	            <tr>
 	                <td>이메일</td>
 	                <td>
-	                    <input type="email" name="email" id="find_email">
+	                    <input type="email" name="email" id="email">
 	                </td>
 	            </tr>
-	            <tr>
-	                <td>핸드폰 번호</td>
-	                <td>
-	                    <input type="text" name="phoneNumber" id="find_mobile">
-	                </td>
-	            </tr>
-	            <tr>
 	                <td>
 	                    <input type="button" value="아이디 찾기" id="btn_find_id">
 	                </td>
@@ -41,19 +39,21 @@
 	</form>
 
 <form method="POST" action="/find_password">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
     <div id="findPasswordForm" style="display:none;">
         <!-- 비밀번호 찾기 폼 -->
         <table>
             <tr>
                 <td>아이디</td>
                 <td>
-                    <input type="text" name="userid" id="find_id">
+                    <input type="text" name="userId" id="userId">
                 </td>
             </tr>
             <tr>
                 <td>이메일</td>
                 <td>
-                    <input type="email" name="email" id="find_email_">
+                    <input type="email" name="email" id="email">
                 </td>
             </tr>
             <tr>
@@ -86,20 +86,83 @@ $(document)
 
 // 아이디 찾는 코드
 .on('click', '#btn_find_id', function(){
-    if($("#find_name").val()=="" || $("#find_mobile").val()=="" || $("#find_email").val()=="") {
+    if($("#name").val()=="" || $("#email").val()=="") {
         alert("빈칸을 확인해주세요.");
         return false;
     }
     else {
-        $.post('/user/find_id', {name:$('#find_name').val(), phoneNumber:$('#find_mobile').val(), email:$('#find_email').val()}, function(data){
-            if(data=="fail") {
-                alert("정보가 맞지 않습니다. 다시 시도해주세요.");
-                return document.location="/find";
-            }
-            else {
+        // $.post('/find_id', {name:$('#name').val(), email:$('#email').val()}, function(data){
+        //     if(data=="fail") {
+        //         alert("정보가 맞지 않습니다. 다시 시도해주세요.");
+        //         return document.location="/find";
+        //     }
+        //     else {
+        //         alert("아이디는 " + data + " 입니다.");
+        //     }
+        // }, 'text');
+
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+        
+
+        $.ajax({
+            url: '/find_id',		// 요청 경로
+            type: 'post',				// 메소드 방식(get, post, put 등)
+            data: {name : $('#name').val(), email : $('#email').val()},				// 전송할 데이터
+            
+            beforeSend : function(xhr) {
+                xhr.setRequestHeader(header, token)
+            },
+            // 서버로부터 정상적인 응답
+            success: function(data){
                 alert("아이디는 " + data + " 입니다.");
+            },
+            // 에러
+            error: function(request, status, error){
+                alert('정보가 맞지 않습니다. 다시 시도해주세요.')
             }
-        }, 'text');
+        })
+    }
+})
+
+// 비밀번호 찾는 코드
+.on('click', '#btn_find_password', function(){
+    if($('#userId').val() == "" || $('#email').val() =="") {
+        alert("빈칸을 확인해주세요.");
+        return false;
+    }
+    else {
+        // $.post('/find_password', {userId:$('#find_id').val(), email:$('#find_email_').val()}, function(data){
+        //     if(data == "fail") {
+        //         alert("정보가 맞지 않습니다. 다시 시도해주세요.");
+        //         return document.location="/find";
+        //     }
+        //     else {
+        //         alert("임시 비밀번호는 " + data + " 입니다.");
+        //     }
+        // }, 'text');
+
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+        
+
+        $.ajax({
+            url: '/find_password',		// 요청 경로
+            type: 'post',				// 메소드 방식(get, post, put 등)
+            data: {userId : $('#userId').val(), email : $('#email').val()},				// 전송할 데이터
+            
+            beforeSend : function(xhr) {
+                xhr.setRequestHeader(header, token)
+            },
+            // 서버로부터 정상적인 응답
+            success: function(data){
+                alert("임시 비밀번호는 " + data + " 입니다.");
+            },
+            // 에러
+            error: function(request, status, error){
+                alert('정보가 맞지 않습니다. 다시 시도해주세요.')
+            }
+        })
     }
 })
 </script>
