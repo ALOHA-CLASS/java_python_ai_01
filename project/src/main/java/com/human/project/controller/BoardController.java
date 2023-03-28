@@ -101,7 +101,7 @@ public class BoardController {
 		List<Comment> commentList = commentService.list(boardNo);
 		model.addAttribute("commentList", commentList);
 		
-        // 조회수 로직 
+        // 조회수
 		Cookie oldCookie = null;
 		Cookie[] cookies = req.getCookies();
 		if (cookies != null) {

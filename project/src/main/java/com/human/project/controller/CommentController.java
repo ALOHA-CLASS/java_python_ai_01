@@ -42,9 +42,11 @@ public class CommentController {
 	
 	// 댓글 등록
 	@PostMapping("/insert")
-	public String insert(Model model, Comment comment) throws Exception {
+	public String insert(Model model, Comment comment, Principal principal) throws Exception {
 		
-		int result = commentService.insert(comment);
+		String userId = principal.getName();
+		
+		int result = commentService.insert(comment, userId);
 		
 		if(result > 0) 			log.info("댓글 등록 성공...");
 		else		 			log.info("댓글 등록 실패...");
@@ -94,10 +96,15 @@ public class CommentController {
 	
 	// 답글
 	@PostMapping("/answer/insert")
-	public String insertAnswer(Model model, Comment comment) throws Exception {
+	public String insertAnswer(Model model, Comment comment, Principal principal) throws Exception {
+		
+			String userId = principal.getName();
+	        log.info("userId : "+userId);
+		
+	    int result = commentService.insertAnswer(comment,userId);
 		
 		// 답글 등록 요청
-		int result = commentService.insertAnswer(comment);
+		
 		
 		if(result > 0) 			log.info("답글 등록 성공...");
 		else		 			log.info("답글 등록 실패...");
