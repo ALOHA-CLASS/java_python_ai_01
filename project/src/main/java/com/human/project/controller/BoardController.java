@@ -44,7 +44,7 @@ public class BoardController {
 		model.addAttribute("boardList", boardList);
 		model.addAttribute("page", page);
 		
-        return "/board/list";
+		return "board/list";
 	}
 	
 	
@@ -59,7 +59,7 @@ public class BoardController {
         
 		}
 		
-		return "/board/insert";
+		return "board/insert";
 	}
 	
 	// 게시글 쓰기 - 처리
@@ -95,7 +95,7 @@ public class BoardController {
 
 		model.addAttribute("commentList", commentList);
 		
-		return "/board/read";
+		return "board/read";
 	}
 	
 	// 게시글 수정 - 화면
@@ -105,7 +105,7 @@ public class BoardController {
 		Board board = boardService.read(boardNo);
 		model.addAttribute("board", board);
 		
-		return "/board/update";
+		return "board/update";
 	}
 	
 	// 게시글 수정 - 처리

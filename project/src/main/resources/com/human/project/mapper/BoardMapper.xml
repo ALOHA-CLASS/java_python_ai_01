@@ -3,6 +3,7 @@
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- namespace : 매퍼 인터페이스의 경로 작성 -->
 <mapper namespace="com.human.project.mapper.BoardMapper">
+
     <!-- id         : 연결될 메소드 이름 작성 -->
     <!-- resultType : 조회 결과를 매핑할 클래스 타입 (패키지경로+클래스명) -->
     <!--  mybatis-config.xml 설정파일에 설정한 패키지 경로나 별칭이 있으면 별칭으로 사용가능 -->
@@ -129,3 +130,4 @@
           )
     </select>
 </mapper>
+
