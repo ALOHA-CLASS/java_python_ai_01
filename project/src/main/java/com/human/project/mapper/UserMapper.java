@@ -44,4 +44,13 @@ public interface UserMapper {
 	// 회원 삭제
 	public int delete(String noList) throws Exception;
 
+	// 아이디 찾기
+	public Users findId(Users user) throws Exception;
+
+	// 비밀번호 찾기
+	public Users findPw(Users user) throws Exception;
+
+	// 임시 비밀번호 발급
+	public int newPw(Users user) throws Exception;
+
 }

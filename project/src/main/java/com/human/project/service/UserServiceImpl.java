@@ -175,6 +175,26 @@ public class UserServiceImpl implements UserService {
 		return result;
 	}
 
+	// 아이디 찾기
+	@Override
+	public Users findId(Users user) throws Exception {
+		Users findId = userMapper.findId(user);
+		return findId;
+	}
+
+	// 비밀번호 찾기
+	@Override
+	public Users findPw(Users user) throws Exception {
+		Users findPw = userMapper.findPw(user);
+		return findPw;
+	}
+	// 임시 비밀번호 발급
+	@Override
+	public int newPw(Users user) throws Exception {
+		int result = userMapper.newPw(user);
+		return result;
+	}
+
 }
 
 
