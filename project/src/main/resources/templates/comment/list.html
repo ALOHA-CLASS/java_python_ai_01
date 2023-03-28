@@ -19,7 +19,7 @@
 				<input type="hidden" class="seq_no" th:value="${comment.seqNo}">
 				<input type="hidden" class="sub_count" th:value="${comment.subCnt}">
 				<!-- <p class="userId" style="font-size:5px" th:text="${userId}" id="userId"></p> -->
-				<input type="hidden" th:id='userId' th:value="${userId}"/>
+				<!-- <input type="hidden" th:id='userId' th:value="${userId}"/> -->
 				<span class="nickname" th:text="${comment.nickname}"></span>
 				<span class="regDate" th:text="${comment.regDate}"></span>
 				<button type="button" class="btn_comment_update" th:data="${comment.commentNo}">수정</button>
@@ -122,9 +122,8 @@
 				let seqNo = $(this).parent().children('.seq_no').val()
 				let subCnt = $(this).parent().children('.sub_count').val()
 				
-				let userId = comment_box.children('.userId').val()
+				// let userId = comment_box.children('.userId').val()
 				let content = comment_box.children('.content').text()
-				alert(userId)
 				let editor = "" 
 					+ "<div class='comment_wrap comment_answer'>"
 					+ "<div class='comment_box'>"

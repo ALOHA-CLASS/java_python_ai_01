@@ -37,13 +37,14 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public int insert(Comment comment) throws Exception {
+	public int insert(Comment comment, String userId) throws Exception {
 		
 		int result = commentMapper.insert(comment);
 		
 		// 댓글 번호 최댓값
 		int commentNo = commentMapper.maxCommentNo();
 		log.info("commentNo : " + commentNo);
+		comment.setUserId(userId);
 		comment.setCommentNo(commentNo);
 		comment.setGroupNo(commentNo);
 		
@@ -89,15 +90,17 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public int insertAnswer(Comment comment) throws Exception {
+	public int insertAnswer(Comment comment, String userId) throws Exception {
 		
 		// 계층번호 + 1
 		int depthNo = comment.getDepthNo() + 1;
 		// 순서번호  = 부모 댓글의 순서번호 + 부모 댓글의 자식개수 + 1
 		int seqNo = comment.getSeqNo() + comment.getSubCnt() + 1;
 		
+		comment.setUserId(userId);
 		comment.setDepthNo(depthNo);
 		comment.setSeqNo(seqNo);
+		
 		
 		// 뒤의 순서번호 + 1
 		commentMapper.syncSeqNo(comment);
@@ -129,7 +132,7 @@ public class CommentServiceImpl implements CommentService {
 		int ancestorNo = comment.getParentNo();
 		
 		// 부모 댓글 자식개수 갱신
-		commentMapper.syncsubCnt(parentNo, no);
+		commentMapper.syncSubCnt(parentNo, no);
 
 		// (종료조건) 원본 댓글에서 멈춤
 		if( ancestorNo == 0 ) return;
@@ -138,6 +141,7 @@ public class CommentServiceImpl implements CommentService {
 		syncsubCnt(ancestorNo, no);
 		
 	}
+
 
 }
 
