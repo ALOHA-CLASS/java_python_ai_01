@@ -66,16 +66,16 @@ public class CommentServiceImpl implements CommentService {
 		// 삭제할 댓글 정보 조회
 		Comment comment = commentMapper.select(commentNo);
 		
-		int subCount = comment.getSubCnt();
+		int subCnt = comment.getSubCnt();
 		
 		// 자식 댓글이 없으면, 삭제
-		if( subCount == 0 ) {
+		if( subCnt == 0 ) {
 			// 삭제요청
 			result = commentMapper.delete(commentNo);
 		}
 		// 자식 댓글이 있으면, "삭제된 게시글 입니다" 로 내용 수정
 		else {
-			comment.setUserNick("---");
+			comment.setNickname("---");
 			comment.setContent("삭제된 게시글 입니다");
 			result = commentMapper.update(comment);
 			return result;
@@ -83,7 +83,7 @@ public class CommentServiceImpl implements CommentService {
 		
 		// 댓글 삭제시, 부모댓글의 자식 개수 - 1 
 		int parentNo = comment.getParentNo();
-		syncSubCount(parentNo, -1);
+		syncsubCnt(parentNo, -1);
 		
 		return result;
 	}
@@ -107,7 +107,7 @@ public class CommentServiceImpl implements CommentService {
 		
 		// 부모글의 자식 개수 + 1
 		int parentNo = comment.getParentNo();
-		syncSubCount(parentNo, 1);
+		syncsubCnt(parentNo, 1);
 		
 		
 		return result;
@@ -118,7 +118,7 @@ public class CommentServiceImpl implements CommentService {
 	// 		12
 	// 			14
 	// 부모 댓글의 자식 개수 갱신
-	public void syncSubCount(int parentNo, int no) throws Exception {
+	public void syncsubCnt(int parentNo, int no) throws Exception {
 		
 		// 부모 정보 조회
 		Comment comment = commentMapper.select(parentNo);
@@ -129,13 +129,13 @@ public class CommentServiceImpl implements CommentService {
 		int ancestorNo = comment.getParentNo();
 		
 		// 부모 댓글 자식개수 갱신
-		commentMapper.syncSubCount(parentNo, no);
+		commentMapper.syncsubCnt(parentNo, no);
 
 		// (종료조건) 원본 댓글에서 멈춤
 		if( ancestorNo == 0 ) return;
 		
 		// 재귀 호출
-		syncSubCount(ancestorNo, no);
+		syncsubCnt(ancestorNo, no);
 		
 	}
 

@@ -37,5 +37,8 @@ public interface BoardService {
 
 	// [검색 + 옵션][페이지] 게시글 목록
 	public List<Board> list(Page page, Option option) throws Exception;
+
+	// 조회수
+	public int joinCntUp(int boardNo) throws Exception;
 }
 

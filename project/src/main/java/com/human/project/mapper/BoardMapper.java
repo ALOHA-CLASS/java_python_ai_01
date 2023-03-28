@@ -42,6 +42,8 @@ public interface BoardMapper {
 	// [검색] 게시글 개수
 	public int countWithKeyword(@Param("option") Option option) throws Exception;
 	
+	// 게시글 조회수
+	public int joinCntUp(int boardNo) throws Exception;
 }
 
 

@@ -26,8 +26,8 @@
 
 	<!-- 회원가입 -->
 	<insert id="join">
-		INSERT INTO users ( user_id, user_pw, nickname, name, email )
-		VALUES ( #{userId}, #{userPw}, #{nickname}, #{name}, #{email})
+		INSERT INTO users ( user_id, user_pw, name, nickname, email )
+		VALUES ( #{userId}, #{userPw}, #{name}, #{nickname}, #{email})
 	</insert>
 	
 	<!-- 권한등록 -->
