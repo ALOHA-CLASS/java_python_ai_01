@@ -35,6 +35,13 @@
 		INSERT INTO user_auth ( user_id, auth )
 		VALUES ( #{userId}, #{auth} )
 	</insert>
+	
+	<!-- 권한등록 -->
+	<insert id="insertSocial">
+		INSERT INTO user_social ( user_id, social_type, access_token )
+		VALUES ( #{userId}, #{socialType}, #{accessToken} )
+	</insert>
+	
 	<!-- 아이디 조회 -->
 	<select id="select" resultType="Users">
 		SELECT *
