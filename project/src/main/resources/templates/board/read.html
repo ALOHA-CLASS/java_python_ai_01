@@ -35,6 +35,9 @@
 		
 		<table width=500>
 			<tr>
+				<td><b>구분</b></td>
+				<td th:text="${board.tag}"></td>
+			<tr>
 				<td colspan=4 th:style="${'font-size:25px'}">
 					<label th:text="${board.title}"></label>
 				</td>
@@ -136,6 +139,7 @@
 	
 		let form = document.getElementById("form")
 		let boardNo = "[[${board.boardNo}]]"
+		const csrfToken = document.getElementById('csrf-token').value;
 		
 		// 문서 준비 이벤트
 		$(function() {

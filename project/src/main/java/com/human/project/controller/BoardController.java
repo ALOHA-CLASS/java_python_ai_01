@@ -40,12 +40,11 @@ public class BoardController {
 	@GetMapping("/list")
 	public String list(Model model, Option option, Page page) throws Exception {
         
-
 		// 게시글 목록 요청
 		List<Board> boardList = boardService.list(page, option);
+
 		
-//		log.info("boardList : " +boardList);
-		
+
 		// 게시글 목록 모델에 등록
 		model.addAttribute("boardList", boardList);
 		model.addAttribute("page", page);
@@ -147,10 +146,12 @@ public class BoardController {
 		
 		int result = boardService.update(board);
 		
+		int boardNo = board.getBoardNo();
+		
 		if( result > 0 ) 	log.info("게시글 수정 성공...");
 		else 				log.info("게시글 수정 실패...");
 		
-		return "redirect:/board/list";
+		return "redirect:/board/read?boardNo="+boardNo;
 	}
 	
 	// 게시글 삭제

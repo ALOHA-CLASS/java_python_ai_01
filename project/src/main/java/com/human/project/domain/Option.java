@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class Option {
+	String tag;			// 태그
 	String keyword;		// 검색어
 	int optionCode;
 	// 0 : 전체
@@ -15,6 +16,7 @@ public class Option {
 	
 	public Option() {
 		this.keyword = "";
+		this.tag = "";
 	}
 	
 }
