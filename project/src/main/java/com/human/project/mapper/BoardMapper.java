@@ -44,6 +44,8 @@ public interface BoardMapper {
 	
 	// 게시글 조회수
 	public int joinCntUp(int boardNo) throws Exception;
+
+
 }
 
 

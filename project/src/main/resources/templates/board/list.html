@@ -60,6 +60,10 @@
                 <!-- csrf 토큰 -->
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                 <p th:text="|${page.totalCount} 건의 게시글이 조회되었습니다.|" align="left"></p>
+                <a href="list">[전체목록]</a>
+                <a href="list?tag=국내">[국내]</a>
+                <a href="list?tag=해외">[해외]</a>
+                <a href="list?tag=기타">[기타]</a>
                 <div align="right">
                     <!-- 페이징 옵션 -->
                     <p>게시물
@@ -87,6 +91,7 @@
                         </th:block>
 						<thead>
                         	<th width="50">번호</th>
+                        	<th width="50">구분</th>
                         	<th width="300">제목</th>
                         	<th width="100">작성자</th>
                         	<th width="50">조회수</th>
@@ -105,11 +110,14 @@
                                 <td><input type="checkbox" name="boardNo" th:value=${board.boardNo} class="input-check"></td>
                             </th:block>
                             <td width="50" align="center" th:text=${board.boardNo}></td>
+                            <td width="70" align="center">
+                            	<a th:href="|/board/list?tag=${board.tag}|" th:text=${board.tag}></a>
+                            </td>
                             <td width="300" align="left">
                                 <a th:href="|/board/read?boardNo=${board.boardNo}|" th:text=${board.title}></a>
                             </td>
                             <td width="100" align="center" th:text=${board.nickname}></td>
-                            <td align="center" th:text=${board.joinCnt}></td>
+                            <td width="60" align="center" th:text=${board.joinCnt}></td>
                             <!-- ${} : th: 속성 안에서 모델에 등록된 변수의 값을 가져오는 기호 -->
                             <!--
                                 ※ LocalDatTime 타입 날짜 포맷
@@ -119,7 +127,7 @@
                                 ※ Date 타입 날짜 포맷
                                 th:text="${ #dates.format(날짜 데이터, '날짜 형식') }"
                              -->
-                            <td width="200" align="center">
+                            <td width="180" align="center">
                                 <span th:text="${ #temporals.format(board.regDate, 'yyyy-MM-dd HH:mm:ss') }"></span>
                             </td>
                         </tr>
@@ -232,6 +240,9 @@
                           /* + "&keyword=" + keyword */
                           + "&keyword=" + option.keyword
                           + "&optionCode=" + option.optionCode
+                          + "&optionCode=" + option.optionCode
+                          + "&tag=" + option.tag
+                          
         }
         function btnBoardDel(){
             let chkarr = [];
@@ -261,6 +272,7 @@
                 },
             })
         }
+
     </script>
 </body>
 </html>
