@@ -194,8 +194,6 @@
 		// 댓글 수정
 		function updateComment(comment) {
 
-			var token = $("meta[name='_csrf']").attr("content");
-			var header = $("meta[name='_csrf_header']").attr("content");
 			
 			$.ajax({
 				url:	'/comment/update',		// 요청 경로
@@ -203,10 +201,7 @@
 				data:  	comment,					// 전송할 데이터
 				dataType: "text",
 				
-				beforeSend : function(xhr) {
-					// csrf 토큰을 헤더정보에 추가
-					xhr.setRequestHeader(header, token)
-				},
+
 				// 서버로부터 정상적인 응답
 				success: function(data) {
 					// 댓글 목록 갱신

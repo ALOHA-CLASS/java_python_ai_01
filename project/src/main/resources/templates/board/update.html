@@ -7,11 +7,11 @@
 <body>
 	<h1>글수정</h1>
 	
-	<form action="/board/delete" method="post" id="form">
+	<form action="/board/update" method="post" id="form">
 		<!-- csrf 토큰 -->
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 		<input type="hidden" name="boardNo" th:value="${board.boardNo}" readonly>
-		<!-- <input type="hidden" name="userId" th:value="${user.userId}" readonly>  -->
+		<input type="hidden" name="userId" th:value="${board.userId}" readonly>
 		
 		<table>
 			<tr>
@@ -35,32 +35,26 @@
 		</table>
 		<div>
 			<span th:if="${board.userId == #authentication.principal.username}">
-				<button type="button" onclick="moveUpdate()">수정</button> 
-				<button type="button" onclick="boardDelete()">삭제</button>
+				<button type="button" onclick="boardUpdate()">수정</button>
 			</span>
 			<button type="button" onclick="moveList()">목록</button>
 		</div>
 	
 	</form>
 	
-	
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 	<script>
 	
-		let form = document.  ("form")	
+		let form = document.getElementById("form")	
 		let boardNo = "[[${board.boardNo}]]"
 	
 		function boardUpdate() {
-
+			alert('글이 수정되었습니다')
 			form.action = "/board/update"	// 요청 경로 변경
 			form.submit()					// form 전송
 		}
 		
-		function boardDelete() {
-			let check = confirm("정말로 삭제하시겠습니까?")
-			if( check ) {
-				form.submit()
-			}
-		}
+
 		
 		function moveList() {
 			location.href = "/board/list"	
