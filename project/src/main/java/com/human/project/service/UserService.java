@@ -3,6 +3,7 @@ package com.human.project.service;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.human.project.domain.UserAuth;
 import com.human.project.domain.UserSocial;
@@ -36,7 +37,27 @@ public interface UserService {
 	// 회원 목록
 	public List<Users> list() throws Exception;
 
+	// 회원 수정
+	public int update(Users user) throws Exception;
+	
 	// 회원 삭제
+	public int delete(Users user) throws Exception;
+
+	// 선택 회원 삭제
 	public int delete(List<String> userNoList) throws Exception;
+
+
+	// 아이디 찾기
+	public Users findId(Users user) throws Exception;
+
+	// 비밀번호 찾기
+	public Users findPw(Users user) throws Exception;
+
+	// 임시 비밀번호 발급
+	public int newPw(Users user) throws Exception;
+
+
+	// 모든 쿠키 삭제
+	public boolean deleteCookies(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
 }

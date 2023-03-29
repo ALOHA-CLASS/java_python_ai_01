@@ -1,5 +1,6 @@
 package com.human.project.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-@RequestMapping("/Comment")
+@RequestMapping("/comment")
 public class CommentController {
 	
 	@Autowired
@@ -24,20 +25,28 @@ public class CommentController {
 
 	// 댓글 목록
 	@GetMapping("/list")
-	public String list(Model model, int boardNo) throws Exception {
+	public String list(Model model, Principal principal, int boardNo) throws Exception {
+
+		if (principal != null) {
+			String userId = principal.getName();
+			model.addAttribute("userId", userId);
+	        log.info("userId : "+userId);
+		}
 		
 		List<Comment> commentList = commentService.list(boardNo);
 		model.addAttribute("commentList", commentList);
 		
 
-		return "/comment/list";
+		return "comment/list";
 	}
 	
 	// 댓글 등록
 	@PostMapping("/insert")
-	public String insert(Model model, Comment comment) throws Exception {
+	public String insert(Model model, Comment comment, Principal principal) throws Exception {
 		
-		int result = commentService.insert(comment);
+		String userId = principal.getName();
+		
+		int result = commentService.insert(comment, userId);
 		
 		if(result > 0) 			log.info("댓글 등록 성공...");
 		else		 			log.info("댓글 등록 실패...");
@@ -46,7 +55,7 @@ public class CommentController {
 		List<Comment> commentList = commentService.list(boardNo);
 		model.addAttribute("commentList", commentList);
 		
-		return "/comment/list";
+		return "comment/list";
 	}
 	
 	// 댓글 수정
@@ -62,7 +71,8 @@ public class CommentController {
 		List<Comment> commentList = commentService.list(boardNo);
 		model.addAttribute("commentList", commentList);
 		
-		return "/Comment/list";
+
+		return "comment/list";
 	}
 	
 	
@@ -81,15 +91,20 @@ public class CommentController {
 		List<Comment> commentList = commentService.list(boardNo);
 		model.addAttribute("commentList", commentList);
 		
-		return "/Comment/list";
+		return "comment/list";
 	}
 	
 	// 답글
 	@PostMapping("/answer/insert")
-	public String insertAnswer(Model model, Comment comment) throws Exception {
+	public String insertAnswer(Model model, Comment comment, Principal principal) throws Exception {
+		
+			String userId = principal.getName();
+	        log.info("userId : "+userId);
+		
+	    int result = commentService.insertAnswer(comment,userId);
 		
 		// 답글 등록 요청
-		int result = commentService.insertAnswer(comment);
+		
 		
 		if(result > 0) 			log.info("답글 등록 성공...");
 		else		 			log.info("답글 등록 실패...");
@@ -99,7 +114,7 @@ public class CommentController {
 		List<Comment> commentList = commentService.list(boardNo);
 		model.addAttribute("commentList", commentList);
 
-		return "/comment/list";
+		return "comment/list";
 	}
 	
 	

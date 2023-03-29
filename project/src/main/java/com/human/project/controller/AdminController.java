@@ -33,14 +33,15 @@ public class AdminController {
 		
 		model.addAttribute("usersList",usersList);
 		
-		return "/admin/index";
+		return "admin/index";
+		
 	}
 
 	@GetMapping("/test")
 	public String tset() {
 		log.info("테스트... (삭제 예정)");
 
-		return "/admin/test";
+		return "admin/test";
 	}
 
 }

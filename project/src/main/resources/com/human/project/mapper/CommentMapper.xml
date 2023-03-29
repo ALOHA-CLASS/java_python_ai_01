@@ -12,29 +12,17 @@
 	<resultMap id="commentMap" type="Comment">
 
 		<id column="comment_no" property="commentNo"/>
-		
 		<result column="board_no" property="boardNo"/>
-
 		<result column="user_id" property="userId"/>
-		
-		<result column="user_nick" property="userNick"/>
-
+		<result column="nickname" property="nickname"/>
 		<result column="content" property="content"/>
-		
 		<result column="group_no" property="groupNo"/>
-		
 		<result column="parent_no" property="parentNo"/>
-		
 		<result column="depth_no" property="depthNo"/>
-		
 		<result column="seq_no" property="seqNo"/>
-		
 		<result column="sub_cnt" property="subCnt"/>
-		
 		<result column="reg_date" property="regDate"/>
-		
 		<result column="upd_date" property="updDate"/>
-		
 		<collection property="subList" resultMap="subCommentMap"/>
 
 	</resultMap>
@@ -43,25 +31,16 @@
 	<resultMap id="subCommentMap" type="Comment">
 
 		<id column="sub_comment_no" property="commentNo"/>
-		
 		<result column="sub_board_no" property="boardNo"/>
-		
 		<result column="sub_user_id" property="userId"/>
-		
+		<result column="sub_nickname" property="nickname"/>
 		<result column="sub_content" property="content"/>
-		
 		<result column="sub_group_no" property="groupNo"/>
-		
 		<result column="sub_parent_no" property="parentNo"/>
-		
 		<result column="sub_depth_no" property="depthNo"/>
-		
 		<result column="sub_seq_no" property="seqNo"/>
-		
 		<result column="sub_sub_cnt" property="subCnt"/>
-		
 		<result column="sub_reg_date" property="regDate"/>
-		
 		<result column="sub_upd_date" property="updDate"/>
 
 	</resultMap>
@@ -82,7 +61,7 @@
 			      ,r2.sub_cnt sub_sub_cnt
 			      ,r2.reg_date 	sub_reg_date
 			      ,r2.upd_date 	sub_upd_date
-			      ,u.user_nick
+			      ,u.nickname
 			  FROM users u, comment r1
 			       LEFT JOIN (
 								SELECT *
@@ -114,7 +93,7 @@
 			      ,r2.reg_date 	sub_reg_date
 			      ,r2.upd_date 	sub_upd_date
 			      ,r2.sub_cnt sub_sub_cnt
-			      ,u.user_nick
+			      ,u.nickname
 			  FROM users u, comment r1
 			       LEFT JOIN (
 								SELECT *
@@ -132,25 +111,54 @@
 	</select>
 
 	<!-- 댓글 등록 -->
-	<insert id="insert">INSERT INTO comment ( user_id, content, board_no, group_no, parent_no, depth_no, seq_no )VALUES ( #{user_id}, #{content}, #{boardNo}, #{groupNo}, #{parentNo}, #{depthNo}, #{seqNo} ) </insert>
+	<insert id="insert">
+		INSERT INTO comment ( user_id, content, board_no, group_no, parent_no, depth_no, seq_no )
+		VALUES ( #{userId}, #{content}, #{boardNo}, #{groupNo}, #{parentNo}, #{depthNo}, #{seqNo} ) 
+	</insert>
 
 	<!-- 댓글 수정 -->
-	<update id="update">UPDATE commentSET user_id = #{user_id},content = #{content},group_no = #{groupNo},parent_no = #{parentNo},depth_no = #{depthNo},seq_no = #{seqNo},upd_date = now()WHERE comment_no = #{commentNo} </update>
+	<update id="update">
+		UPDATE comment 
+		SET user_id = #{userId}, 
+			content = #{content}, 
+			group_no = #{groupNo}, 
+			parent_no = #{parentNo},
+			depth_no = #{depthNo},
+			seq_no = #{seqNo},
+			upd_date = now() 
+		WHERE comment_no = #{commentNo} 
+	</update>
 
 	<!-- 댓글 삭제 -->
-	<delete id="delete">DELETE FROM commentWHERE comment_no = #{commentNo} </delete>
+	<delete id="delete">
+		DELETE FROM comment WHERE comment_no = #{commentNo} 
+	</delete>
 
 	<!-- [최댓값] - 댓글번호 -->
-	<select id="maxCommentNo" resultType="int">SELECT MAX(comment_no)FROM comment </select>
+	<select id="maxCommentNo" resultType="int">
+		SELECT MAX(comment_no) FROM comment 
+	</select>
 
 	<!-- 순서번호 갱신 -->
 	<!-- 같은 그룹번호를 갖은 댓글들 중, 해당 댓글에 지정한 순서번호보다 크거나 같은 경우면, +1 증가 -->
-	<update id="syncSeqNo">UPDATE commentSET seq_no = seq_no + 1WHERE group_no = #{groupNo}AND seq_no >= #{seqNo} </update>
+	<update id="syncSeqNo">
+		UPDATE comment 
+		   SET seq_no = seq_no + 1 
+		 WHERE group_no = #{groupNo} 
+		   AND seq_no >= #{seqNo} 
+	</update>
 
 	<!-- 부모댓글의 자식개수 갱신 -->
-	<update id="syncSubCnt">UPDATE commentSET sub_cnt = sub_cnt + #{no}WHERE comment_no = #{parentNo} </update>
+	<update id="syncSubCnt">
+		UPDATE comment SET sub_cnt = sub_cnt + #{no} WHERE comment_no = #{parentNo} 
+	</update>
 
 	<!-- 댓글 조회 -->
-	<select id="select" resultType="Comment">SELECT *FROM commentWHERE comment_no = #{commentNo} </select>
+	<select id="select" resultType="Comment">
+		SELECT c.*, u.nickname 
+		  FROM comment c, users u
+		 WHERE c.comment_no = #{commentNo}
+		   AND c.user_id=u.user_id
+	</select>
 
 </mapper>

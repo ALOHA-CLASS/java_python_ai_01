@@ -135,6 +135,13 @@ public class BoardServiceImpl implements BoardService {
 		return boardList;
 	}
 
+	@Override
+	public int joinCntUp(int boardNo) throws Exception {
+		int result = boardMapper.joinCntUp(boardNo);
+		
+		return result;
+	}
+
 
 }
 

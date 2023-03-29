@@ -6,12 +6,19 @@ package com.human.project.controller;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +31,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.human.project.domain.Chart;
 import com.human.project.domain.Users;
 import com.human.project.mapper.ChartRepository;
+import com.human.project.mapper.UserMapper;
 import com.human.project.service.UserService;
 import com.human.project.util.ValidationUtil;
 
@@ -41,6 +49,12 @@ public class HomeController {
 
 	@Autowired
     private ChartRepository chartRepository;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+
+	@Autowired
+	private UserMapper userMapper;
 
 
 	
@@ -73,7 +87,7 @@ public class HomeController {
         model.addAttribute("profile_image", profile_image);
         model.addAttribute("thumbnail_image", thumbnail_image);
       }
-		return "/index";
+		return "index";
 	}
 	
 	//로그인
@@ -90,7 +104,7 @@ public class HomeController {
 		model.addAttribute("userId", userId);
 		model.addAttribute("rememberId", rememberId);	
 		
-		return "/login";
+		return "login";
 	}
 	
 	// 회원가입 화면
@@ -98,7 +112,7 @@ public class HomeController {
 	public String join(Users user) {
 		log.info("회원가입 화면 ..");
 		
-		return "/join";
+		return "join";
 	}
 	
 	@GetMapping("/chart")
@@ -115,25 +129,22 @@ public class HomeController {
 	 * @throws Exception
 	 */
 	
-	@PostMapping("/join")
-	public String joinPro(@Validated Users user, 
-						   BindingResult bindingResult, 
-						   HttpServletRequest request) throws Exception {		
+	 @PostMapping("/join")
+	public String joinPro(@Validated Users user, BindingResult bindingResult, HttpServletRequest request) throws Exception {
 		
 		// 유효성 검증 오류확인
 		if(validationUtil.joinCheckError(bindingResult, user)) {
 			log.info("유효성 검증 오류..");
-			return "/join";
+			return "join";
 		}
 		
 		// 회원가입 처리
 		int result = userService.join(user);
-		
 		boolean isAuthentication = false;
 		if(result > 0 ) {
 			log.info("회원가입 성공..");
 			// 바로 로그인
-			userService.tokenAuthentication(user, request);
+			isAuthentication = userService.tokenAuthentication(user, request);
 		}
 		else {
 			log.info("회원가입 실패..");
@@ -150,18 +161,52 @@ public class HomeController {
     //아이디&비밀번호 찾기
     @GetMapping("/find")
     public String doFind() {
-        return "/find";
+        return "find";
     }
+
+	// 아이디 찾기
+	@PostMapping("/find_id")
+	public ResponseEntity<String> findId(Users user) throws Exception {
+	
+		Users selectedId = userService.findId(user);
+		String findId = selectedId.getUserId();
+		
+		if(selectedId == null) {
+			return new ResponseEntity<>("fail", HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity<>(findId, HttpStatus.OK);
+		}
+
+	}
+	
+	// 비밀번호 찾아서 임시 비밀번호 발급
+	@PostMapping("/find_password")
+	public ResponseEntity<String> findPw(Users user) throws Exception {
+		
+		Users selectedPw = userService.findPw(user);
+		UUID uuid = UUID.randomUUID();
+		String uuidPw = uuid.toString().substring(0, 15);
+		// log.info("비밀번호@@@@@@@@@@@@@@@@@@@@" + uuidPw);
+
+		if(selectedPw == null) {
+            return new ResponseEntity<>("fail", HttpStatus.OK);
+        }
+        else {
+			// 비밀번호 암호화
+			// newPw 암호화 - UPDATE users user-pw 
+			String newPw = passwordEncoder.encode(uuidPw);
+			user.setUserPw(newPw);
+			userMapper.newPw(user);
+            return new ResponseEntity<>(uuidPw, HttpStatus.OK);
+        }
+
+	}
     
     // 아이디 찾기
 	@GetMapping("/main")
 	public String community() {
-		return "/main";
+		return "main";
 	}
-	
-	
-	
-
-
 
 }

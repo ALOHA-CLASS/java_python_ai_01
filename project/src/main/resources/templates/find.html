@@ -1,74 +1,189 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                layout:decorate="~{ui/user/layouts/main_template}">
 <head>
-	<meta charset="UTF-8">
-	<title>아이디/비밀번호 찾기</title>
+    <meta charset="UTF-8">
+    <title>아이디/비밀번호 찾기</title>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <style>
+        h1 {
+            color: #FFFFFF;
+            font-family: 'Dongle', sans-serif;
+            font-size: 70px;
+        }
+        body {
+            color: white;
+            text-align: center;
+        }
+        #findId {
+            color: rgb(204, 19, 173);
+            align-items: center;
+        }
+        .tabs {
+        margin-top: 30px;
+        padding-bottom: 40px;
+        padding-left: 180px;
+        background-color: transparent;
+        box-shadow: 0 0 10px #27292A;
+        width: 700px;
+        margin: auto;
+        align-items: center;
+         font-family: 'Dongle', sans-serif;
+        font-size: 30px;
+        }
+        /* 탭 스타일 */
+        .tab_item {
+        width: calc(100%/2);
+        height: 50px;
+        border-bottom: 4px solid #CFCFCE;
+        background-color: #383638;
+        line-height: 50px;
+        font-size: 16px;
+        text-align: center;
+        color: #FFFFFF;
+        display: block;
+        float: left;
+        text-align: center;
+        font-weight: bold;
+        font-size: 20px;
+        transition: all 0.2s ease;
+        cursor: pointer;
+        }
+        .tab_item:hover {
+        opacity: 0.75;
+        }
+        /* 라디오 버튼 UI삭제*/
+        input[name="findOption"] {
+        display: none;
+        }
+        /* 선택 된 탭 콘텐츠를 표시 */
+        #all:checked ~ #all_content,
+        #programming:checked ~ #programming_content,
+        #design:checked ~ #design_content {
+        display: block;
+        }
+        /* 선택된 탭 스타일 */
+        .tabs input:checked + .tab_item {
+        background-color: #CFCFCE;
+        color: black;
+        }
+        .input-underline {
+            background-color: transparent;
+            border: 0;
+            border-bottom: 2px solid #FFFFFF;
+            border-radius: 0;
+            width: 250px;
+            color: white;
+            font-family: 'Dongle', sans-serif;
+            font-size: 30px;
+            align-items: center;
+        }
+        .input-underline:focus {
+            color: white;
+            background-color: transparent;
+            border: 0;
+            border-bottom: 2px solid #FFFFFF;
+            outline: 0;
+            box-shadow: 0 0 0 0.25rem transparent;
+            font-family: 'Dongle', sans-serif;
+            font-size: 30px;
+        }
+        .btn {
+            font-size: 25px;
+            color: #fff;
+            background-color: black;
+            padding: 10px 10px;
+            display: inline-block;
+            border-radius: 25px;
+            font-weight: 500;
+            text-transform: capitalize;
+            letter-spacing: 0.3px;
+            transition: all .3s;
+            overflow: hidden;
+        }
+        .btn:hover {
+            background-color: #fff;
+            color: #D204A9;
+        }
+        .inner {
+            width: 400px;
+        }
+    </style>
 </head>
-<body>
-	<h1>아이디/비밀번호 찾기</h1>
-	<input type="radio" name="findOption" id="findId"> 아이디 찾기
-	<input type="radio" name="findOption" id="findPw"> 비밀번호 찾기
-	<form method="POST" action="/find">
-    	<div id="findIdForm" style="display:none;">
-        	<table>
-        	<!-- 아이디 찾기 폼 -->
-           	 <tr>
-	                <td>이름</td>
-	                <td>
-	                <input type="text" name="name" id="find_name">
-	                </td>
-            	</tr>
-	            <tr>
-	                <td>이메일</td>
-	                <td>
-	                    <input type="email" name="email" id="find_email">
-	                </td>
-	            </tr>
-	            <tr>
-	                <td>핸드폰 번호</td>
-	                <td>
-	                    <input type="text" name="phoneNumber" id="find_mobile">
-	                </td>
-	            </tr>
-	            <tr>
-	                <td>
-	                    <input type="button" value="아이디 찾기" id="btn_find_id">
-	                </td>
-	            </tr>
-	        </table>
-    	</div>
-	</form>
+<body layout:fragment="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="page-content">
+                    <h1>ID / PW 찾기</h1>
+                    <br><br>
+                    <div class="tabs">
+                        <div class="inner">
+                            <input type="radio" name="findOption" id="findId" checked>
+                            <label class="tab_item" for="findId">아이디 찾기</label>
+                            <input type="radio" name="findOption" id="findPw">
+                            <label class="tab_item" for="findPw">비밀번호 찾기</label>
+                            <form method="POST" action="/find_id">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                                <div id="findIdForm" >
+                                    <table>
+                                        <!-- 아이디 찾기 폼 -->
+                                        <tr>
+                                            <td>이름</td>
+                                            <td>
+                                            <input type="text" name="name" id="name" class="form-control input-underline">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>이메일</td>
+                                            <td>
+                                                <input type="email" name="email" id="email" class="form-control input-underline">
+                                            </td>
+                                        </tr>
+                                    </table>
+                                        <br>
+                                        <div class="d-flex justify-content-end">
+                                            <input type="button" value="아이디 찾기" id="btn_find_id" class="btn">
+                                        </div>
+                                </div>
+                                </form>
+                                <form method="POST" action="/find_password">
+                                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 
-<form method="POST" action="/find_password">
-    <div id="findPasswordForm" style="display:none;">
-        <!-- 비밀번호 찾기 폼 -->
-        <table>
-            <tr>
-                <td>아이디</td>
-                <td>
-                    <input type="text" name="userid" id="find_id">
-                </td>
-            </tr>
-            <tr>
-                <td>이메일</td>
-                <td>
-                    <input type="email" name="email" id="find_email_">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <input type="button" value="비밀번호 찾기" id="btn_find_password">
-                </td>
-            </tr>
-        </table>
+                                    <div id="findPasswordForm" style="display:none;">
+                                        <!-- 비밀번호 찾기 폼 -->
+                                        <table>
+                                            <tr>
+                                                <td>아이디</td>
+                                                <td>
+                                                <input type="text" name="userId" id="userId" class="form-control input-underline">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>이메일</td>
+                                                <td>
+                                                    <input type="email" name="email" id="email" class="form-control input-underline">
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <br>
+                                        <div class="d-flex justify-content-end">
+                                        <input type="button" value="비밀번호 찾기" id="btn_find_password" class="btn">
+                                        </div>
+                                    </div>
+                                </form>
+                                <br><br>
+                        <a href='/' class="move">홈으로</a>
+                        &nbsp;&nbsp;
+                        <a href='/login'>로그인하기</a>
+                        </div>
+                </div>
+            </div>
+        </div>
     </div>
-</form>
-<a href='/'>홈으로</a>
-&nbsp;&nbsp;
-<a href='/login'>로그인하기</a>
-</body>
-
+</div>
 <script src='https://code.jquery.com/jquery-3.4.1.js'></script>
 <script>
 $(document)
@@ -77,30 +192,83 @@ $(document)
     document.getElementById("findIdForm").style.display = "block";
     document.getElementById("findPasswordForm").style.display = "none";
 })
-
 // 비밀번호 찾기 라디오 버튼을 눌렀을 때 id테이블은 안보이는 메소드
 .on('click', '#findPw', function(){
     document.getElementById("findPasswordForm").style.display = "block";
     document.getElementById("findIdForm").style.display = "none";
 })
-
 // 아이디 찾는 코드
 .on('click', '#btn_find_id', function(){
-    if($("#find_name").val()=="" || $("#find_mobile").val()=="" || $("#find_email").val()=="") {
+    if($("#name").val()=="" || $("#email").val()=="") {
         alert("빈칸을 확인해주세요.");
         return false;
     }
     else {
-        $.post('/user/find_id', {name:$('#find_name').val(), phoneNumber:$('#find_mobile').val(), email:$('#find_email').val()}, function(data){
-            if(data=="fail") {
-                alert("정보가 맞지 않습니다. 다시 시도해주세요.");
-                return document.location="/find";
-            }
-            else {
+        // $.post('/find_id', {name:$('#name').val(), email:$('#email').val()}, function(data){
+        //     if(data=="fail") {
+        //         alert("정보가 맞지 않습니다. 다시 시도해주세요.");
+        //         return document.location="/find";
+        //     }
+        //     else {
+        //         alert("아이디는 " + data + " 입니다.");
+        //     }
+        // }, 'text');
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+        $.ajax({
+            url: '/find_id',        // 요청 경로
+            type: 'post',               // 메소드 방식(get, post, put 등)
+            data: {name : $('#name').val(), email : $('#email').val()},             // 전송할 데이터
+            beforeSend : function(xhr) {
+                xhr.setRequestHeader(header, token)
+            },
+            // 서버로부터 정상적인 응답
+            success: function(data){
                 alert("아이디는 " + data + " 입니다.");
+            },
+            // 에러
+            error: function(request, status, error){
+                alert('정보가 맞지 않습니다. 다시 시도해주세요.')
             }
-        }, 'text');
+        })
+    }
+})
+// 비밀번호 찾는 코드
+.on('click', '#btn_find_password', function(){
+    if($('#userId').val() == "" || $('#email').val() =="") {
+        alert("빈칸을 확인해주세요.");
+        return false;
+    }
+    else {
+        // $.post('/find_password', {userId:$('#find_id').val(), email:$('#find_email_').val()}, function(data){
+        //     if(data == "fail") {
+        //         alert("정보가 맞지 않습니다. 다시 시도해주세요.");
+        //         return document.location="/find";
+        //     }
+        //     else {
+        //         alert("임시 비밀번호는 " + data + " 입니다.");
+        //     }
+        // }, 'text');
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+        $.ajax({
+            url: '/find_password',      // 요청 경로
+            type: 'post',               // 메소드 방식(get, post, put 등)
+            data: {userId : $('#userId').val(), email : $('#email').val()},             // 전송할 데이터
+            beforeSend : function(xhr) {
+                xhr.setRequestHeader(header, token)
+            },
+            // 서버로부터 정상적인 응답
+            success: function(data){
+                alert("임시 비밀번호는 " + data + " 입니다.");
+            },
+            // 에러
+            error: function(request, status, error){
+                alert('정보가 맞지 않습니다. 다시 시도해주세요.')
+            }
+        })
     }
 })
 </script>
+</body>
 </html>
