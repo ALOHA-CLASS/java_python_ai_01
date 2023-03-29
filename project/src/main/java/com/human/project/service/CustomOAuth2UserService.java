@@ -32,16 +32,22 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 	@Autowired
 	private UserMapper userMapper;
 	
+//	@Autowired
+//    private RestTemplate restTemplate;
+	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+		
 	
 		log.info("loadUser() ...");
 	
 		OAuth2UserService delegate = new DefaultOAuth2UserService();
 		OAuth2User oAuth2User = delegate.loadUser(userRequest);
+		
+//		RestTemplate restTemplate = new RestTemplate();
 		
 		String registrationId = userRequest.getClientRegistration().getRegistrationId();
 		String userNameAttributeName= userRequest.getClientRegistration().getProviderDetails()
@@ -57,11 +63,12 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 		
 		String nameAttributeKey = attributes.getNameAttributeKey();
 		String name = attributes.getName();
-		String nickname = attributes.getNickname();
+		// String nickname = attributes.getNickname();
 		String email = attributes.getEmail();
 		String picture = attributes.getPicture();
-//		String id = attributes.getId();
+		String userId = attributes.getId();
 		String socialType = "";
+		String accessToken = attributes.getAccessToken();
 		
 		if("naver".equals(registrationId)) {
         	socialType = "naver";
@@ -74,11 +81,12 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         }
 
 		log.info("loaduser - nameAttributeKey =  " + nameAttributeKey);
-//		log.info("loaduser - id =  " + id);
+		log.info("loaduser - id =  " + userId);
 		log.info("loaduser - socialType =  " + socialType);
 		log.info("loaduser - name =  " + name);
 		log.info("loaduser - email =  " + email);
 		log.info("loaduser - picture =  " + picture);
+		log.info("loaduser - accesstoken =  " + accessToken);
 		
 		if( name == null ) name = "";
 		if( email == null ) email = "";
@@ -90,11 +98,11 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 		UUID password = UUID.randomUUID();
 		String userPw = passwordEncoder.encode(password.toString());
 		
-		UUID userid = UUID.randomUUID();
-		String userId = userid.toString();
+//		UUID userid = UUID.randomUUID();
+//		String userId = userid.toString();
 		
 		UUID kakaoNickname = UUID.randomUUID();
-		String nickName = kakaoNickname.toString();
+		String nickName = kakaoNickname.toString().substring(0, 12);
 				
 		user.setUserId(userId); 
 		user.setUserPw(userPw);
@@ -104,13 +112,14 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 		userAuth.setUserId(userId);
 		userAuth.setAuth("ROLE_USER");
 		userSocial.setSocialType(socialType);
+		userSocial.setAccessToken(accessToken);
 		
 		Users result1 = null;
 		UserSocial result2 = null;
 		
 		try {
 			result1 = userMapper.selectByEmail(user);			
-			result2 = userMapper.selectByEmail2(email);			
+//			result2 = userMapper.selectByEmail2(email);			
 			log.info("result1: " + result1);
 			log.info("result2: " + result2);
 		} catch (Exception e) {
@@ -127,11 +136,14 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 				userMapper.insertAuth(userAuth);
 				userMapper.insertSocial(userSocial);
 				log.info("join, insertAuth, insertSocial 성공");
+				log.info("user: " + user);
+				log.info("user: " + userAuth);
+				log.info("user: " + userSocial);
 			} catch (Exception e) {
 				log.info("join, insertAuth, insertSocial 실패");
 				e.printStackTrace();
 			}
-		} else if( result2 == null ) {
+		} else {
 			try {
 				userId = userMapper.selectByEmail(user).getUserId();
 				userSocial.setUserId(userId);
