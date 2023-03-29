@@ -13,7 +13,7 @@ public interface CommentService {
 	public List<Comment> list(int boardNo) throws Exception;
 	
 	// 댓글 등록
-	public int insert(Comment comment) throws Exception;
+	public int insert(Comment comment, String userId) throws Exception;
 	
 	// 댓글 수정
 	public int update(Comment comment) throws Exception;
@@ -22,7 +22,9 @@ public interface CommentService {
 	public int delete(int commentNo) throws Exception;
 	
 	// 답글 등록
-	public int insertAnswer(Comment comment) throws Exception;
+//	public int insertAnswer(Comment comment) throws Exception;
+	
+	public int insertAnswer(Comment comment, String userId) throws Exception;
 	
 	
 }

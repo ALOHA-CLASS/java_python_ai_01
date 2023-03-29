@@ -11,7 +11,7 @@ public class Comment {
 	private int commentNo;
 	private int boardNo;
 	private String userId;
-	private String userNick;
+	private String nickname;
 	private String content;
 	private int groupNo;
 	private int parentNo;

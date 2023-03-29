@@ -40,17 +40,8 @@
 	<select id="select" resultType="Users">
 		SELECT *
 		  FROM users
-		 WHERE user_id = #{userId} 
-	</select>
-	
-	<!-- 아이디 찾기 -->
-	<select id="findId">
-		SELECT *
-		FROM users
-		WHERE name = #{name} and email = #{email}
-
-		  FROM users
-		 WHERE user_id = #{userId} 
+		 WHERE user_id = #{userId}
+		 	OR nickname = #{nickname}
 	</select>
 	
 	<!-- 회원 목록 -->
@@ -63,11 +54,24 @@
 	  ORDER BY u.user_no
 	</select>
 
+	<!-- 회원 수정 -->
+	<update id="update">
+		UPDATE 	users
+		SET		nickname = #{nickname},
+				name = #{name},
+				email = #{email},
+				upd_date = now()
+		WHERE 	user_id = #{userId}
+	</update>
+
+
 	<!-- 회원 삭제 -->
 	<delete id="delete">
-		DELETE FROM users
-		 WHERE user_no in ( ${noList} )
+		DELETE 
+		FROM users
+		WHERE  user_id = #{userId}
 	</delete>
+
 	<!-- 아이디 조회 -->
 	<select id="selectSocial" resultType="UserSocial">
 		SELECT *
@@ -96,7 +100,35 @@
 		WHERE users.email = #{email} 
 	</select>
 
+	<!-- 아이디 찾기 -->
+	<select id="findId" resultType="Users">
+		SELECT *
+		  FROM users
+		 WHERE name = #{name} and email = #{email} 
+	</select>
+
+	<!-- 비밀번호 찾기 -->
+	<select id="findPw" resultType="Users">
+		SELECT *
+		  FROM users
+		 WHERE user_id = #{userId} and email = #{email} 
+	</select>
+
+
+	<!-- 임시 비밀번호 받기 -->
+	<update id="newPw">
+		UPDATE users
+		SET user_pw = #{userPw}
+		WHERE user_id = #{userId}
+	</update>
+
+	<!-- 회원 삭제 -->
+	<delete id="deleteSelectedUser">
+		DELETE FROM users
+		 WHERE user_no in ( ${noList} )
+	</delete>
+
+
 
 
 </mapper>
-
