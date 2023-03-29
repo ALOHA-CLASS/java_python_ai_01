@@ -34,8 +34,10 @@
 			</tr>
 		</table>
 		<div>
-			<button type="button" onclick="boardUpdate()">수정</button>
-			<button type="button" onclick="boardDelete()">삭제</button>
+			<span th:if="${board.userId == #authentication.principal.username}">
+				<button type="button" onclick="moveUpdate()">수정</button> 
+				<button type="button" onclick="boardDelete()">삭제</button>
+			</span>
 			<button type="button" onclick="moveList()">목록</button>
 		</div>
 	
@@ -48,6 +50,7 @@
 		let boardNo = "[[${board.boardNo}]]"
 	
 		function boardUpdate() {
+
 			form.action = "/board/update"	// 요청 경로 변경
 			form.submit()					// form 전송
 		}
