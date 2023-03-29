@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -53,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// * 문자열 형태로 Role 을 지정 --> "ROLE_" 접두사가 자동으로 붙는다
 		// ex) USER  -->  ROLE_USER
 		http.authorizeRequests()
-			.antMatchers("/*").permitAll()	// board 기능 테스트용
+		
 			.antMatchers("/logout").permitAll()
 			.antMatchers("/join").permitAll()
 			.antMatchers("/user/check/id").permitAll()

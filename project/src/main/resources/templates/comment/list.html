@@ -3,6 +3,7 @@
 <head>
 </head>
 <body>
+<input type="hidden" id="csrf-token" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 	<!-- 댓글 목록 -->
 	<th:block th:each=" comment : ${commentList} ">
 		<div class="comment_wrap">
@@ -19,20 +20,25 @@
 				<input type="hidden" class="seq_no" th:value="${comment.seqNo}">
 				<input type="hidden" class="sub_count" th:value="${comment.subCnt}">
 				<!-- <p class="userId" style="font-size:5px" th:text="${userId}" id="userId"></p> -->
-				<!-- <input type="hidden" th:id='userId' th:value="${userId}"/> -->
+				<input type="hidden" th:id='userId' th:value="${userId}"/>
 				<span class="nickname" th:text="${comment.nickname}"></span>
 				<span class="regDate" th:text="${comment.regDate}"></span>
-				<button type="button" class="btn_comment_update" th:data="${comment.commentNo}">수정</button>
-				<button type="button" class="btn_comment_delete" th:data="${comment.commentNo}">삭제</button>
+				<span th:if="${comment.userId == userId}">
+                    <button type="button" class="btn_comment_update" th:data="${comment.commentNo}">수정</button>
+                    <button type="button" class="btn_comment_delete" th:data="${comment.commentNo}">삭제</button>
+                </span>
 				<p class="content" th:text="${comment.content}"></p>
-				<button type="button" class="btn_comment_answer" th:data="${comment.commentNo}">답글</button>
+				<th:block sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
+					<button type="button" class="btn_comment_answer" th:data="${comment.commentNo}">답글</button>
+				</th:block>
 			</div>
 		</div>
 	</th:block>
 	
 	
 	<script>
-
+		const csrfToken = document.getElementById('csrf-token').value;
+		
 		$(function() {
 			
 			addEvent()
@@ -44,10 +50,14 @@
 			
 			// 삭제 버튼 클릭 이벤트
 			$('.btn_comment_delete').on('click', function() {
-				// 댓글 번호
-				let commentNo = $(this).attr('data')
 				
-				deleteComment(commentNo, boardNo)
+				let check = confirm("삭제하시겠습니까?")
+				if( check ) {
+					// 댓글 번호
+					let commentNo = $(this).attr('data')
+				
+					deleteComment(commentNo, boardNo)
+				}
 			})
 			
 			
@@ -62,12 +72,12 @@
 				let depthNo = $(this).parent().children('.depth_no').val()
 				let seqNo = $(this).parent().children('.seq_no').val()
 				
-				// let comment_writer = comment_box.children('.comment_writer').text()
+				let userId = comment_box.children('#useId').text()
 				let content = comment_box.children('.content').text()
 				comment_box.empty()
 				
 				let editor = "" 
-					+ "<input type='hidden' th:id=userId th:value='${userId}'/>"
+					+ "<input type='hidden' th:id=userId th:value='" + userId +"'/>"
 					+ "<br>"
 					+ "<textarea rows='4' cols='50'>" + content + "</textarea>"
 					+ "<br>"
@@ -81,9 +91,10 @@
 				$('.btn_comment_insert').on('click', function() {
 					let btn = $(this)
 					
-					// comment_writer = btn.parent().children('input').val()
+					userId = btn.parent().children('input').val()
 					content = btn.parent().children('textarea').val()
 					
+					alert(content)
 					let comment = {
 						'commentNo'	: commentNo,
 						'boardNo'	: boardNo,
@@ -94,6 +105,15 @@
 						'depthNo' 	: depthNo,
 						'seqNo' 	: seqNo,
 					}
+					
+					alert('commentNo'+ commentNo+
+							'/boardNo'+boardNo+
+							'/userId'+userId+
+							'/content' +content+
+							'/groupNo' 	+groupNo+
+							'/parentNo' 	+parentNo+
+							'/depthNo' 	+depthNo+
+							'/seqNo' 	+ seqNo)
 					
 					updateComment( comment )
 				})
@@ -144,7 +164,7 @@
 					let btn = $(this)
 			
 					userId = btn.parent().children('input').val()
-					comment_content = btn.parent().children('textarea').val()
+					content = btn.parent().children('textarea').val()
 					
 					let comment = {
 						'commentNo'	: commentNo,
@@ -158,20 +178,15 @@
 						'subCnt' 	: subCnt,
 					}
 					
-					insertAnswer( comment )
-					
+					if (content=='') { alert('댓글을 입력해주세요') }
+					else { insertAnswer( comment ) }
 				})
-				
 				
 				// 답글 취소 클릭 이벤트
 				$('.btn_comment_answer_cancel').on('click', function() {
-					
 					$('.comment_answer').remove()
-					
 				})
-				
-				
-				
+
 			})
 			
 		}
@@ -179,11 +194,13 @@
 		// 댓글 수정
 		function updateComment(comment) {
 
+			
 			$.ajax({
 				url:	'/comment/update',		// 요청 경로
 				type:	'post',					// 메소드 방식(get, post, put 등)
 				data:  	comment,					// 전송할 데이터
-				dataType: "text",				
+				dataType: "text",
+				
 
 				// 서버로부터 정상적인 응답
 				success: function(data) {
@@ -211,8 +228,14 @@
 				url:	'/comment/delete',		// 요청 경로
 				type:	'post',					// 메소드 방식(get, post, put 등)
 				data:  	comment,					// 전송할 데이터
+				
+				beforeSend: function(xhr) {
+                    xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken);
+                },
+                
 				dataType: "text",				
 
+				
 				// 서버로부터 정상적인 응답
 				success: function(data) {
 					// 댓글 목록 갱신
@@ -225,8 +248,8 @@
 					
 				},
 				// 에러
-				error: function(request, status, error) {
-					alert('댓글 등록 중 에러가 발생하였습니다.')
+				error: function(xhr, status, error) {
+					alert('댓글 삭제 중 에러가 발생하였습니다.')
 				},
 			})
 		}
@@ -265,7 +288,6 @@
 	</script>
 </body>
 </html>
-
 
 
 

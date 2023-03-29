@@ -22,8 +22,6 @@ public interface CommentService {
 	public int delete(int commentNo) throws Exception;
 	
 	// 답글 등록
-//	public int insertAnswer(Comment comment) throws Exception;
-	
 	public int insertAnswer(Comment comment, String userId) throws Exception;
 	
 	

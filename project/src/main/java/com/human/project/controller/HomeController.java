@@ -186,21 +186,21 @@ public class HomeController {
         return "find";
     }
 
-	// 아이디 찾기
-	@PostMapping("/find_id")
-	public ResponseEntity<String> findId(Users user) throws Exception {
-	
-		Users selectedId = userService.findId(user);
-		String findId = selectedId.getUserId();
-		
-		if(selectedId == null) {
-			return new ResponseEntity<>("fail", HttpStatus.OK);
-		}
-		else {
-			return new ResponseEntity<>(findId, HttpStatus.OK);
-		}
-
-	}
+//	// 아이디 찾기
+//	@PostMapping("/find_id")
+//	public ResponseEntity<String> findId(Users user) throws Exception {
+//	
+//		Users selectedId = userService.findId(user);
+//		String findId = selectedId.getUserId();
+//		
+//		if(selectedId == null) {
+//			return new ResponseEntity<>("fail", HttpStatus.OK);
+//		}
+//		else {
+//			return new ResponseEntity<>(findId, HttpStatus.OK);
+//		}
+//
+//	}
 	
 	// 비밀번호 찾아서 임시 비밀번호 발급
 	@PostMapping("/find_password")
