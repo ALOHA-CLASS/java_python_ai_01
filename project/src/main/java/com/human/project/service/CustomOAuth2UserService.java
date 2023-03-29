@@ -11,11 +11,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
-import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import com.human.project.domain.CustomUser;
 import com.human.project.domain.OAuthAttributes;
@@ -65,7 +63,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 		
 		String nameAttributeKey = attributes.getNameAttributeKey();
 		String name = attributes.getName();
-		String nickname = attributes.getNickname();
+		// String nickname = attributes.getNickname();
 		String email = attributes.getEmail();
 		String picture = attributes.getPicture();
 		String userId = attributes.getId();
