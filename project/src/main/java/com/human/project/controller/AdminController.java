@@ -36,6 +36,13 @@ public class AdminController {
 		return "/admin/index";
 	}
 
+	@GetMapping("/role")
+    public String aaa(Model model) throws Exception {
+        List<Users> usersList = userService.list();
+        model.addAttribute("usersList",usersList);
+        return "/admin/role";
+    }
+
 	@GetMapping("/test")
 	public String tset() {
 		log.info("테스트... (삭제 예정)");

@@ -10,7 +10,7 @@ public class Board {
 	private int boardNo;
 	private String title;
 	private String userId;
-	private String userNick;
+	private String nickname;
 	private String content;
 	private int joinCnt;
 	private LocalDateTime regDate;

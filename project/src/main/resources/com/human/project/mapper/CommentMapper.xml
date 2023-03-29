@@ -17,7 +17,7 @@
 
 		<result column="user_id" property="userId"/>
 		
-		<result column="user_nick" property="userNick"/>
+		<result column="nickname" property="nickname"/>
 
 		<result column="content" property="content"/>
 		
