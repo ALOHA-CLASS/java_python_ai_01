@@ -38,7 +38,7 @@
 			</tr>
 			<tr>
 				<td><b>작성자</b></td>
-				<td colspan=2 th:text="${board.userNick}"></td>
+				<td colspan=2 th:text="${board.nickname}"></td>
 				<td><b>조회</b></td><td th:text="${board.joinCnt}"></td>
 
 			</tr>
@@ -71,7 +71,7 @@
 				</th:block>
 			
 				<div th:class="comment_box">
-					<span class="comment_nick" th:text="${comment.userNick}"></span>
+					<span class="comment_nick" th:text="${comment.nickname}"></span>
 					<span class="comment_date" th:text="${comment.regDate}"></span>
 					<button type="button" class="btn_comment_update" th:data="${comment.commentNo}">수정</button>
 					<button type="button" class="btn_comment_delete" th:data="${comment.commentNo}">삭제</button>

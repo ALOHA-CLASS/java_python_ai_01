@@ -26,7 +26,7 @@
 
 	<!-- 회원가입 -->
 	<insert id="join">
-		INSERT INTO users ( user_id, user_pw, name, user_nick, email )
+		INSERT INTO users ( user_id, user_pw, name, nickname, email )
 		VALUES ( #{userId}, #{userPw}, #{name}, #{nickname}, #{email})
 	</insert>
 	
@@ -38,8 +38,8 @@
 	
 	<!-- 권한등록 -->
 	<insert id="insertSocial">
-		INSERT INTO user_social ( user_id, social_type )
-		VALUES ( #{userId}, #{socialType} )
+		INSERT INTO user_social ( user_id, social_type, access_token )
+		VALUES ( #{userId}, #{socialType}, #{accessToken} )
 	</insert>
 	
 	<!-- 아이디 조회 -->

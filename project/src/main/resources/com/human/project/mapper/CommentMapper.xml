@@ -17,7 +17,7 @@
 
 		<result column="user_id" property="userId"/>
 		
-		<result column="user_nick" property="userNick"/>
+		<result column="nickname" property="nickname"/>
 
 		<result column="content" property="content"/>
 		
@@ -82,7 +82,7 @@
 			      ,r2.sub_cnt sub_sub_cnt
 			      ,r2.reg_date 	sub_reg_date
 			      ,r2.upd_date 	sub_upd_date
-			      ,u.user_nick
+			      ,u.nickname
 			  FROM users u, comment r1
 			       LEFT JOIN (
 								SELECT *
@@ -114,7 +114,7 @@
 			      ,r2.reg_date 	sub_reg_date
 			      ,r2.upd_date 	sub_upd_date
 			      ,r2.sub_cnt sub_sub_cnt
-			      ,u.user_nick
+			      ,u.nickname
 			  FROM users u, comment r1
 			       LEFT JOIN (
 								SELECT *

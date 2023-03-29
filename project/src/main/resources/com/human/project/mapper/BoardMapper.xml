@@ -11,7 +11,7 @@
 
 	<!-- 게시글 목록 -->
 	<select id="list" resultType="Board">
-		SELECT b.board_no, b.title, b.user_id, u.user_nick, b.content, b.join_cnt, b.reg_date, b.upd_date
+		SELECT b.board_no, b.title, b.user_id, u.nickname, b.content, b.join_cnt, b.reg_date, b.upd_date
 		FROM board b, users u
 		WHERE b.user_id = u.user_id
 		ORDER BY b.reg_date DESC
@@ -32,7 +32,7 @@
 	
 	<!-- 게시글 읽기 -->
 	<select id="read" resultType="Board">
-		SELECT b.board_no, b.title, b.user_id, u.user_nick, b.content, b.join_cnt, b.reg_date, b.upd_date
+		SELECT b.board_no, b.title, b.user_id, u.nickname, b.content, b.join_cnt, b.reg_date, b.upd_date
 		FROM board b, users u
 		WHERE board_no = #{boardNo}
 		  AND b.user_id = u.user_id
@@ -55,14 +55,14 @@
 	
 	<!-- 검색 -->
  	<select id="search" resultType="Board">
-		SELECT b.board_no, b.title, u.user_nick, b.content, 
+		SELECT b.board_no, b.title, u.nickname, b.content, 
 				b.join_cnt, b.reg_date, b.upd_date
 		FROM board b, users u
 		WHERE b.board_no > 0
 		  AND b.user_id=u.user_id
 		  AND (
 		  	  b.title LIKE CONCAT('%',#{keyword},'%')
-		   OR u.user_nick LIKE CONCAT('%',#{keyword},'%')
+		   OR u.nickname LIKE CONCAT('%',#{keyword},'%')
 		   OR b.content LIKE CONCAT('%',#{keyword},'%')
 		  )
 	    ORDER BY reg_date DESC
@@ -84,7 +84,7 @@
 	
 	<!-- 게시글 목록 - 검색/페이징 -->
 	<select id="boardList" resultType="Board">
-		SELECT b.board_no, b.title, u.user_nick, b.content, 
+		SELECT b.board_no, b.title, u.nickname, b.content, 
 				b.join_cnt, b.reg_date, b.upd_date
 		FROM board b, users u
 		WHERE b.board_no > 0
@@ -92,7 +92,7 @@
 		  AND (
 		  		<if test="option.optionCode == 0">
 						b.title LIKE CONCAT('%',#{option.keyword},'%')
-				   OR u.user_nick LIKE CONCAT('%',#{option.keyword},'%')
+				   OR u.nickname LIKE CONCAT('%',#{option.keyword},'%')
 				   OR b.content LIKE CONCAT('%',#{option.keyword},'%')		  
 		  		</if>
 		  		<if test="option.optionCode == 1">
@@ -123,7 +123,7 @@
 		  AND (
 		  		<if test="option.optionCode == 0">
 						b.title LIKE CONCAT('%',#{option.keyword},'%')
-				   OR u.user_nick LIKE CONCAT('%',#{option.keyword},'%')
+				   OR u.nickname LIKE CONCAT('%',#{option.keyword},'%')
 				   OR b.content LIKE CONCAT('%',#{option.keyword},'%')		  
 		  		</if>
 		  		<if test="option.optionCode == 1">
@@ -137,7 +137,7 @@
 					OR  b.content LIKE CONCAT('%',#{option.keyword},'%')
 		  		</if>
 		  		<if test="option.optionCode == 4">
-				   		u.user_nick LIKE CONCAT('%',#{option.keyword},'%')
+				   		u.nickname LIKE CONCAT('%',#{option.keyword},'%')
 		  		</if>
 		  )
 	</select>

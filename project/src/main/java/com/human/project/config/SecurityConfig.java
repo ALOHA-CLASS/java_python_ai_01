@@ -15,6 +15,7 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.web.client.RestTemplate;
 
 import com.human.project.security.CustomAccessDeniedHandler;
 import com.human.project.security.CustomLoginSuccessHandler;
@@ -134,17 +135,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		
 		String sql1 = " SELECT user_id AS username "
-				+ " 	  ,user_pw AS password "
-				+ "       ,enabled "
-				+ " FROM users "
-				+ " WHERE user_id = ? "
-				;
+					+ " 	  ,user_pw AS password "
+					+ "       ,enabled "
+					+ " FROM users "
+					+ " WHERE user_id = ? " ;
 	
-	String sql2 = " SELECT user_id AS username "
-				+ " 	  ,auth AS authority "
-				+ " FROM user_auth "
-				+ " WHERE user_id = ? "
-				;
+		String sql2 = " SELECT user_id AS username "
+					+ " 	  ,auth AS authority "
+					+ " FROM user_auth "
+					+ " WHERE user_id = ? " ;
 		
 		auth.jdbcAuthentication()				// JDBC를 통한 인증방식으로 지정
 			.dataSource(dataSource)				// 데이터 소스 지정
@@ -182,6 +181,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public AccessDeniedHandler createAccessDeniedHandler() {
 		return new CustomAccessDeniedHandler();
 	}
+	
+//	@Bean
+//    public RestTemplate restTemplate() {
+//        return new RestTemplate();
+//    }
 
 
 }

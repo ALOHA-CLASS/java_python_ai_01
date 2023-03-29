@@ -24,14 +24,14 @@ CREATE TABLE IF NOT EXISTS `human`.`users` (
   `user_no` INT NOT NULL AUTO_INCREMENT COMMENT '회원 번호',
   `user_id` VARCHAR(50) NOT NULL COMMENT '회원 ID',
   `user_pw` VARCHAR(100) NOT NULL COMMENT '회원 PW',
-  `user_nick` VARCHAR(50) NOT NULL COMMENT '회원 닉네임',
+  `nickname` VARCHAR(50) NOT NULL COMMENT '회원 닉네임',
   `name` VARCHAR(50) NOT NULL COMMENT '회원 이름',
   `email` VARCHAR(100) NOT NULL COMMENT '회원 E-mail',
   `reg_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '회원 등록 일자',
   `upd_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '회원 수정 일자',
   `enabled` INT NULL DEFAULT '1' COMMENT '회원 활성화 여부',
   PRIMARY KEY (`user_id`),
-  UNIQUE INDEX `unique_name` (`user_nick` ASC, `email` ASC) VISIBLE,
+  UNIQUE INDEX `unique_name` (`nickname` ASC, `email` ASC) VISIBLE,
   UNIQUE INDEX `user_no_UNIQUE` (`user_no` ASC) VISIBLE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4

@@ -4,6 +4,7 @@ package com.human.project.controller;
 
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +12,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
@@ -148,8 +151,29 @@ public class HomeController {
 	}
 	
     //아이디&비밀번호 찾기
+	@PostMapping("/find_id")
+	public ResponseEntity<List> findId(Users user) throws Exception {    	
+		Users selectedUser = userService.selectByEmail(user);
+		String findId = selectedUser.getUserId();
+		String findName = selectedUser.getName();
+		List<String> result = Arrays.asList(findId, findName);
+		return new ResponseEntity<List>(result, HttpStatus.OK);
+    }
+    
+  //아이디&비밀번호 찾기
+    @GetMapping("/find_password")
+    public String doFind123123(Users user, Model model) throws Exception {
+    	
+    	Users result = userService.selectByEmail(user);
+    	log.info(result.getEmail());
+    	log.info(result.getName());
+    	log.info(result.getNickname());
+    	
+        return "result";
+    }
+    
     @GetMapping("/find")
-    public String doFind() {
+    public String doFind() throws Exception {
         return "/find";
     }
     

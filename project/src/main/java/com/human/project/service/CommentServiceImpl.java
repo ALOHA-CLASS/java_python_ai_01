@@ -75,7 +75,7 @@ public class CommentServiceImpl implements CommentService {
 		}
 		// 자식 댓글이 있으면, "삭제된 게시글 입니다" 로 내용 수정
 		else {
-			comment.setUserNick("---");
+			comment.setNickname("---");
 			comment.setContent("삭제된 게시글 입니다");
 			result = commentMapper.update(comment);
 			return result;
