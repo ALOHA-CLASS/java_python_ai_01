@@ -12,8 +12,7 @@
 	<form action="/board/insert" method="post">
 		<!-- csrf 토큰 -->
     	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-    	
-    	<!-- <input type="hidden" th:name=userId th:value="${userId}"/> -->
+    	<input type="hidden" th:name=userId th:value="${userId}"/>
 	
 		<table>
 			<tr>
@@ -22,7 +21,7 @@
 					<input type="text" name="title" >
 				</td>
 			</tr>
-<!-- 			<tr>
+<!-- 		<tr>
 				<td>작성자</td>
 			 	<td th:name=userId th:text="${userId}"></td>
 			</tr>  -->

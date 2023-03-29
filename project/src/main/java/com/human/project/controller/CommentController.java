@@ -45,7 +45,6 @@ public class CommentController {
 	public String insert(Model model, Comment comment, Principal principal) throws Exception {
 		
 		String userId = principal.getName();
-		
 		int result = commentService.insert(comment, userId);
 		
 		if(result > 0) 			log.info("댓글 등록 성공...");
@@ -63,7 +62,7 @@ public class CommentController {
 	public String update(Model model, Comment comment) throws Exception {
 		
 		int result = commentService.update(comment);
-		
+
 		if(result > 0) 			log.info("댓글 수정 성공...");
 		else		 			log.info("댓글 수정 실패...");
 		

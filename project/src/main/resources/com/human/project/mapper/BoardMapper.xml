@@ -26,6 +26,7 @@
         INSERT INTO board ( title, user_id, content )
         VALUES ( #{title}, #{userId}, #{content} )
     </insert>
+    
     <!-- 게시글 읽기 -->
     <select id="read" resultType="Board">
         SELECT b.*, u.nickname
@@ -33,6 +34,7 @@
         WHERE board_no = #{boardNo}
           AND b.user_id = u.user_id
     </select>
+    
     <!-- 게시글 수정 -->
     <update id="update">
         UPDATE board
@@ -42,11 +44,13 @@
         WHERE board_no = #{boardNo}
           AND user_id = #{userId}
     </update>
+    
     <!-- 게시글 삭제 -->
     <delete id="delete">
         DELETE FROM board
-        WHERE board_no in ( ${noList} )
+        WHERE board_no = #{boardNo}
     </delete>
+    
     <!-- 검색 -->
     <select id="search" resultType="Board">
         SELECT b.board_no, b.title, u.nickname, b.content,
@@ -61,6 +65,7 @@
           )
         ORDER BY reg_date DESC
     </select>
+    
     <!-- 페이징 -->
     <select id="page" resultType="Board">
         SELECT *
@@ -68,11 +73,13 @@
         ORDER BY reg_date DESC
         LIMIT #{index}, #{rowsPerPage}
     </select>
+    
     <!-- 게시글 개수 -->
     <select id="count" resultType="int">
         SELECT COUNT(*)
         FROM board
     </select>
+    
     <!-- 게시글 목록 - 검색/페이징 -->
     <select id="boardList" resultType="Board">
         SELECT b.board_no, b.title, u.nickname, b.content,
@@ -103,6 +110,7 @@
         ORDER BY reg_date DESC
         LIMIT #{page.index}, #{page.rowsPerPage}
     </select>
+    
     <!-- 게시글 개수 - 검색어 포함 -->
     <select id="countWithKeyword" resultType="int">
         SELECT count(*)

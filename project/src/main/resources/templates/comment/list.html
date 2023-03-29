@@ -20,7 +20,7 @@
 				<input type="hidden" class="seq_no" th:value="${comment.seqNo}">
 				<input type="hidden" class="sub_count" th:value="${comment.subCnt}">
 				<!-- <p class="userId" style="font-size:5px" th:text="${userId}" id="userId"></p> -->
-				<!-- <input type="hidden" th:id='userId' th:value="${userId}"/> -->
+				<input type="hidden" th:id='userId' th:value="${userId}"/>
 				<span class="nickname" th:text="${comment.nickname}"></span>
 				<span class="regDate" th:text="${comment.regDate}"></span>
 				<span th:if="${comment.userId == userId}">
@@ -72,12 +72,12 @@
 				let depthNo = $(this).parent().children('.depth_no').val()
 				let seqNo = $(this).parent().children('.seq_no').val()
 				
-				// let comment_writer = comment_box.children('.comment_writer').text()
+				let userId = comment_box.children('#useId').text()
 				let content = comment_box.children('.content').text()
 				comment_box.empty()
 				
 				let editor = "" 
-					+ "<input type='hidden' th:id=userId th:value='${userId}'/>"
+					+ "<input type='hidden' th:id=userId th:value='" + userId +"'/>"
 					+ "<br>"
 					+ "<textarea rows='4' cols='50'>" + content + "</textarea>"
 					+ "<br>"
@@ -91,7 +91,7 @@
 				$('.btn_comment_insert').on('click', function() {
 					let btn = $(this)
 					
-					userId = btn.parent().children('input').text()
+					userId = btn.parent().children('input').val()
 					content = btn.parent().children('textarea').val()
 					
 					alert(content)
@@ -194,16 +194,19 @@
 		// 댓글 수정
 		function updateComment(comment) {
 
+			var token = $("meta[name='_csrf']").attr("content");
+			var header = $("meta[name='_csrf_header']").attr("content");
+			
 			$.ajax({
 				url:	'/comment/update',		// 요청 경로
 				type:	'post',					// 메소드 방식(get, post, put 등)
 				data:  	comment,					// 전송할 데이터
 				dataType: "text",
 				
-				beforeSend: function(xhr) {
-                    xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken);
-                },
-
+				beforeSend : function(xhr) {
+					// csrf 토큰을 헤더정보에 추가
+					xhr.setRequestHeader(header, token)
+				},
 				// 서버로부터 정상적인 응답
 				success: function(data) {
 					// 댓글 목록 갱신
@@ -212,7 +215,7 @@
 					
 				},
 				// 에러
-				error: function(xhr, status, error) {
+				error: function(request, status, error) {
 					alert('댓글 수정 중 에러가 발생하였습니다.')
 				},
 			})
@@ -251,7 +254,7 @@
 				},
 				// 에러
 				error: function(xhr, status, error) {
-					alert('댓글 등록 중 에러가 발생하였습니다.')
+					alert('댓글 삭제 중 에러가 발생하였습니다.')
 				},
 			})
 		}
