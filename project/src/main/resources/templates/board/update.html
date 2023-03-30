@@ -29,17 +29,17 @@
             font-family: 'Dongle', sans-serif;
             font-size: 30px;
         }
-    .title-border:focus {
-        color: white;
-        background-color: transparent;
-        border: 0;
-        border-bottom: 2px solid #FFD6FC;
-        outline: 0;
-        box-shadow: 0 0 0 0.25rem transparent;
-        font-family: 'Dongle', sans-serif;
-        font-size: 30px;
-    }
-    .content-border {
+	.title-border:focus {
+		color: white;
+		background-color: transparent;
+		border: 0;
+		border-bottom: 2px solid #ffd6fc;
+		outline: 0;
+		box-shadow: 0 0 0 0.25rem transparent;
+		font-family: 'Dongle', sans-serif;
+		font-size: 30px;
+	}
+	.content-border {
             background-color: transparent;
             border: 2px solid #EB0FD8;
             border-radius: 0;
@@ -47,32 +47,32 @@
             font-family: 'Dongle', sans-serif;
             font-size: 25px;
         }
-    .content-border:focus {
-        color: white;
-        background-color: transparent;
-        border: 2px solid #FFD6FC;
-        outline: 0;
-        box-shadow: 0 0 0 0.25rem transparent;
-        font-family: 'Dongle', sans-serif;
-        font-size: 25px;
-    }
-    .btn {
-        font-size: 14px;
-        color: #fff;
-        background-color: #000000;
-        padding: 12px 15px;
-        display: inline-block;
-        font-weight: 800;
-        text-transform: capitalize;
-        letter-spacing: 0.5px;
-        transition: all .3s;
-        position: relative;
-        overflow: hidden;
-        }
-        .btn:hover {
-        background-color: #fff;
-        color: #D204A9;
-        }
+	.content-border:focus {
+		color: white;
+		background-color: transparent;
+		border: 2px solid #ffd6fc;
+		outline: 0;
+		box-shadow: 0 0 0 0.25rem transparent;
+		font-family: 'Dongle', sans-serif;
+		font-size: 25px;
+	}
+	.btn {
+		font-size: 14px;
+		color: #fff;
+		background-color: #000000;
+		padding: 12px 15px;
+		display: inline-block;
+		font-weight: 800;
+		text-transform: capitalize;
+		letter-spacing: 0.5px;
+		transition: all .3s;
+		position: relative;
+		overflow: hidden;
+		}
+		.btn:hover {
+		background-color: #fff;
+		color: #d204a9;
+		}
     </style>
     <div class="container">
         <div class="row">
@@ -85,11 +85,11 @@
 		<input type="hidden" name="boardNo" th:value="${board.boardNo}" readonly>
 		<input type="hidden" name="userId" th:value="${board.userId}" readonly>
 		
-		<table>
+		<table class="table table-dark">
 			<tr>
 				<td>제목</td>
 				<td>
-					<input type="text" name="title" th:value="${board.title}" >
+					<input type="text" name="title" th:value="${board.title}" class="form-control title-border" >
 				</td>
 			</tr>
 <!-- 			<tr>
@@ -101,15 +101,15 @@
 			<tr> 
 				<td>내용</td>
 				<td>
-					<textarea rows="10" cols="40" name="content" th:text="${board.content}" ></textarea>
+					<textarea rows="10" cols="40" name="content" th:text="${board.content}" class="form-control title-border" ></textarea>
 				</td>
 			</tr>
 		</table>
-		<div>
+		<div align="center">
 			<span th:if="${board.userId == #authentication.principal.username}">
-				<button type="button" onclick="boardUpdate()">수정</button>
+				<button type="button" onclick="boardUpdate()" class="btn">수정</button>
 			</span>
-			<button type="button" onclick="moveList()">목록</button>
+			<button type="button" onclick="moveList()" class="btn">목록</button>
 		</div>
 	
 	</form>
@@ -126,9 +126,7 @@
 			form.submit()					// form 전송
 	
 		}
-		
 
-		
 		function moveList() {
 			location.href = "/board/list"	
 		}	
