@@ -144,9 +144,11 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 				e.printStackTrace();
 			}
 		} else {
+			// 일반 계정 O, 카카오 로그인 시도
 			try {
 				userId = userMapper.selectByEmail(user).getUserId();
 				userSocial.setUserId(userId);
+				name = userId;
 				if(userMapper.selectSocial(userSocial)==null) {
 					userMapper.insertSocial(userSocial);
 					log.info("insertSocial 성공");
