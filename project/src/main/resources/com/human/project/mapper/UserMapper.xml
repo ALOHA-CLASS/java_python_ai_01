@@ -9,6 +9,7 @@
 		<id property="userId" column="user_id"/>
 		<result property="userNo" column="user_no"/>
 		<result property="userPw" column="user_pw"/>
+		<result property="nickname" column="nickname"/>
 		<result property="name" column="name"/>
 		<result property="email" column="email"/>
 		<result property="enabled" column="enabled"/>
