@@ -160,14 +160,14 @@ public class HomeController {
 	}
 	
     //아이디&비밀번호 찾기
-	@PostMapping("/find_id")
-	public ResponseEntity<List> findId(Users user) throws Exception {    	
-		Users selectedUser = userService.selectByEmail(user);
-		String findId = selectedUser.getUserId();
-		String findName = selectedUser.getName();
-		List<String> result = Arrays.asList(findId, findName);
-		return new ResponseEntity<List>(result, HttpStatus.OK);
-    }
+//	@PostMapping("/find_id")
+//	public ResponseEntity<String> findId(Users user) throws Exception {    	
+//		Users selectedUser = userService.selectByEmail(user);
+//		String find_id = selectedUser.getUserId();
+//		// String findName = selectedUser.getName();
+//		// List<String> result = Arrays.asList(findId, findName);
+//		return new ResponseEntity<>(find_id, HttpStatus.OK);
+//    }
     
   //아이디&비밀번호 찾기
     @GetMapping("/find_password")

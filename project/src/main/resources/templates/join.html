@@ -264,25 +264,23 @@
                 return false
             }
             else if( check == 1 ) {
-            	
-            	function n_check() {
-                    let n_check = $('#input-n-check').val()
-                    log.info(n_check)
-                    if( n_check != 1 ) {
-                        alert('닉네임 중복 확인이 필요합니다.')
-                        return false
-                    }
-                    else if( n_check == 1 ) {
-                        return true
-                    }
+            	let n_check = $('#input-n-check').val()
+                if( n_check != 1 ) {
+                    alert('닉네임 중복 확인이 필요합니다.')
+                    return false
                 }
-            	
+                else if( n_check == 1 ) {
+                    return true
+                }
             }
         }
         function checkUserId() {
             asyncCheckUserId().then(function(result) {
                 // ID 미입력
                 if( result == null ) {
+                	$('#id-check').hide()
+                	$('#id-duplicated').hide()
+                	$('#input-check').val(-1)
                     return
                 }
                 // ID 사용가능
@@ -329,6 +327,9 @@
             asyncCheckNickname().then(function(result_n) {
                 // 닉네임 미입력
                 if( result_n == null ) {
+                	$('#nickname-check').hide()
+                	$('#nickname-duplicated').hide()
+                	$('#input-n-check').val(-1)
                     return
                 }
                 // 닉네임 사용가능
