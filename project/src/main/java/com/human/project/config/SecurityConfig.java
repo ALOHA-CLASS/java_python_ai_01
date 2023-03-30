@@ -54,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// * 문자열 형태로 Role 을 지정 --> "ROLE_" 접두사가 자동으로 붙는다
 		// ex) USER  -->  ROLE_USER
 		http.authorizeRequests()
-			.antMatchers("/*").permitAll()	// board 기능 테스트용
+		
 			.antMatchers("/logout").permitAll()
 			.antMatchers("/join").permitAll()
 			.antMatchers("/user/check/id").permitAll()
@@ -138,17 +138,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		
 		String sql1 = " SELECT user_id AS username "
-				+ " 	  ,user_pw AS password "
-				+ "       ,enabled "
-				+ " FROM users "
-				+ " WHERE user_id = ? "
-				;
+					+ " 	  ,user_pw AS password "
+					+ "       ,enabled "
+					+ " FROM users "
+					+ " WHERE user_id = ? " ;
 	
-	String sql2 = " SELECT user_id AS username "
-				+ " 	  ,auth AS authority "
-				+ " FROM user_auth "
-				+ " WHERE user_id = ? "
-				;
+		String sql2 = " SELECT user_id AS username "
+					+ " 	  ,auth AS authority "
+					+ " FROM user_auth "
+					+ " WHERE user_id = ? " ;
 		
 		auth.jdbcAuthentication()				// JDBC를 통한 인증방식으로 지정
 			.dataSource(dataSource)				// 데이터 소스 지정
@@ -186,6 +184,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public AccessDeniedHandler createAccessDeniedHandler() {
 		return new CustomAccessDeniedHandler();
 	}
+	
+//	@Bean
+//    public RestTemplate restTemplate() {
+//        return new RestTemplate();
+//    }
 
 
 }

@@ -23,9 +23,10 @@
                    ex) VALUES ( #{0}, #{1}, #{2} )
      -->
     <insert id="insert">
-        INSERT INTO board ( title, user_id, content )
-        VALUES ( #{title}, #{userId}, #{content} )
+        INSERT INTO board ( tag, title, user_id, content )
+        VALUES ( #{tag}, #{title}, #{userId}, #{content} )
     </insert>
+    
     <!-- 게시글 읽기 -->
     <select id="read" resultType="Board">
         SELECT b.*, u.nickname
@@ -33,6 +34,7 @@
         WHERE board_no = #{boardNo}
           AND b.user_id = u.user_id
     </select>
+    
     <!-- 게시글 수정 -->
     <update id="update">
         UPDATE board
@@ -40,16 +42,18 @@
               ,content = #{content}
               ,upd_date = now()
         WHERE board_no = #{boardNo}
+          AND user_id = #{userId}
     </update>
+    
     <!-- 게시글 삭제 -->
     <delete id="delete">
         DELETE FROM board
-        WHERE board_no in ( ${noList} )
+        WHERE board_no = #{boardNo}
     </delete>
+    
     <!-- 검색 -->
     <select id="search" resultType="Board">
-        SELECT b.board_no, b.title, u.nickname, b.content,
-                b.join_cnt, b.reg_date, b.upd_date
+        SELECT b.*, u.nickname
         FROM board b, users u
         WHERE b.board_no > 0
           AND b.user_id=u.user_id
@@ -60,25 +64,14 @@
           )
         ORDER BY reg_date DESC
     </select>
-    <!-- 페이징 -->
-    <select id="page" resultType="Board">
-        SELECT *
-        FROM BOARD
-        ORDER BY reg_date DESC
-        LIMIT #{index}, #{rowsPerPage}
-    </select>
-    <!-- 게시글 개수 -->
-    <select id="count" resultType="int">
-        SELECT COUNT(*)
-        FROM board
-    </select>
-    <!-- 게시글 목록 - 검색/페이징 -->
-    <select id="boardList" resultType="Board">
-        SELECT b.board_no, b.title, u.nickname, b.content,
-                b.join_cnt, b.reg_date, b.upd_date
+    
+    <!-- 구분으로 모아보기 -->
+    <select id="viewWithTag" resultType="Board">
+        SELECT b.*, u.nickname
         FROM board b, users u
         WHERE b.board_no > 0
           AND b.user_id=u.user_id
+          AND b.tag = #{tag}
           AND (
                 <if test="option.optionCode == 0">
                         b.title LIKE CONCAT('%',#{option.keyword},'%')
@@ -102,12 +95,73 @@
         ORDER BY reg_date DESC
         LIMIT #{page.index}, #{page.rowsPerPage}
     </select>
+    
+    <!-- 페이징 -->
+    <select id="page" resultType="Board">
+        SELECT *
+        FROM BOARD
+        ORDER BY reg_date DESC
+        LIMIT #{index}, #{rowsPerPage}
+    </select>
+    
+    <!-- 게시글 개수 -->
+    <select id="count" resultType="int">
+        SELECT COUNT(*)
+        FROM board
+    </select>
+    
+    <!-- 게시글 목록 - 검색/페이징 -->
+    <select id="boardList" resultType="Board">
+        SELECT b.*, u.nickname
+        FROM board b, users u
+        WHERE b.board_no > 0
+          AND b.user_id=u.user_id
+          <choose>
+			<when test="option.tag.equals('')">
+				AND 1 = 1
+			</when>
+			<otherwise>
+				AND b.tag LIKE CONCAT('%', #{option.tag}, '%')
+			</otherwise>
+		 </choose>
+          AND (
+                <if test="option.optionCode == 0">
+                        b.title LIKE CONCAT('%',#{option.keyword},'%')
+                   OR u.nickname LIKE CONCAT('%',#{option.keyword},'%')
+                   OR b.content LIKE CONCAT('%',#{option.keyword},'%')
+                </if>
+                <if test="option.optionCode == 1">
+                        b.title LIKE CONCAT('%',#{option.keyword},'%')
+                </if>
+                <if test="option.optionCode == 2">
+                        b.content LIKE CONCAT('%',#{option.keyword},'%')
+                </if>
+                <if test="option.optionCode == 3">
+                        b.title LIKE CONCAT('%',#{option.keyword},'%')
+                    OR  b.content LIKE CONCAT('%',#{option.keyword},'%')
+                </if>
+                <if test="option.optionCode == 4">
+                        b.writer LIKE CONCAT('%',#{option.keyword},'%')
+                </if>
+          )
+        ORDER BY reg_date DESC
+        LIMIT #{page.index}, #{page.rowsPerPage}
+    </select>
+    
     <!-- 게시글 개수 - 검색어 포함 -->
     <select id="countWithKeyword" resultType="int">
         SELECT count(*)
         FROM board b, users u
         WHERE b.board_no > 0
           AND b.user_id=u.user_id
+          <choose>
+			<when test="option.tag.equals('')">
+				AND 1 = 1
+			</when>
+			<otherwise>
+				AND b.tag LIKE CONCAT('%', #{option.tag}, '%')
+			</otherwise>
+		 </choose>
           AND (
                 <if test="option.optionCode == 0">
                         b.title LIKE CONCAT('%',#{option.keyword},'%')

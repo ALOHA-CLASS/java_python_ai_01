@@ -4,6 +4,7 @@ package com.human.project.controller;
 
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -159,26 +160,47 @@ public class HomeController {
 	}
 	
     //아이디&비밀번호 찾기
+	@PostMapping("/find_id")
+	public ResponseEntity<List> findId(Users user) throws Exception {    	
+		Users selectedUser = userService.selectByEmail(user);
+		String findId = selectedUser.getUserId();
+		String findName = selectedUser.getName();
+		List<String> result = Arrays.asList(findId, findName);
+		return new ResponseEntity<List>(result, HttpStatus.OK);
+    }
+    
+  //아이디&비밀번호 찾기
+    @GetMapping("/find_password")
+    public String doFind123123(Users user, Model model) throws Exception {
+    	
+    	Users result = userService.selectByEmail(user);
+    	log.info(result.getEmail());
+    	log.info(result.getName());
+    	log.info(result.getNickname());
+    	
+        return "result";
+    }
+    
     @GetMapping("/find")
     public String doFind() {
         return "find";
     }
 
-	// 아이디 찾기
-	@PostMapping("/find_id")
-	public ResponseEntity<String> findId(Users user) throws Exception {
-	
-		Users selectedId = userService.findId(user);
-		String findId = selectedId.getUserId();
-		
-		if(selectedId == null) {
-			return new ResponseEntity<>("fail", HttpStatus.OK);
-		}
-		else {
-			return new ResponseEntity<>(findId, HttpStatus.OK);
-		}
-
-	}
+//	// 아이디 찾기
+//	@PostMapping("/find_id")
+//	public ResponseEntity<String> findId(Users user) throws Exception {
+//	
+//		Users selectedId = userService.findId(user);
+//		String findId = selectedId.getUserId();
+//		
+//		if(selectedId == null) {
+//			return new ResponseEntity<>("fail", HttpStatus.OK);
+//		}
+//		else {
+//			return new ResponseEntity<>(findId, HttpStatus.OK);
+//		}
+//
+//	}
 	
 	// 비밀번호 찾아서 임시 비밀번호 발급
 	@PostMapping("/find_password")

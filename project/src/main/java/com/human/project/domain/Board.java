@@ -15,5 +15,6 @@ public class Board {
 	private int joinCnt;
 	private LocalDateTime regDate;
 	private LocalDateTime updDate;
+	private String tag;
 	
 }

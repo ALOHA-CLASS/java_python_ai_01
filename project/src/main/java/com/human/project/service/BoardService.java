@@ -21,7 +21,7 @@ public interface BoardService {
 	public int update(Board board) throws Exception;
 	
 	// 게시글 삭제
-	public int delete(List<String> boardNoList) throws Exception;
+	public int delete(int boardNo) throws Exception;
 
 	// 게시글 검색
 	public List<Board> list(String keyword) throws Exception;
@@ -40,5 +40,6 @@ public interface BoardService {
 
 	// 조회수
 	public int joinCntUp(int boardNo) throws Exception;
+
 }
 

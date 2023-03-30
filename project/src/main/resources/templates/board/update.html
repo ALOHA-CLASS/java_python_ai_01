@@ -82,54 +82,58 @@
     <form action="/board/delete" method="post" id="form">
         <!-- csrf 토큰 -->
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-        <input type="hidden" name="boardNo" th:value="${board.boardNo}" readonly>
-        <!-- <input type="hidden" name="userId" th:value="${user.userId}" readonly>  -->
-        <table class="table table-dark">
-            <tr>
-                <td>제목</td>
-                <td>
-                    <input type="text" name="title" th:value="${board.title}"  class="form-control title-border" >
-                </td>
-            </tr>
-<!--            <tr>
-                <td>작성자</td>
-                <td>
-                    <input type="text" name="writer" th:value="${board.writer}" >
-                </td>
-            </tr>  -->
-            <tr>
-                <td>내용</td>
-                <td>
-                    <textarea rows="10" cols="40" name="content" th:text="${board.content}" class="form-control content-border" ></textarea>
-                </td>
-            </tr>
-        </table>
-        <div align="center">
-            <button type="button" onclick="boardUpdate()" class="btn">수정</button>
-            <button type="button" onclick="boardDelete()" class="btn">삭제</button>
-            <button type="button" onclick="moveList()" class="btn">목록</button>
-        </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-    <script>
-        let form = document.  ("form")
-        let boardNo = "[[${board.boardNo}]]"
-        function boardUpdate() {
-            form.action = "/board/update"   // 요청 경로 변경
-            form.submit()                   // form 전송
-        }
-        function boardDelete() {
-            let check = confirm("정말로 삭제하시겠습니까?")
-            if( check ) {
-                form.submit()
-            }
-        }
-        function moveList() {
-            location.href = "/board/list"
-        }
-    </script>
+		<input type="hidden" name="boardNo" th:value="${board.boardNo}" readonly>
+		<input type="hidden" name="userId" th:value="${board.userId}" readonly>
+		
+		<table>
+			<tr>
+				<td>제목</td>
+				<td>
+					<input type="text" name="title" th:value="${board.title}" >
+				</td>
+			</tr>
+<!-- 			<tr>
+				<td>작성자</td>
+				<td>
+					<input type="text" name="writer" th:value="${board.writer}" >
+				</td>
+			</tr>  -->
+			<tr> 
+				<td>내용</td>
+				<td>
+					<textarea rows="10" cols="40" name="content" th:text="${board.content}" ></textarea>
+				</td>
+			</tr>
+		</table>
+		<div>
+			<span th:if="${board.userId == #authentication.principal.username}">
+				<button type="button" onclick="boardUpdate()">수정</button>
+			</span>
+			<button type="button" onclick="moveList()">목록</button>
+		</div>
+	
+	</form>
+	
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+	<script>
+	
+		let form = document.getElementById("form")	
+		let boardNo = "[[${board.boardNo}]]"
+	
+		function boardUpdate() {
+			alert('글이 수정되었습니다')
+			form.action = "/board/update"	// 요청 경로 변경
+			form.submit()					// form 전송
+	
+		}
+		
+
+		
+		function moveList() {
+			location.href = "/board/list"	
+		}	
+	</script>
+	
+	
 </body>
 </html>
