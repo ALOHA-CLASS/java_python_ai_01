@@ -16,7 +16,7 @@
                   <!-- ***** Search End ***** -->
                   <div class="search-input">
                     <form id="search" action="https://www.google.com/search" method="get">
-                      <input type="text" placeholder="Type Something" id='searchText' name="q" onkeypress="handle" />
+                      <input type="text" placeholder="검색" id='searchText' name="q" onkeypress="handle" />
                       <i class="fa fa-search"></i>
                     </form>
                   </div>
@@ -25,7 +25,7 @@
                   <style>
                     .logout{
                       background-color: transparent;
-                      color: #666;
+                      color: rgb(192, 192, 192);
                       border: none;
                       position: relative;
                       top: 11px;
@@ -52,7 +52,7 @@
                             <li><button type="submit" class="logout">Sign Out</button></li>
                           </form>		
                   </th:block>
-                      <li sec:authorize="isAuthenticated()"><a href="profile/my">Profile <img src="/cyborg/assets/images/avatar.jpg" alt=""></a></li>
+                      <li sec:authorize="isAuthenticated()"><a href="/profile/my">Profile <img src="/cyborg/assets/images/avatar.jpg" alt=""></a></li>
                   </ul>   
                   <a class='menu-trigger'>
                       <span>Menu</span>
