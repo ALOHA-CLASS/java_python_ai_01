@@ -85,7 +85,7 @@
         #list3:hover {
             color: #fb2ecf;
         }
-        #write {
+        #write, #btn_board_del {
             font-size: 25px;
             color: #fff;
             background-color: #000000;
@@ -183,13 +183,14 @@
                 </table>
                 <div align="right">
                     <th:block sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
-                        <a href="/board/insert" id="write">글쓰기</a>
+                        <button type="button" id="write" onclick="btnBoardAdd()">글쓰기</button>
                     </th:block>
-                </div>
-                <div align="right">
                     <th:block sec:authorize="hasAnyRole('ROLE_ADMIN')">
                         <button type="button" id="btn_board_del" onclick="btnBoardDel()">삭제</button>
                     </th:block>
+                </div>
+                <div align="right">
+                    
                 </div>
                 <br>
                 <!-- 페이지네이션 -->
@@ -290,6 +291,11 @@
                           + "&tag=" + option.tag
                           
         }
+
+        function btnBoardAdd(){
+            location.href="/board/insert"
+        }
+
         function btnBoardDel(){
             let chkarr = [];
             var token = $("meta[name='_csrf']").attr("content");
