@@ -27,12 +27,16 @@
 	<h1>글읽기</h1>
 	<hr>
 	<form action="/board/delete" method="post" id="form">
+	<input type="hidden" id="csrf-token" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 	
 	
 		<input type="hidden" name="boardNo" th:value="${board.boardNo}" readonly>
     	<input type="hidden" th:name=userId th:value="${userId}"/>
 		
 		<table width=500>
+			<tr>
+				<td><b>구분</b></td>
+				<td th:text="${board.tag}"></td>
 			<tr>
 				<td colspan=4 th:style="${'font-size:25px'}">
 					<label th:text="${board.title}"></label>
@@ -64,10 +68,19 @@
 	</form>
 	
 	<hr>
+	
+		<!-- 버튼 -->
+	<div>
+		<span th:if="${board.userId == userId}">
+			<button type="button" onclick="moveUpdate()">수정</button> 
+			<button type="button" onclick="boardDelete()">삭제</button>
+		</span>
+		<button type="button" onclick="moveList()">목록</button>
+	</div>
+	
 	<h2>댓글</h2>
 	
 	<!-- 댓글 목록 -->
-	<!--   -->
 	<div id="comment_list">
 		<th:block th:each=" comment: ${commentList} ">
 			<div class="comment_wrap">
@@ -78,42 +91,46 @@
 				</th:block>
 			
 				<div th:class="comment_box">
+					<input type="hidden" class="group_no" th:value="${comment.groupNo}">
+					<input type="hidden" class="parent_no" th:value="${comment.parentNo}">
+					<input type="hidden" class="depth_no" th:value="${comment.depthNo}">
+					<input type="hidden" class="seq_no" th:value="${comment.seqNo}">
+					<input type="hidden" class="sub_count" th:value="${comment.subCnt}">
+					<input type='hidden' class='userId' th:value='${comment.userId}'/>
 					<span class="comment_nick" th:text="${comment.nickname}"></span>
 					<span class="comment_date" th:text="${comment.regDate}"></span>
-					<button type="button" class="btn_comment_update" th:data="${comment.commentNo}">수정</button>
-					<button type="button" class="btn_comment_delete" th:data="${comment.commentNo}">삭제</button>
-					<p class="comment_content" th:text="${comment.content}"></p>
+					<span th:if="${comment.userId == userId}">
+	                    <button type="button" class="btn_comment_update" th:data="${comment.commentNo}">수정</button>
+	                    <button type="button" class="btn_comment_delete" th:data="${comment.commentNo}">삭제</button>
+                	</span>
+					<p class="content" th:text="${comment.content}"></p>
 				</div>
 			</div>
 		</th:block>
 	</div>
 
 	<!-- 댓글 입력 -->
-	<div class="comment_txt">
-		<div class="top">
-		</div>
-		<div class="comment_input">
-			<br>
-			<input type="hidden" th:id=userId th:value="${userId}"/>
-			<!-- <p class="userId" th:text="${userId}" id="userId"></p>  -->
-			<textarea name="content" id="content" rows="5" cols="60" 
-					  placeholder="댓글을 작성해주세요."></textarea>
-			<div class="btn_area">
-				<button type="button" id="btn_comment_insert" class="btn_comment">등록</button>
+	<th:block sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
+		<div class="comment_txt">
+			<div class="top">
 			</div>
+			<div class="comment_input">
+				<br>
+				<input type="hidden" th:id=userId th:value="${userId}"/>
+				<!-- <p class="userId" th:text="${userId}" id="userId"></p>  -->
+				<textarea name="content" id="content" rows="5" cols="60" 
+						  placeholder="댓글을 작성해주세요."></textarea>
+				<div class="btn_area">
+					<button type="button" id="btn_comment_insert" class="btn_comment">등록</button>
+				</div>
+			</div>
+			<br>
 		</div>
-		<br>
-	</div>
+	</th:block>
 	
 	
 	
-	<!-- 버튼 -->
-	<div>
-		<button type="button" onclick="moveUpdate()">수정</button> 
-		<button type="button" onclick="boardDelete()">삭제</button>
-		<button type="button" onclick="moveList()">목록</button>
-	</div>
-	
+
 	
 	
 	
@@ -122,6 +139,7 @@
 	
 		let form = document.getElementById("form")
 		let boardNo = "[[${board.boardNo}]]"
+		const csrfToken = document.getElementById('csrf-token').value;
 		
 		// 문서 준비 이벤트
 		$(function() {
@@ -210,12 +228,13 @@
 				let userId = $('#userId').val()
 				let content = $('#content').val()
 				
-				console.log("userId="+userId)
-				
-				insertComment( userId, content )
+				if (content=='') { alert('댓글을 입력해주세요') }
+				else { insertComment( userId, content ) }
 			})
 			
 		}
+		
+		
 
 
 	
@@ -224,7 +243,7 @@
 		}
 		
 		function boardDelete() {
-			let check = confirm("정말로 삭제하시겠습니까?")
+			let check = confirm("삭제하시겠습니까?")
 			if( check ) {
 				form.submit()
 			}
@@ -238,18 +257,6 @@
 	
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

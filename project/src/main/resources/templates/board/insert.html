@@ -12,18 +12,25 @@
 	<form action="/board/insert" method="post">
 		<!-- csrf 토큰 -->
     	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-    	
-    	<!-- userId를 히든 타입으로 불러옴 -->
     	<input type="hidden" th:name=userId th:value="${userId}"/>
 	
 		<table>
+			<tr>
+				<td>구분</td>
+				<td colspan=4>
+					<select name="tag" id="tag">
+	                	    <option value="국내">국내</option>
+	                    	<option value="해외">해외</option>
+	                    	<option value="기타">기타</option>
+	           		</select>
+	           	</td>
 			<tr>
 				<td>제목</td>
 				<td>
 					<input type="text" name="title" >
 				</td>
 			</tr>
-<!-- 			<tr>
+<!-- 		<tr>
 				<td>작성자</td>
 			 	<td th:name=userId th:text="${userId}"></td>
 			</tr>  -->

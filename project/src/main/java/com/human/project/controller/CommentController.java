@@ -44,9 +44,14 @@ public class CommentController {
 	@PostMapping("/insert")
 	public String insert(Model model, Comment comment, Principal principal) throws Exception {
 		
-		String userId = principal.getName();
+		int result = 0;
 		
-		int result = commentService.insert(comment, userId);
+		if (principal != null) {
+			String userId = principal.getName();
+			model.addAttribute("userId", userId);
+			log.info("userId : "+userId);
+			result = commentService.insert(comment, userId);
+		}
 		
 		if(result > 0) 			log.info("댓글 등록 성공...");
 		else		 			log.info("댓글 등록 실패...");
@@ -60,10 +65,17 @@ public class CommentController {
 	
 	// 댓글 수정
 	@PostMapping("/update")
-	public String update(Model model, Comment comment) throws Exception {
+	public String update(Model model, Comment comment, Principal principal) throws Exception {
 		
-		int result = commentService.update(comment);
+		int result = 0;
 		
+		if (principal != null) {
+			String userId = principal.getName();
+			model.addAttribute("userId", userId);
+			log.info("userId : "+userId);
+			result = commentService.update(comment);
+		}
+
 		if(result > 0) 			log.info("댓글 수정 성공...");
 		else		 			log.info("댓글 수정 실패...");
 		
@@ -78,11 +90,19 @@ public class CommentController {
 	
 	// 댓글 삭제
 	@PostMapping("/delete")
-	public String delete(Model model, Comment comment) throws Exception {
+	public String delete(Model model, Comment comment, Principal principal) throws Exception {
 		
 		int commentNo = comment.getCommentNo();
 		
-		int result = commentService.delete(commentNo);
+		int result = 0;
+		
+		if (principal != null) {
+			String userId = principal.getName();
+			model.addAttribute("userId", userId);
+			log.info("userId : "+userId);
+			result = commentService.delete(commentNo);
+			result = commentService.update(comment);
+		}
 		
 		if(result > 0) 			log.info("댓글 삭제 성공...");
 		else		 			log.info("댓글 삭제 실패...");
