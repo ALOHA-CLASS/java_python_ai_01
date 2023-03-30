@@ -34,6 +34,13 @@
         em {
             color: rgb(252, 15, 220);
         }
+        .back-head {
+            background-image: url(/img/yaho1.png);
+            background-size: 100%;
+            background-repeat: no-repeat;
+            background-position: center;
+            height: 120px;
+        }
         .back-foot {
             background-image: url(/img/yaho2.png);
             background-size: 100%;
@@ -50,6 +57,50 @@
                 margin-top: 14px;
             }
         }
+        #list #list1 #list2 #list3 { 
+            background-color: transparent !important;
+            color: #ffffff;
+        }
+        /* #list1 { 
+            background-color: transparent !important;
+            color: #ffffff;
+        }
+        #list2 { 
+            background-color: transparent !important;
+            color: #ffffff;
+        }
+        #list3 { 
+            background-color: transparent !important;
+            color: #ffffff;
+        } */
+        #list:hover {
+            color: #fb2ecf;
+        }
+        #list1:hover {
+            color: #fb2ecf;
+        }
+        #list2:hover {
+            color: #fb2ecf;
+        }
+        #list3:hover {
+            color: #fb2ecf;
+        }
+        #write {
+            font-size: 25px;
+            color: #fff;
+            background-color: #000000;
+            padding: 1px 12px;
+            display: inline-block;
+            font-weight: 100;
+            border-radius: 10%;
+            text-transform: capitalize;
+            letter-spacing: 0.5px;
+            transition: all .3s;
+            position: relative;
+            overflow: hidden;
+            font-family: 'Dongle', sans-serif;
+            margin-top: 5px;
+        }
     </style>
 <div class="container">
     <div class="row">
@@ -61,10 +112,10 @@
                 <!-- csrf 토큰 -->
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                 <p th:text="|${page.totalCount} 건의 게시글이 조회되었습니다.|" align="left"></p>
-                <a href="list">[전체목록]</a>
-                <a href="list?tag=국내">[국내]</a>
-                <a href="list?tag=해외">[해외]</a>
-                <a href="list?tag=기타">[기타]</a>
+                <a href="list" id="list">전체목록</a>
+                &nbsp;<a href="list?tag=국내" id="list1">국내</a>
+                &nbsp;<a href="list?tag=해외" id="list2">해외</a>
+                &nbsp;<a href="list?tag=기타" id="list3">기타</a>
                 <div align="right">
                     <!-- 페이징 옵션 -->
                     <p>게시물
@@ -134,9 +185,9 @@
                         </tr>
                      </th:block>
                 </table>
-                <div align="left">
+                <div align="right">
                     <th:block sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
-                        <a href="/board/insert">글쓰기</a>
+                        <a href="/board/insert" id="write">글쓰기</a>
                     </th:block>
                 </div>
                 <div align="right">

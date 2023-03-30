@@ -60,6 +60,24 @@
             font-family: 'Dongle', sans-serif;
             font-size: 30px;
         }
+        #mollu {
+            color: white;
+            background-color: transparent;
+            border: 0;
+            border-bottom: 2px solid #FC1F74;
+            outline: 0;
+            box-shadow: 0 0 0 0.25rem transparent;
+			font-family: 'Dongle', sans-serif;
+            font-size: 30px;
+        }
+        #complete {
+            font-family: 'Dongle', sans-serif;
+            font-size: 30px;
+        }
+        #double-check {
+            font-family: 'Dongle', sans-serif;
+            font-size: 20px;
+        }
     </style>
 </head>
 <body layout:fragment="content">
@@ -76,8 +94,8 @@
                         <table class="sign-up">
                         <tr>
                             <td width="150">아이디</td>
-                            <td>
-                                <span th:text="*{userId}">
+                            <td id="mollu">
+                                <span th:text="*{userId}" >
                             </td>
                         </tr>
                         <tr><td><br></td></tr>
@@ -89,7 +107,7 @@
                             </td>
                             <td>
                                 <div class="main-button">
-                                    <a href="javascript:;" onclick="checkNickname()">중복확인</a>
+                                    <a href="javascript:;" onclick="checkNickname()" id="double-check">중복확인</a>
                                 </div>
                             </td>
                         </tr>
@@ -132,7 +150,7 @@
                 </table>
                         <div><br><br>
                             <div class="main-button">
-                                    <a href="javascript:;" onclick=btn_update()>수정 완료</a>
+                                    <a href="javascript:;" onclick=btn_update() id="complete">수정 완료</a>
                                 </form>
                             </div>
                         </div>

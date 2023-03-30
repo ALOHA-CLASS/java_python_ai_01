@@ -12,7 +12,7 @@
         color: rgb(255, 236, 236);
         font-family: 'Dongle', sans-serif;
         font-size: 50px;
-        text-align: center;
+        text-align: left;
     }
     table {
         color: rgb(255, 236, 236);
@@ -56,20 +56,22 @@
         font-family: 'Dongle', sans-serif;
         font-size: 25px;
     }
-    .btn {
-        font-size: 14px;
-        color: #fff;
-        background-color: #000000;
-        padding: 12px 15px;
-        display: inline-block;
-        font-weight: 800;
-        text-transform: capitalize;
-        letter-spacing: 0.5px;
-        transition: all .3s;
-        position: relative;
-        overflow: hidden;
+    #btn {
+        font-size: 25px;
+		color: #fff;
+		background-color: #000000;
+		padding: 1px 12px;
+		display: inline-block;
+		font-weight: 100;
+		border-radius: 10%;
+		text-transform: capitalize;
+		letter-spacing: 0.5px;
+		transition: all .3s;
+		position: relative;
+		overflow: hidden;
+		font-family: 'Dongle', sans-serif;
         }
-        .btn:hover {
+        #btn:hover {
         background-color: #fff;
         color: #D204A9;
         }
@@ -84,10 +86,10 @@
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 		<input type="hidden" name="boardNo" th:value="${board.boardNo}" readonly>
 		<input type="hidden" name="userId" th:value="${board.userId}" readonly>
-		
+		<br><br>
 		<table>
 			<tr>
-				<td>제목</td>
+				<td>제목</td>&nbsp;
 				<td>
 					<input type="text" name="title" th:value="${board.title}" >
 				</td>
@@ -101,15 +103,15 @@
 			<tr> 
 				<td>내용</td>
 				<td>
-					<textarea rows="10" cols="40" name="content" th:text="${board.content}" ></textarea>
+					<textarea rows="5" cols="40" name="content" th:text="${board.content}" ></textarea>
 				</td>
 			</tr>
 		</table>
 		<div>
 			<span th:if="${board.userId == #authentication.principal.username}">
-				<button type="button" onclick="boardUpdate()">수정</button>
+				<button type="button" onclick="boardUpdate()" id="btn">수정</button>
 			</span>
-			<button type="button" onclick="moveList()">목록</button>
+			<button type="button" onclick="moveList()" id="btn">목록</button>
 		</div>
 	
 	</form>

@@ -41,7 +41,7 @@
                     }
                     #signup{
                       background-color: transparent !important;
-                      color: #666;
+                      color: #6f6f6f;
                       border: none;
                       position: relative;
                       top: 5px;
@@ -74,7 +74,7 @@
                             <li><button type="submit" class="logout">Sign Out</button></li>
                           </form>
                   </th:block>
-                      <li sec:authorize="isAuthenticated()"><a href="profile/my">Profile <img src="/cyborg/assets/images/avatar.jpg" alt=""></a></li>
+                      <li sec:authorize="isAuthenticated()"><a href="/profile/my">Profile <img src="/cyborg/assets/images/avatar.jpg" alt=""></a></li>
                   </ul>   
                   <a class='menu-trigger'>
                       <span>Menu</span>

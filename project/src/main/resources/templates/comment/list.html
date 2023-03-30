@@ -3,6 +3,72 @@
 <head>
 </head>
 <body>
+	<style>
+		#btn_comment {
+		font-size: 25px;
+		color: #fff;
+		background-color: transparent;
+		padding: 1px 9px;
+		display: inline-block;
+		font-weight: 100;
+		border: none;
+		text-transform: capitalize;
+		letter-spacing: 0.5px;
+		transition: all .3s;
+		position: relative;
+		overflow: hidden;
+		font-family: 'Dongle', sans-serif;
+		}
+		#btn_comment:hover {
+		background-color: #27292A;
+		color: #D204A9;
+		}
+		.btn_comment_answer {
+		font-size: 25px;
+		color: #fff;
+		background-color: #000000;
+		padding: 1px 9px;
+		display: inline-block;
+		font-weight: 100;
+		border-radius: 10%;
+		text-transform: capitalize;
+		letter-spacing: 0.5px;
+		transition: all .3s;
+		position: relative;
+		overflow: hidden;
+		font-family: 'Dongle', sans-serif;
+		}
+		.btn_comment_insert {
+		font-size: 25px;
+		color: #fff;
+		background-color: #000000;
+		padding: 1px 9px;
+		display: inline-block;
+		font-weight: 100;
+		border-radius: 10%;
+		text-transform: capitalize;
+		letter-spacing: 0.5px;
+		transition: all .3s;
+		position: relative;
+		overflow: hidden;
+		font-family: 'Dongle', sans-serif;
+		}
+		.btn_comment_cancel {
+		font-size: 25px;
+		color: #fff;
+		background-color: #000000;
+		padding: 1px 9px;
+		display: inline-block;
+		font-weight: 100;
+		border-radius: 10%;
+		text-transform: capitalize;
+		letter-spacing: 0.5px;
+		transition: all .3s;
+		position: relative;
+		overflow: hidden;
+		font-family: 'Dongle', sans-serif;
+		}
+	</style>
 <input type="hidden" id="csrf-token" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 	<!-- 댓글 목록 -->
 	<th:block th:each=" comment : ${commentList} ">
@@ -24,12 +90,12 @@
 				<span class="nickname" th:text="${comment.nickname}"></span>
 				<span class="regDate" th:text="${comment.regDate}"></span>
 				<span th:if="${comment.userId == userId}">
-                	<button type="button" class="btn_comment_update" th:data="${comment.commentNo}">수정</button>
-                	<button type="button" class="btn_comment_delete" th:data="${comment.commentNo}">삭제</button>
+                	<button type="button" class="btn_comment_update" th:data="${comment.commentNo}" id="btn_comment">수정</button>
+                	<button type="button" class="btn_comment_delete" th:data="${comment.commentNo}" id="btn_comment">삭제</button>
                 </span>
 				<p class="content" th:text="${comment.content}"></p>
 				<th:block sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
-				<button type="button" class="btn_comment_answer" th:data="${comment.commentNo}">답글</button>
+				<button type="button" class="btn_comment_answer" th:data="${comment.commentNo}" id="btn_comment_answer">답글</button>
 				</th:block>
 			</div>
 		</div>
