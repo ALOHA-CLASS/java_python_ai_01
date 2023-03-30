@@ -118,13 +118,11 @@ public class CommentController {
 	@PostMapping("/answer/insert")
 	public String insertAnswer(Model model, Comment comment, Principal principal) throws Exception {
 		
-			String userId = principal.getName();
-	        log.info("userId : "+userId);
-		
-	    int result = commentService.insertAnswer(comment,userId);
+		String userId = principal.getName();
+		log.info("userId : "+userId);
 		
 		// 답글 등록 요청
-		
+	    int result = commentService.insertAnswer(comment,userId);
 		
 		if(result > 0) 			log.info("답글 등록 성공...");
 		else		 			log.info("답글 등록 실패...");

@@ -1,7 +1,5 @@
 package com.human.project.controller;
 
-
-
 import java.security.Principal;
 import java.util.List;
 
@@ -37,13 +35,11 @@ public class BoardController {
 	private CommentService commentService;
 	
 	// 게시글 목록
-	@GetMapping("/list")
+	@RequestMapping("/list")
 	public String list(Model model, Option option, Page page) throws Exception {
         
 		// 게시글 목록 요청
 		List<Board> boardList = boardService.list(page, option);
-
-		
 
 		// 게시글 목록 모델에 등록
 		model.addAttribute("boardList", boardList);
