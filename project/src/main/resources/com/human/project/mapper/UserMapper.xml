@@ -114,7 +114,7 @@
 	</select>
 
 
-	<!-- 임시 비밀번호 받기 -->
+	<!-- 임시 비밀번호 받기 & 비밀번호 변경 -->
 	<update id="newPw">
 		UPDATE users
 		SET user_pw = #{userPw}
