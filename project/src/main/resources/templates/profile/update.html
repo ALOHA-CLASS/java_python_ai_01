@@ -147,7 +147,30 @@
                                
                             </td>
                         </tr>
-                </table>
+                        <tr>
+                            <td width="150">비밀번호 변경</td>
+                            <td colspan="2">
+                                <input type="password"  id="newPw" name="userPw" th:field="*{userPw}" th:errorclass="field-error" class="form-control input-underline"> <br>
+                            
+                            </td>
+                            <td>
+                                <div class="main-button">
+                                    <a href="javascript:;" onclick="newPw()">비밀번호변경</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="error-row">
+                            <td width="150">&nbsp;</td>
+                            <td colspan="2" align="left">
+                                <font color="red">
+                                    <th:block th:if="${ #fields.hasErrors('userPw') }">
+                                        <span th:errors="*{userPw}"></span>
+                                    </th:block>
+                                </font>
+                            </td>
+                            </td>
+                        </tr>
+                    </table>
                         <div><br><br>
                             <div class="main-button">
                                     <a href="javascript:;" onclick=btn_update() id="complete">수정 완료</a>
@@ -219,6 +242,41 @@
             })
             return res
         }
+
+    // 비밀번호 변경
+    function newPw() {
+        // let newPw = $('#newPw').val()
+        if($('#newPw').val() == "") {
+            alert("빈칸을 확인해주세요.")
+            return false;
+        }
+        else {
+            var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
+            $.ajax({
+                url: '/newPwUpdate',      // 요청 경로
+                type: 'post',               // 메소드 방식(get, post, put 등)
+                data: {userId : $('userId').val(), userPw : $('#newPw').val()},             // 전송할 데이터
+                // 전송
+                beforeSend : function(xhr) {
+                    xhr.setRequestHeader(header, token)
+                },
+                // 서버로부터 정상적인 응답
+                success: function(data){
+                    if( data == 'true' ) {
+                        alert("비밀번호가 변경되었습니다.");
+                    }
+                    else {
+                        alert("비밀번호 변경에 실패하였습니다.")
+                    }
+                },
+                // 에러
+                error: function(request, status, error){
+                    alert('@@@@@@@@@에러@@@@@@@@@@')
+                }
+            })
+        }
+    }
 
     function btn_update(){
         document.getElementById('update').submit();

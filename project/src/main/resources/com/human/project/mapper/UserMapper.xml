@@ -51,16 +51,6 @@
 		 	OR nickname = #{nickname}
 	</select>
 	
-	<!-- 회원 목록 -->
-	<select id="list" resultMap="userMap">
-		SELECT u.*
-			  ,a.auth_no
-		      ,a.auth
-	      FROM users u 
-     LEFT JOIN user_auth a ON u.user_id = a.user_id
-	  ORDER BY u.user_no
-	</select>
-
 	<!-- 회원 수정 -->
 	<update id="update">
 		UPDATE 	users
@@ -71,11 +61,9 @@
 		WHERE 	user_id = #{userId}
 	</update>
 
-
 	<!-- 회원 삭제 -->
 	<delete id="delete">
-		DELETE 
-		FROM users
+		DELETE FROM users
 		WHERE  user_id = #{userId}
 	</delete>
 
@@ -122,20 +110,10 @@
 	</select>
 
 
-	<!-- 임시 비밀번호 받기 -->
+	<!-- 임시 비밀번호 받기 & 비밀번호 변경 -->
 	<update id="newPw">
 		UPDATE users
 		SET user_pw = #{userPw}
 		WHERE user_id = #{userId}
 	</update>
-
-	<!-- 회원 삭제 -->
-	<delete id="deleteSelectedUser">
-		DELETE FROM users
-		 WHERE user_no in ( ${noList} )
-	</delete>
-
-
-
-
 </mapper>
