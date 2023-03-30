@@ -38,9 +38,9 @@
     <!-- 구분으로 모아보기 -->
     <select id="viewWithTag" resultType="Board">
         SELECT b.*, u.nickname
-        FROM board b, users u
+        FROM board b  LEFT JOIN users u ON u.user_id = b.user_id
         WHERE b.board_no > 0
-          AND b.user_id=u.user_id
+          
           AND b.tag = #{tag}
           AND (
                 <if test="option.optionCode == 0">
@@ -68,9 +68,8 @@
     <!-- 게시글 목록 - 검색/페이징 -->
     <select id="boardList" resultType="Board">
         SELECT b.*, u.nickname, IFNULL( u.user_id, '삭제된 계정입니다.') AS user_id
-        FROM board b, users u
+        FROM board b  LEFT JOIN users u ON u.user_id = b.user_id
         WHERE b.board_no > 0
-          AND b.user_id=u.user_id
           <choose>
 			<when test="option.tag.equals('')">
 				AND 1 = 1
@@ -106,9 +105,8 @@
     <!-- 게시글 개수 - 검색어 포함 -->
     <select id="countWithKeyword" resultType="int">
         SELECT count(*)
-        FROM board b, users u
+        FROM board b  LEFT JOIN users u ON u.user_id = b.user_id
         WHERE b.board_no > 0
-          AND b.user_id=u.user_id
           <choose>
 			<when test="option.tag.equals('')">
 				AND 1 = 1
