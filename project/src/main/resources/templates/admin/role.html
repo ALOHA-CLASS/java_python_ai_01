@@ -26,11 +26,20 @@
 		<div class="col-lg-12">
 			<div class="page-content">
 				<h1>관리자 페이지</h1>
-				<h3>ROLE_ADMIN 권한</h3>
+				<h3>ROLE_ADMIN 권한 관리</h3>
 				
+				<select id="rowsPerPage" name="rowsPerPage">
+					<option value="10">10개씩</option>
+					<option value="15">15개씩</option>
+					<option value="20">20개씩</option>
+					<option value="30">30개씩</option>
+					<option value="40">40개씩</option>
+					<option value="50">50개씩</option>
+				</select>
+				<p th:text="|${page.totalCount} 명의 회원이 조회되었습니다.|" align="left"></p>
 				<table border="1">
 					<tr>
-						<th><input type="checkbox" id="checkall"></th>
+						<th width="40"></th>
 						<th width="100">회원 번호</th>
 						<th width="150">회원 ID</th>
 						<th width="150">회원 닉네임</th>
@@ -42,7 +51,7 @@
 ​
 					<th:block th:each="user : ${usersList}">
 						<tr>
-							<td><input type="checkbox" name="userNo" th:value=${user.userNo} class="input-check"></td>
+							<td><input type="radio" name="userNo" th:value=${user.userNo} class="radio-check"></td>
 							<td th:text=${user.userNo}></td>
 							<td th:text=${user.userId}></td>
 							<td th:text=${user.nickname}></td>
@@ -64,66 +73,150 @@
 						</tr>
 					</th:block>
 				</table>
-​
+
+				<!-- 페이지네이션 -->
+                <a th:href="|javascript: change(${page.firstPage});|">[처음]</a>
+                <th:block th:if="${page.prev} > 0">
+                    <a th:href="|javascript: change(${page.prev});|">[이전]</a>
+                </th:block>
+                <th:block th:each="no : ${#numbers.sequence(page.startPage, page.endPage)}">
+                    <th:block th:if="${no == page.pageNum}"><b></th:block>
+                    <a th:href="|javascript: change(${no});|" th:text="${no}"></a>
+                    <th:block th:if="${no == page.pageNum}"></b></th:block>
+                </th:block>
+                <th:block th:if="${page.next} <= ${page.lastPage}">
+                    <a th:href="|javascript: change(${page.next});|">[다음]</a>
+                </th:block>
+                <a th:href="|javascript: change(${page.lastPage});|">[마지막]</a>
+
 				<div>
-					
+					<select name="auth_list" id="auth_list">
+						<option value="ROLE_USER">사용자</option>
+						<option value="ROLE_ADMIN">관리자</option>
+					</select>
 					<div align="right">
-						<button type="button" onclick="btnUserDel()">회원 삭제</button>
+						<button type="button" onclick="btnAddAuth()">권한 추가</button>
+						<button type="button" onclick="btnDelAuth()">권한 박탈</button>
 					</div>
 				</div>
+				<br>
+                <!-- 검색 옵션 -->
+				<form action="/admin/role" method="get">
+					<select name="optionCode" id="optionCode">
+						<option value="0">아이디</option>
+						<option value="1">닉네임</option>
+						<option value="2">회원 이름</option>
+					</select>
+					<input type="text" name="keyword" th:value="${param.keyword}" placeholder="검색어를 입력하세요.">
+					<button type="submit">검색</button>
+				</form>
 				
 			</div>
 		</div>
 	</div>
 </div>
-<script>
-​
+<script th:inline="javascript">
+	let page = [[${page}]]
+	let option = [[${option}]]
+
 	document.addEventListener('DOMContentLoaded', function(){
-		// Checkbox All 체크 여부
-		let checkall = document.getElementById('checkall')
-			checkall.addEventListener('click', function(){
-				var chk = checkall.checked;
-				if (chk){
-					// $('input[name=boardNo]:checkbox').attr("checked",true);
-					$('.input-check').prop('checked', true)
-				}else{
-					// $('input[name=boardNo]:checkbox').attr("checked",false);
-					$('.input-check').prop('checked', false)
-				}
-			})
-	})
-​
-	function btnUserDel(){
-		let chkarr = [];
-		var token = $("meta[name='_csrf']").attr("content");
-		var header = $("meta[name='_csrf_header']").attr("content");
-		
-		let result = confirm("삭제 하시겠습니까?")
-		if (result) {
-			$('.input-check:checked').each(function(){
-				chkarr.push($(this).val());
-			})
-​
-			$.ajax({
-				url: '/user/delete',		// 요청 경로
-				type: 'post',				// 메소드 방식(get, post, put 등)
-				data: {chkbox : chkarr},				// 전송할 데이터
-				
-				beforeSend : function(xhr) {
-					xhr.setRequestHeader(header, token)
-				},
-				// 서버로부터 정상적인 응답
-				success: function(data){
-					// alert("성공")
-					location.reload()
-				},
-				// 에러
-				error: function(request, status, error){
-					alert('회원 삭제 중 에러가 발생하였습니다.')
-				},
-			})
+		// 검색 옵션 초기화
+		let optionCode = document.getElementById('optionCode')
+		for (let i = 0; i < optionCode.options.length; i++) {
+			if( option.optionCode == optionCode.options[i].value)   {
+				optionCode.options[i].selected = true
+			}
 		}
+		// rowsPerPage( 게시글 개수 옵션 ) 초기화
+		let rowsPerPage = document.getElementById('rowsPerPage')
+		for (let i = 0; i < rowsPerPage.options.length; i++) {
+			if( page.rowsPerPage == rowsPerPage.options[i].value)   {
+				rowsPerPage.options[i].selected = true
+			}
+		}
+		// rowsPerPage ( 게시글 개수 ) 변경 이벤트
+		rowsPerPage.addEventListener('change', function(){
+			page.rowsPerPage = rowsPerPage.value
+			change()
+		})
+	})
+
+	function change(pageNum=1){
+		location.href = "/admin/role?"
+						+ "pageNum=" + pageNum
+						+ "&rowsPerPage="+ page.rowsPerPage
+						+ "&keyword=" + option.keyword
+						+ "&optionCode=" + option.optionCode
 	}
+	
+    function btnAddAuth(){
+        
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+
+        let radio_sel = $('.radio-check:checked').val();
+        let auth_sel = $('#auth_list option:selected').val();
+        
+        console.log(radio_sel);
+
+        let result = confirm("권한을 추가 하시겠습니까?")
+        if (result) {
+
+            $.ajax({
+                url: '/admin/addAuth',		// 요청 경로
+                type: 'post',				// 메소드 방식(get, post, put 등)
+                data: {	radio_val  : radio_sel,
+                        auth_val : auth_sel},				// 전송할 데이터
+                
+                beforeSend : function(xhr) {
+                    xhr.setRequestHeader(header, token)
+                },
+                // 서버로부터 정상적인 응답
+                success: function(data){
+                    // alert("성공")
+                    location.reload()
+                },
+                // 에러
+                error: function(request, status, error){
+                    alert('권한 추가 중 에러가 발생하였습니다.')
+                },
+            })
+        }
+    }
+
+    function btnDelAuth(){
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+
+        let radio_sel = $('.radio-check:checked').val();
+        let auth_sel = $('#auth_list option:selected').val();
+
+        console.log(radio_sel);
+
+        let result = confirm("권한을 삭제 하시겠습니까?")
+        if (result) {
+
+            $.ajax({
+                url: '/admin/delAuth',		// 요청 경로
+                type: 'post',				// 메소드 방식(get, post, put 등)
+                data: {	radio_val  : radio_sel,
+                        auth_val : auth_sel},				// 전송할 데이터
+                
+                beforeSend : function(xhr) {
+                    xhr.setRequestHeader(header, token)
+                },
+                // 서버로부터 정상적인 응답
+                success: function(data){
+                    // alert("성공")
+                    location.reload()
+                },
+                // 에러
+                error: function(request, status, error){
+                    alert('권한 삭제 중 에러가 발생하였습니다.')
+                },
+            })
+        }
+    }
 </script>
 	
 </body>
