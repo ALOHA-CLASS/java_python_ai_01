@@ -101,7 +101,6 @@ public class CommentServiceImpl implements CommentService {
 		comment.setDepthNo(depthNo);
 		comment.setSeqNo(seqNo);
 		
-		
 		// 뒤의 순서번호 + 1
 		commentMapper.syncSeqNo(comment);
 		
@@ -141,7 +140,6 @@ public class CommentServiceImpl implements CommentService {
 		syncsubCnt(ancestorNo, no);
 		
 	}
-
 
 }
 
