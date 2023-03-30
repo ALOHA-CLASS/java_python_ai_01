@@ -28,24 +28,12 @@ public interface UserService {
 	public boolean tokenAuthentication(Users user, HttpServletRequest request) throws Exception;
 
 	public int joinSocial(Users user, HttpServletRequest request) throws Exception;
-	
-	
-	// 아이디 찾기
-
-	
-
-	// 회원 목록
-	public List<Users> list() throws Exception;
 
 	// 회원 수정
 	public int update(Users user) throws Exception;
 	
 	// 회원 삭제
 	public int delete(Users user) throws Exception;
-
-	// 선택 회원 삭제
-	public int delete(List<String> userNoList) throws Exception;
-
 
 	// 아이디 찾기
 	public Users findId(Users user) throws Exception;
@@ -55,7 +43,6 @@ public interface UserService {
 
 	// 임시 비밀번호 발급 & 비밀번호 변경
 	public int newPw(Users user) throws Exception;
-
 
 	// 모든 쿠키 삭제
 	public boolean deleteCookies(HttpServletRequest request, HttpServletResponse response) throws Exception;

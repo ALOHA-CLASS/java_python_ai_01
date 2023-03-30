@@ -3,7 +3,7 @@
 				xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 			    layout:decorate="~{ui/admin/layouts/admin_template}"
 	 			xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-​
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="_csrf" th:content="${_csrf.token}"/>
@@ -26,7 +26,26 @@
 		<div class="col-lg-12">
 			<div class="page-content">
 				<h1>관리자 페이지</h1>
-				<h3>ROLE_ADMIN 권한</h3>
+				<h3>ROLE_ADMIN 회원 관리</h3>
+				<table border="1">
+					<tr>
+						<td width="500">
+							<span id="srh" th:text="|${page.totalCount} 명의 회원이 조회되었습니다.|"></span>
+						</td>
+						<td width="500">
+							<select id="rowsPerPage" name="rowsPerPage">
+								<option value="10">10개씩</option>
+								<option value="15">15개씩</option>
+								<option value="20">20개씩</option>
+								<option value="30">30개씩</option>
+								<option value="40">40개씩</option>
+								<option value="50">50개씩</option>
+							</select>
+						</td>
+					</tr>
+				</table>
+				
+				
 				
 				<table border="1">
 					<tr>
@@ -64,35 +83,87 @@
 						</tr>
 					</th:block>
 				</table>
-​
-				<div>
-					
-					<div align="right">
-						<button type="button" onclick="btnUserDel()">회원 삭제</button>
-					</div>
+
+				<!-- 페이지네이션 -->
+                <a th:href="|javascript: change(${page.firstPage});|">[처음]</a>
+                <th:block th:if="${page.prev} > 0">
+                    <a th:href="|javascript: change(${page.prev});|">[이전]</a>
+                </th:block>
+                <th:block th:each="no : ${#numbers.sequence(page.startPage, page.endPage)}">
+                    <th:block th:if="${no == page.pageNum}"><b></th:block>
+                    <a th:href="|javascript: change(${no});|" th:text="${no}"></a>
+                    <th:block th:if="${no == page.pageNum}"></b></th:block>
+                </th:block>
+                <th:block th:if="${page.next} <= ${page.lastPage}">
+                    <a th:href="|javascript: change(${page.next});|">[다음]</a>
+                </th:block>
+                <a th:href="|javascript: change(${page.lastPage});|">[마지막]</a>
+
+				<div align="right">
+					<button type="button" onclick="btnModNick()">닉네임 변경</button>
+					<button type="button" onclick="btnUserDel()">회원 삭제</button>
 				</div>
-				
+				<br>
+                <!-- 검색 옵션 -->
+				<form action="/admin/index" method="get">
+					<select name="optionCode" id="optionCode">
+						<option value="0">아이디</option>
+						<option value="1">닉네임</option>
+						<option value="2">회원 이름</option>
+					</select>
+					<input type="text" name="keyword" th:value="${param.keyword}" placeholder="검색어를 입력하세요.">
+					<button type="submit">검색</button>
+				</form>
 			</div>
 		</div>
 	</div>
 </div>
-<script>
-​
+<script th:inline="javascript">
+	let page = [[${page}]]
+	let option = [[${option}]]
+
 	document.addEventListener('DOMContentLoaded', function(){
+
+		// 검색 옵션 초기화
+		let optionCode = document.getElementById('optionCode')
+		for (let i = 0; i < optionCode.options.length; i++) {
+			if( option.optionCode == optionCode.options[i].value)   {
+				optionCode.options[i].selected = true
+			}
+		}
+		// rowsPerPage( 게시글 개수 옵션 ) 초기화
+		let rowsPerPage = document.getElementById('rowsPerPage')
+		for (let i = 0; i < rowsPerPage.options.length; i++) {
+			if( page.rowsPerPage == rowsPerPage.options[i].value)   {
+				rowsPerPage.options[i].selected = true
+			}
+		}
+		// rowsPerPage ( 게시글 개수 ) 변경 이벤트
+		rowsPerPage.addEventListener('change', function(){
+			page.rowsPerPage = rowsPerPage.value
+			change()
+		})
+		
 		// Checkbox All 체크 여부
 		let checkall = document.getElementById('checkall')
-			checkall.addEventListener('click', function(){
-				var chk = checkall.checked;
-				if (chk){
-					// $('input[name=boardNo]:checkbox').attr("checked",true);
-					$('.input-check').prop('checked', true)
-				}else{
-					// $('input[name=boardNo]:checkbox').attr("checked",false);
-					$('.input-check').prop('checked', false)
-				}
-			})
+		checkall.addEventListener('click', function(){
+			var chk = checkall.checked;
+			if (chk){
+				$('.input-check').prop('checked', true)
+			}else{
+				$('.input-check').prop('checked', false)
+			}
+		})
 	})
-​
+	function change(pageNum=1){
+		location.href = "/admin/index?"
+						+ "pageNum=" + pageNum
+						+ "&rowsPerPage="+ page.rowsPerPage
+						+ "&keyword=" + option.keyword
+						+ "&optionCode=" + option.optionCode
+	}
+
+	
 	function btnUserDel(){
 		let chkarr = [];
 		var token = $("meta[name='_csrf']").attr("content");
@@ -103,9 +174,9 @@
 			$('.input-check:checked').each(function(){
 				chkarr.push($(this).val());
 			})
-​
+
 			$.ajax({
-				url: '/user/delete',		// 요청 경로
+				url: '/admin/delete',		// 요청 경로
 				type: 'post',				// 메소드 방식(get, post, put 등)
 				data: {chkbox : chkarr},				// 전송할 데이터
 				
@@ -120,6 +191,38 @@
 				// 에러
 				error: function(request, status, error){
 					alert('회원 삭제 중 에러가 발생하였습니다.')
+				},
+			})
+		}
+	}
+
+	function btnModNick(){
+		let chkarr = [];
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+		
+		let result = confirm("닉네임을 '불건전한 닉네임'으로 변경하시겠습니까?")
+		if (result) {
+			$('.input-check:checked').each(function(){
+				chkarr.push($(this).val());
+			})
+
+			$.ajax({
+				url: '/admin/modNick',		// 요청 경로
+				type: 'post',				// 메소드 방식(get, post, put 등)
+				data: {chkbox : chkarr},				// 전송할 데이터
+				
+				beforeSend : function(xhr) {
+					xhr.setRequestHeader(header, token)
+				},
+				// 서버로부터 정상적인 응답
+				success: function(data){
+					// alert("성공")
+					location.reload()
+				},
+				// 에러
+				error: function(request, status, error){
+					alert('닉네임 변경 중 에러가 발생하였습니다.')
 				},
 			})
 		}

@@ -1,7 +1,5 @@
 package com.human.project.mapper;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -34,20 +32,11 @@ public interface UserMapper {
 
 	public UserSocial selectSocial(UserSocial userSocial) throws Exception;
 	
-
-	// 아이디 찾기
-
-	
-
-	// 회원 목록
-	public List<Users> list() throws Exception;
-
 	// 회원 수정
 	public int update(Users user) throws Exception;
 	
 	// 회원 삭제
 	public int delete(Users user) throws Exception;
-
 
 	// 아이디 찾기
 	public Users findId(Users user) throws Exception;

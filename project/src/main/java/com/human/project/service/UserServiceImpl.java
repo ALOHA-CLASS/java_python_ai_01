@@ -37,6 +37,7 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private AuthenticationManager authenticationManager;	// 인증 관리자
 
+	// 회원가입
 	@Override
 	public int join(Users user) throws Exception {
 		// 비밀번호 암호화
@@ -96,30 +97,35 @@ public class UserServiceImpl implements UserService {
 		return result;
 	}
 
+	// 권한등록
 	@Override
 	public int insertAuth(UserAuth userAuth) throws Exception {
 		int result = userMapper.insertAuth(userAuth);
 		return result;
 	}
 
+	// social 회원가입
 	@Override
 	public int insertSocial(UserSocial userSocial) throws Exception {
 		int result = userMapper.insertSocial(userSocial);
 		return result;
 	}
-	
+
+	// 회원조회
 	@Override
 	public Users select(Users user) throws Exception {
 		Users selectedUser = userMapper.select(user);
 		return selectedUser;
 	}
-	
+
+	// 회원조회
 	@Override
 	public Users selectByEmail(Users user) throws Exception {
 		Users selectedUser = userMapper.selectByEmail(user);
 		return selectedUser;
 	}
 
+	// 토큰인증 (바로 로그인)
 	@Override
 	public boolean tokenAuthentication(Users user, HttpServletRequest request) throws Exception {
 		
@@ -154,25 +160,23 @@ public class UserServiceImpl implements UserService {
 		
 		return true;
 	}
+	
 
-	@Override
-	public List<Users> list() throws Exception {
-		List<Users> usersList = userMapper.list();
-		return usersList;
-	}
-
+	// 회원 수정
 	@Override
 	public int update(Users user) throws Exception {
 		int result = userMapper.update(user);
 		return result;
 	}
 
+	// 회원 삭제
 	@Override
 	public int delete(Users user) throws Exception {
 		int result = userMapper.delete(user);
 		return result;
 	}
 
+	// 모든 쿠키 삭제
 	@Override
 	public boolean deleteCookies(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -191,22 +195,6 @@ public class UserServiceImpl implements UserService {
 		return false;
 	}
 	
-	@Override
-	public int delete(List<String> userNoList) throws Exception {
-		String noList = "";
-		for (int i = 0; i < userNoList.size(); i++) {
-			noList += userNoList.get(i);
-			if (i+1 != userNoList.size() ) {
-				noList += ", ";
-			}
-		}
-		log.info("noList : " +  noList );
-		
-		int result = userMapper.deleteSelectedUser(noList);
-		
-		return result;
-	}
-
 	// 아이디 찾기
 	@Override
 	public Users findId(Users user) throws Exception {
