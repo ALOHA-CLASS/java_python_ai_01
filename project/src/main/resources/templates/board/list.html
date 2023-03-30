@@ -11,9 +11,8 @@
 <body layout:fragment="content">
     <style>
         table {
-            border-collapse: collapse;
+
             width: 1000px;
-            border: 3px solid rgb(202, 197, 197);
         }
         tr, th {
             color: white;
@@ -167,7 +166,7 @@
                     <option value="3">제목 + 내용</option>
                     <option value="4">작성자</option>
                 </select>
-                <input type="text" name="keyword" th:value="${param.keyword}" placeholder="검색어를 입력하세요.">
+                <input type="text" name="keyword" th:value="${param.keyword}" placeholder="검색어 입력">
                 <button type="submit">검색</button>
                 </form>
                 <div class="back-foot"></div>
