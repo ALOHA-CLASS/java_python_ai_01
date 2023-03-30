@@ -208,13 +208,12 @@ public class UserServiceImpl implements UserService {
 		Users findPw = userMapper.findPw(user);
 		return findPw;
 	}
-	// 임시 비밀번호 발급
+	// 임시 비밀번호 발급 & 비밀번호 변경
 	@Override
 	public int newPw(Users user) throws Exception {
 		int result = userMapper.newPw(user);
 		return result;
 	}
-
 }
 
 

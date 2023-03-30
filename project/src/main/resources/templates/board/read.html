@@ -102,7 +102,6 @@
 	
 		<input type="hidden" name="boardNo" th:value="${board.boardNo}" readonly>
     	<input type="hidden" th:name=userId th:value="${userId}"/>
-		
 		<table width=500>
 			<tr>
 				<td colspan=4 th:style="${'font-size:50px'}" th:text="'[ ' + ${board.tag} +' ]' + '   ' +${board.title}">
@@ -167,6 +166,7 @@
 	                    <button type="button" class="btn_comment_update" th:data="${comment.commentNo}">수정</button>
 	                    <button type="button" class="btn_comment_delete" th:data="${comment.commentNo}">삭제</button>
                 	</span>
+					
 					<p class="content" th:text="${comment.content}"></p>
 				</div>
 			</div>
