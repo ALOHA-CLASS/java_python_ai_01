@@ -24,7 +24,7 @@
         .tabs {
         margin-top: 30px;
         padding-bottom: 40px;
-        padding-left: 180px;
+        padding-left: 150px;
         background-color: transparent;
         box-shadow: 0 0 10px #27292A;
         width: 700px;
@@ -32,6 +32,9 @@
         align-items: center;
          font-family: 'Dongle', sans-serif;
         font-size: 30px;
+        }
+        tr td {
+        padding-left: 30px;
         }
         /* 탭 스타일 */
         .tab_item {
@@ -133,38 +136,36 @@
                                         <tr>
                                             <td>이름</td>
                                             <td>
-                                            <input type="text" name="name" id="name" class="form-control input-underline">
+                                            <input type="text" name="name" id="find_name" class="form-control input-underline">
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>이메일</td>
                                             <td>
-                                                <input type="email" name="email" id="email" class="form-control input-underline">
+                                                <input type="email" name="email" id="find_email" class="form-control input-underline">
                                             </td>
                                         </tr>
-                                    </table>
+                                        </table>
                                         <br>
                                         <div class="d-flex justify-content-end">
                                             <input type="button" value="아이디 찾기" id="btn_find_id" class="btn">
                                         </div>
-                                </div>
+                                    </div>
                                 </form>
                                 <form method="POST" action="/find_password">
-                                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-
                                     <div id="findPasswordForm" style="display:none;">
                                         <!-- 비밀번호 찾기 폼 -->
                                         <table>
                                             <tr>
                                                 <td>아이디</td>
                                                 <td>
-                                                <input type="text" name="userId" id="userId" class="form-control input-underline">
+                                                <input type="text" name="userid" id="find_id" class="form-control input-underline">
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>이메일</td>
                                                 <td>
-                                                    <input type="email" name="email" id="email" class="form-control input-underline">
+                                                    <input type="email" name="email" id="find_email_" class="form-control input-underline">
                                                 </td>
                                             </tr>
                                         </table>
@@ -228,7 +229,7 @@ $(document)
             },
             // 에러
             error: function(request, status, error){
-                alert('정보가 맞지 않습니다. 다시 시도해주세요.')
+                alert('에러')
             }
         })
     }
@@ -264,7 +265,7 @@ $(document)
             },
             // 에러
             error: function(request, status, error){
-                alert('정보가 맞지 않습니다. 다시 시도해주세요.')
+                alert('에러')
             }
         })
     }

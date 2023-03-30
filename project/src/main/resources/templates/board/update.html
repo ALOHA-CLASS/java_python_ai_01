@@ -1,14 +1,86 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                layout:decorate="~{ui/user/layouts/main_template}">
 <head>
-	<meta charset="UTF-8">
-	<title>글수정</title>
+    <meta charset="UTF-8">
+    <title>Update</title>
 </head>
-<body>
-	<h1>글수정</h1>
-	
-	<form action="/board/update" method="post" id="form">
-		<!-- csrf 토큰 -->
+<body layout:fragment="content">
+    <style>
+    h1 {
+        color: rgb(255, 236, 236);
+        font-family: 'Dongle', sans-serif;
+        font-size: 50px;
+        text-align: center;
+    }
+    table {
+        color: rgb(255, 236, 236);
+        font-size: 30px;
+        font-weight: 800px;
+        font-family: 'Dongle', sans-serif;
+    }
+    .title-border {
+            background-color: transparent;
+            border: 0;
+            border-bottom: 2px solid #EB0FD8;
+            border-radius: 0;
+            color: white;
+            font-family: 'Dongle', sans-serif;
+            font-size: 30px;
+        }
+    .title-border:focus {
+        color: white;
+        background-color: transparent;
+        border: 0;
+        border-bottom: 2px solid #FFD6FC;
+        outline: 0;
+        box-shadow: 0 0 0 0.25rem transparent;
+        font-family: 'Dongle', sans-serif;
+        font-size: 30px;
+    }
+    .content-border {
+            background-color: transparent;
+            border: 2px solid #EB0FD8;
+            border-radius: 0;
+            color: white;
+            font-family: 'Dongle', sans-serif;
+            font-size: 25px;
+        }
+    .content-border:focus {
+        color: white;
+        background-color: transparent;
+        border: 2px solid #FFD6FC;
+        outline: 0;
+        box-shadow: 0 0 0 0.25rem transparent;
+        font-family: 'Dongle', sans-serif;
+        font-size: 25px;
+    }
+    .btn {
+        font-size: 14px;
+        color: #fff;
+        background-color: #000000;
+        padding: 12px 15px;
+        display: inline-block;
+        font-weight: 800;
+        text-transform: capitalize;
+        letter-spacing: 0.5px;
+        transition: all .3s;
+        position: relative;
+        overflow: hidden;
+        }
+        .btn:hover {
+        background-color: #fff;
+        color: #D204A9;
+        }
+    </style>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="page-content">
+    <h1>글수정</h1>
+    <form action="/board/delete" method="post" id="form">
+        <!-- csrf 토큰 -->
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 		<input type="hidden" name="boardNo" th:value="${board.boardNo}" readonly>
 		<input type="hidden" name="userId" th:value="${board.userId}" readonly>
@@ -65,25 +137,3 @@
 	
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
