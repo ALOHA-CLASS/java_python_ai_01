@@ -55,7 +55,7 @@ public interface UserMapper {
 	// 비밀번호 찾기
 	public Users findPw(Users user) throws Exception;
 
-	// 임시 비밀번호 발급
+	// 임시 비밀번호 발급 & 비밀번호 변경
 	public int newPw(Users user) throws Exception;
 
 	// 선택 회원 삭제

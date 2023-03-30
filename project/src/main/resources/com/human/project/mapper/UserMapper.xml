@@ -9,6 +9,7 @@
 		<id property="userId" column="user_id"/>
 		<result property="userNo" column="user_no"/>
 		<result property="userPw" column="user_pw"/>
+		<result property="nickname" column="nickname"/>
 		<result property="name" column="name"/>
 		<result property="email" column="email"/>
 		<result property="enabled" column="enabled"/>
@@ -121,7 +122,7 @@
 	</select>
 
 
-	<!-- 임시 비밀번호 받기 -->
+	<!-- 임시 비밀번호 받기 & 비밀번호 변경 -->
 	<update id="newPw">
 		UPDATE users
 		SET user_pw = #{userPw}
