@@ -60,8 +60,13 @@
             font-family: 'Dongle', sans-serif;
             font-size: 30px;
         }
-        .main-button {
-            
+        #modify {
+			font-family: 'Dongle', sans-serif;
+            font-size: 30px;
+        }
+        #out {
+			font-family: 'Dongle', sans-serif;
+            font-size: 30px;
         }
     </style>
 </head>
@@ -107,8 +112,8 @@
                                     <!-- </form> -->
                                 <form id="delete" action="/profile/delete" method="POST">
                                     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                                    <a href="/profile/update" >내 정보 수정</a>
-                                    &nbsp;&nbsp;<a href="javascript:;" onclick=btn_delete()>회원 탈퇴</a>
+                                    <a href="/profile/update"  id="modify">내 정보 수정</a>
+                                    &nbsp;&nbsp;<a href="javascript:;" onclick=btn_delete() id="out">회원 탈퇴</a>
                                 </form>
                             </div>
                         </div>
