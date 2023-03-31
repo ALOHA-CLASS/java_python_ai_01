@@ -92,7 +92,7 @@
 				<span th:if="${comment.userId == userId} or ${#authorization.expression('hasRole(''ADMIN'')')}">
                 	<button type="button" class="btn_comment_update" th:data="${comment.commentNo}">수정</button>
                 	<button type="button" class="btn_comment_delete" th:data="${comment.commentNo}">삭제</button>
-        </span>
+                </span>
 				<p class="content" th:text="${comment.content}"></p>
 				<th:block sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
 				<button type="button" class="btn_comment_answer" th:data="${comment.commentNo}" id="btn_comment_answer">답글</button>
