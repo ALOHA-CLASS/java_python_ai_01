@@ -4,21 +4,27 @@
                 layout:decorate="~{ui/user/layouts/main_template}">
 <head>
     <meta charset="UTF-8">
-    <title>Update</title>
+    <title>글 수정</title>
 </head>
 <body layout:fragment="content">
     <style>
+	@font-face {
+        font-family: 'Dovemayo_gothic';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.1/Dovemayo_gothic.woff2') format('woff2');
+        font-weight: normal;
+        font-style: normal;
+    }
     h1 {
         color: rgb(255, 236, 236);
-        font-family: 'Dongle', sans-serif;
-        font-size: 50px;
+        font-family: 'Dovemayo_gothic', sans-serif;
+        font-size: 35px;
         text-align: left;
     }
     table {
         color: rgb(255, 236, 236);
-        font-size: 30px;
+        font-size: 21px;
         font-weight: 800px;
-        font-family: 'Dongle', sans-serif;
+        font-family: 'Dovemayo_gothic', sans-serif;
     }
     .title-border {
             background-color: transparent;
@@ -26,7 +32,7 @@
             border-bottom: 2px solid #EB0FD8;
             border-radius: 0;
             color: white;
-            font-family: 'Dongle', sans-serif;
+            font-family: 'Dovemayo_gothic', sans-serif;
             font-size: 30px;
         }
 	.title-border:focus {
@@ -36,7 +42,7 @@
 		border-bottom: 2px solid #ffd6fc;
 		outline: 0;
 		box-shadow: 0 0 0 0.25rem transparent;
-		font-family: 'Dongle', sans-serif;
+		font-family: 'Dovemayo_gothic', sans-serif;
 		font-size: 30px;
 	}
 	.content-border {
@@ -44,7 +50,7 @@
             border: 2px solid #EB0FD8;
             border-radius: 0;
             color: white;
-            font-family: 'Dongle', sans-serif;
+            font-family: 'Dovemayo_gothic', sans-serif;
             font-size: 25px;
         }
     .content-border:focus {
@@ -53,14 +59,14 @@
         border: 2px solid #FFD6FC;
         outline: 0;
         box-shadow: 0 0 0 0.25rem transparent;
-        font-family: 'Dongle', sans-serif;
+        font-family: 'Dovemayo_gothic', sans-serif;
         font-size: 25px;
     }
     #btn {
-        font-size: 25px;
+        font-size: 20px;
 		color: #fff;
 		background-color: #000000;
-		padding: 1px 12px;
+		padding: 1px 10px;
 		display: inline-block;
 		font-weight: 100;
 		border-radius: 10%;
@@ -69,7 +75,7 @@
 		transition: all .3s;
 		position: relative;
 		overflow: hidden;
-		font-family: 'Dongle', sans-serif;
+		font-family: 'Dovemayo_gothic', sans-serif;
 	}
 	#btn:hover {
 		background-color: #fff;
@@ -80,7 +86,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="page-content">
-    <h1>글수정</h1>
+    <h1>글 수정</h1>
     <form action="/board/delete" method="post" id="form">
         <!-- csrf 토큰 -->
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />

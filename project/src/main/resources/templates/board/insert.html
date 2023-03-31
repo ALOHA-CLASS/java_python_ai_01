@@ -9,53 +9,59 @@
 </head>
 <body layout:fragment="content">
 <style>
+    @font-face {
+        font-family: 'Dovemayo_gothic';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.1/Dovemayo_gothic.woff2') format('woff2');
+        font-weight: normal;
+        font-style: normal;
+    }
     h1 {
         color: rgb(255, 236, 236);
-        font-family: 'Dongle', sans-serif;
+        font-family: 'Dovemayo_gothic', sans-serif;
         font-size: 50px;
         text-align: center;
     }
     table {
         color: rgb(255, 236, 236);
-        font-size: 30px;
+        font-size: 25px;
         font-weight: 800px;
-        font-family: 'Dongle', sans-serif;
+        font-family: 'Dovemayo_gothic', sans-serif;
     }
     .title-border {
 		background-color: transparent;
 		border: 0;
-		border-bottom: 2px solid #EB0FD8;
+		border-bottom: 1.5px solid #EB0FD8;
 		border-radius: 0;
 		color: white;
-		font-family: 'Dongle', sans-serif;
-		font-size: 30px;
+		font-family: 'Dovemayo_gothic', sans-serif;
+		font-size: 25px;
 	}
     .title-border:focus {
         color: white;
         background-color: transparent;
         border: 0;
-        border-bottom: 2px solid #FFD6FC;
+        border-bottom: 1.5px solid #FFD6FC;
         outline: 0;
         box-shadow: 0 0 0 0.25rem transparent;
-        font-family: 'Dongle', sans-serif;
-        font-size: 30px;
+        font-family: 'Dovemayo_gothic', sans-serif;
+        font-size: 25px;
     }
     .content-border {
 		background-color: transparent;
-		border: 2px solid #EB0FD8;
+		border: 1.5px solid #EB0FD8;
 		border-radius: 0;
 		color: white;
-		font-family: 'Dongle', sans-serif;
-		font-size: 25px;
+		font-family: 'Dovemayo_gothic', sans-serif;
+		font-size: 21px;
 	}
     .content-border:focus {
         color: white;
         background-color: transparent;
-        border: 2px solid #FFD6FC;
+        border: 1.5px solid #FFD6FC;
         outline: 0;
         box-shadow: 0 0 0 0.25rem transparent;
-        font-family: 'Dongle', sans-serif;
-        font-size: 25px;
+        font-family: 'Dovemayo_gothic', sans-serif;
+        font-size: 21px;
     }
     .btn {
         font-size: 14px;
@@ -63,13 +69,13 @@
         background-color: #000000;
         padding: 3px 12px;
         display: inline-block;
-        font-weight: 800;
+        font-weight: 100;
         text-transform: capitalize;
         letter-spacing: 0.5px;
         transition: all .3s;
         position: relative;
         overflow: hidden;
-		font-family: 'Dongle', sans-serif;
+		font-family: 'Dovemayo_gothic', sans-serif;
         font-size: 25px;
 	}
 	.btn:hover {
@@ -102,18 +108,18 @@
                     <tr>
                         <td>제목</td>
                         <td>
-                            <input type="text" name="title" class="form-control title-border" >
+                            <input type="text" name="title" id="title" class="form-control title-border" >
                         </td>
                     </tr>
                     <tr>
                         <td>내용</td>
                         <td>
-                            <textarea rows="10" cols="40" name="content" class="form-control content-border"></textarea>
+                            <textarea rows="10" cols="40" name="content" id='content' class="form-control content-border"></textarea>
                         </td>
                     </tr>
                 </table>
                 <div align="center">
-                    <button type="submit" class="btn">등록</button>
+                    <button type="submit" onclick="btnInsert()" class="btn">등록</button>
                     &nbsp;&nbsp;<button type="button" onclick="moveList()" class="btn">목록</button>
                 </div>
                 </form>
@@ -121,7 +127,11 @@
         </div>
     </div>
 </div>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 	<script>
+        function btnInsert() {
+			    form.submit()					// form 전송
+		}
 		function moveList() {
 			location.href = "/board/list"
 		}

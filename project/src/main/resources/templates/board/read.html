@@ -6,17 +6,23 @@
     <meta charset="UTF-8">
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-    <title>Read</title>
+    <title th:text="'['+${board.tag}+']'+' '+${board.title}"></title>
 </head>
 <body layout:fragment="content">
 	<style>
+		@font-face {
+            font-family: 'Dovemayo_gothic';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.1/Dovemayo_gothic.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
 		h1 {
-			font-family: 'Dongle', sans-serif;
-			font-size: 70px;
+			font-family: 'Dovemayo_gothic', sans-serif;
+			font-size: 35px;
 		}
 		h4 {
-			font-family: 'Dongle', sans-serif;
-			font-size: 30px;
+			font-family: 'Dovemayo_gothic', sans-serif;
+			font-size: 23px;
 		}
 		.indent { margin-left: 100px; }
 		.comment_wrap {
@@ -30,8 +36,9 @@
 		}
 		#form {
 			color: white;
-			font-family: 'Dongle', sans-serif;
-			font-size: 35px;
+			font-family: 'Dovemayo_gothic', sans-serif;
+			font-size: 18px;
+			color: D5D5D5
 		}
 		#content {
 			background-color: black;
@@ -40,30 +47,11 @@
 		table {
 			width: 100%;
 		}
-		.btn {
-		font-size: 25px;
+		.btn, .btn_comment_update, .btn_comment_delete, .btn_comment {
+		font-size: 18px;
 		color: #fff;
 		background-color: #000000;
-		padding: 1px 12px;
-		display: inline-block;
-		font-weight: 100;
-		text-transform: capitalize;
-		letter-spacing: 0.5px;
-		transition: all .3s;
-		position: relative;
-		overflow: hidden;
-		font-family: 'Dongle', sans-serif;
-		width: 57px;
-		}
-		.btn:hover {
-		background-color: #fff;
-		color: #D204A9;
-		}
-		.btn_comment {
-		font-size: 25px;
-		color: #fff;
-		background-color: #000000;
-		padding: 1px 12px;
+		padding: 1px 10px;
 		display: inline-block;
 		font-weight: 100;
 		border-radius: 10%;
@@ -72,7 +60,11 @@
 		transition: all .3s;
 		position: relative;
 		overflow: hidden;
-		font-family: 'Dongle', sans-serif;
+		font-family: 'Dovemayo_gothic', sans-serif;
+		}
+		.btn:hover {
+		background-color: #fff;
+		color: #D204A9;
 		}
 		.btn_comment:hover {
 		background-color: #fff;
@@ -80,17 +72,15 @@
 		}
 		#comment_list {
 			color: white;
-			font-family: 'Dongle', sans-serif;
-			font-size: 25px;
+			font-family: 'Dovemayo_gothic', sans-serif;
+			font-size: 21px;
 		}
 		.content {
 			color: rgb(252, 145, 183);
-			font-family: 'Dongle', sans-serif;
-			font-size: 35px;
+			font-family: 'Dovemayo_gothic', sans-serif;
+			font-size: 21px;
 		}
-		.btn_comment_update {
-			
-		}
+
 	</style>
 	<div class="container">
 		<div class="row">
@@ -152,7 +142,7 @@
 						<div class="indent"></div>
 					</th:block>
 				</th:block>
-			
+				
 				<div th:class="comment_box">
 					<input type="hidden" class="group_no" th:value="${comment.groupNo}">
 					<input type="hidden" class="parent_no" th:value="${comment.parentNo}">
@@ -179,11 +169,11 @@
 			</div>
 			<div class="comment_input">
 				<br>
-				<input type="hidden" th:id=userId th:value="${userId}"/>
-				<!-- <p class="userId" th:text="${userId}" id="userId"></p>  -->
-				<textarea name="content" id="content" rows="5" cols="60" 
-						  placeholder="댓글을 작성해주세요."></textarea>
-				<div class="btn_area">
+				<div class="btn_area">.
+					<input type="hidden" th:id=userId th:value="${userId}"/>
+					<!-- <p class="userId" th:text="${userId}" id="userId"></p>  -->
+					<textarea name="content" id="content" rows="4" cols="50" 
+						  placeholder="댓글을 작성해주세요."></textarea><br>
 					<button type="button" id="btn_comment_insert" class="btn_comment">등록</button>
 				</div>
 			</div>
