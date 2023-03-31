@@ -102,7 +102,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="page-content">
-                <h1>Sign up</h1><br><br>
+                <h1>회원가입</h1><br><br>
                 <form id="join" action="/join" method="post" th:object="${users}" onsubmit="return check()">
                     <!-- csrf 토큰 -->
                     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
@@ -221,11 +221,29 @@
                                 </font>
                             </td>
                         </tr>
-                        <tr>
+                        <input type="hidden" value="-1" id="email-check" />
+                        <!-- <tr>
                             <td width="150">이메일</td>
                             <td colspan="2">
-                                <input type="text" name="email" th:field="*{email}" th:errorclass="field-error" class="form-control input-underline"> <br>
+                                <input type="text" name="email" th:field="*{email}" th:errorclass="field-error" class="form-control input-underline">
                                
+                            </td>
+                            <td>
+                                <div class="main-button">
+                                    <a href="javascript:;" onclick="checkEmail()" class="double-check">이메일 확인</a>
+                                </div>
+                                
+                            </td>
+                        </tr> -->
+                        <tr>
+                            <td width="150">이메일</td>
+                            <td>
+                                <input type="text" id="email" name="email" th:field="*{email}" th:errorclass="field-error" class="form-control input-underline">
+                            </td>
+                            <td>
+                                <div class="main-button">
+                                    <a href="javascript:;" onclick="checkEmail()" class="double-check">이메일 확인</a>
+                                </div>
                             </td>
                         </tr>
                         <tr class="error-row">
@@ -254,26 +272,7 @@
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
-        $(function() {
-        })
-        // 제출 전, 체크
-        function check() {
-            let check = $('#input-check').val()
-            if( check != 1 ) {
-                alert('아이디 중복 확인이 필요합니다.')
-                return false
-            }
-            else if( check == 1 ) {
-            	let n_check = $('#input-n-check').val()
-                if( n_check != 1 ) {
-                    alert('닉네임 중복 확인이 필요합니다.')
-                    return false
-                }
-                else if( n_check == 1 ) {
-                    return true
-                }
-            }
-        }
+        
         function checkUserId() {
             asyncCheckUserId().then(function(result) {
                 // ID 미입력
@@ -370,10 +369,78 @@
             })
             return res
         }
-
-		function btn_join() {
-			document.getElementById('join').submit();
-		}
+        
+     	// email 중복확인
+        function checkEmail() {
+        	asyncCheckEmail().then(function(result_m) {
+                
+                if( result_m == null ) {
+                	$('#email-check').val(-1)
+                    return
+                }
+                
+                if( result_m == 'true' ) {
+                    alert('사용 가능한 이메일')
+                    $('#email-check').val(1)
+                }
+                
+                else {
+                    alert('이메일 중복')
+                    $('#email-check').val(0)
+                }
+            })
+        }
+     	
+        // email 중복확인
+        async function asyncCheckEmail() {
+            var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
+            let email = $('#email').val()
+            let data = {'email' : email}
+            if( email == undefined || email == '' ) {
+            	alert('이메일을 입력하세요')
+                return null
+            }
+            const res = await $.ajax({
+                url:    '/user/check/email',       // 요청 경로
+                type:   'post',                 // 메소드 방식(get, post, put 등)
+                data:   data,                   // 전송할 데이터.
+                dataType: "text",
+                // 전송 전
+                beforeSend : function(xhr) {
+                    xhr.setRequestHeader(header, token)
+                },
+            })
+            return res
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        $(function() {
+        })
+        // 제출 전, 체크
+        function check() {
+            let check = $('#input-check').val()
+            if( check != 1 ) {
+                alert('아이디 중복 확인이 필요합니다.')
+                return false
+            }
+            else if( check == 1 ) {
+            	let n_check = $('#input-n-check').val()
+                if( n_check != 1 ) {
+                    alert('닉네임 중복 확인이 필요합니다.')
+                    return false
+                }
+                else if( n_check == 1 ) {
+                    return true
+                }
+            }
+        }
 
 		</script>
 

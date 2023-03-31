@@ -57,20 +57,27 @@ public class UserController {
 	@PostMapping("/check/nickname")
 	public ResponseEntity<Boolean> checkUserNickname(Users user) throws Exception {
 		
-		Users selectedNickname = userService.select(user);
+		Users selectedUser = userService.select(user);
 		String nickname = user.getNickname();
-		log.info("닉네임" + nickname);
-		log.info("selected" + selectedNickname);
 		
-		// 닉네임 중복 (사용불가)
-		if( selectedNickname != null ) {
+		if( selectedUser != null ) {
 			log.info("닉네임 중복... : " + nickname);
 			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 		}
+		else {return new ResponseEntity<Boolean>(true, HttpStatus.OK);}
+	}
+	
+	// 이메일 중복확인
+	@ResponseBody
+	@PostMapping("/check/email")
+	public ResponseEntity<Boolean> checkUserEmail(Users user) throws Exception {
 		
-		// 닉네임 중복 아님(사용가능)
-		log.info("닉네임 사용가능 : " + nickname);
-		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+		Users selectedUser = userService.selectByEmail(user);
+		
+		if( selectedUser != null ) {
+			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+		}
+		else {return new ResponseEntity<Boolean>(false, HttpStatus.OK);}
 	}
 
 	// 유저 삭제

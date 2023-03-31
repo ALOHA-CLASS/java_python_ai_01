@@ -34,6 +34,13 @@
         em {
             color: rgb(252, 15, 220);
         }
+        .back-head {
+            background-image: url(/img/yaho1.png);
+            background-size: 100%;
+            background-repeat: no-repeat;
+            background-position: center;
+            height: 120px;
+        }
         .back-foot {
             background-image: url(/img/yaho2.png);
             background-size: 100%;
@@ -57,7 +64,7 @@
             <div class="page-content" align="center">
                 <div class="back-head"></div>
                 <h1><em>C</em>arnival <em>C</em>ommunity</h1>
-                <form action="/board/list" method="get">
+                <form action="/board/list" method="post">
                 <!-- csrf 토큰 -->
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                 <p th:text="|${page.totalCount} 건의 게시글이 조회되었습니다.|" align="left"></p>
@@ -87,17 +94,17 @@
                 </div>
                 <table>
                     <tr>
-                        <th:block sec:authorize="hasAnyRole('ROLE_ADMIN')">
-                            <th><input type="checkbox" id="checkall"></th>
-                        </th:block>
-						<thead>
-                        	<th width="50">번호</th>
-                        	<th width="50">구분</th>
-                        	<th width="300">제목</th>
-                        	<th width="100">작성자</th>
-                        	<th width="50">조회수</th>
-                        	<th width="200">등록일자</th>
-						</thead>
+                        <thead>
+                            <th:block sec:authorize="hasAnyRole('ROLE_ADMIN')">
+                                <th width="30"><input type="checkbox" id="checkall"></th>
+                            </th:block>
+                            <th width="50">번호</th>
+                            <th width="50">구분</th>
+                            <th width="250">제목</th>
+                            <th width="150">작성자</th>
+                            <th width="100">조회수</th>
+                            <th width="200">등록일자</th>
+                        </thead>
                     </tr>
                     <!-- 조회된 데이터가 없을 때 -->
                     <tr th:if="${ #lists.isEmpty(boardList) }">
@@ -108,25 +115,24 @@
                     <th:block th:each="board : ${boardList}">
                         <tr>
                             <th:block sec:authorize="hasAnyRole('ROLE_ADMIN')">
-                                <td><input type="checkbox" name="boardNo" th:value=${board.boardNo} class="input-check"></td>
+                                <td align="center"><input type="checkbox" name="boardNo" th:value=${board.boardNo} class="input-check"></td>
                             </th:block>
                             <td width="50" align="center" th:text=${board.boardNo}></td>
-                            <td width="300" align="left">
->>>>>>> main
+                            <td width="70" align="center">
+                            	<a th:href="|/board/list?tag=${board.tag}|" th:text=${board.tag}></a>
+                            </td>
+                            <td align="center">
                                 <a th:href="|/board/read?boardNo=${board.boardNo}|" th:text=${board.title}></a>
                             </td>
-                            <td width="100" align="center" th:text=${board.nickname}></td>
-                            <td width="60" align="center" th:text=${board.joinCnt}></td>
-                            <!-- ${} : th: 속성 안에서 모델에 등록된 변수의 값을 가져오는 기호 -->
-                            <!--
-                                ※ LocalDatTime 타입 날짜 포맷
-                                th:text"${ #temporals.format(날짜 데이터, '날짜 형식') }"
-                                예시)
-                                th:text"${ #temporals.format(board.regDate, 'yyyy-MM-dd HH:mm:ss') }"
-                                ※ Date 타입 날짜 포맷
-                                th:text="${ #dates.format(날짜 데이터, '날짜 형식') }"
-                             -->
-                            <td width="180" align="center">
+                            <th:block th:if="${board.nickname == null}">
+                                <td align="center" th:text=${board.userId}></td>
+                            </th:block>
+                            <th:block th:if="${board.nickname != null}">
+                                <td align="center" th:text=${board.nickname}></td>    
+                            </th:block>
+                            
+                            <td align="center">0</td>
+                            <td width="200" align="center">
                                 <span th:text="${ #temporals.format(board.regDate, 'yyyy-MM-dd HH:mm:ss') }"></span>
                             </td>
                         </tr>
@@ -236,9 +242,7 @@
                           + "pageNum=" + pageNum
                           + "&rowsPerPage="+ page.rowsPerPage
                           + "&pageCount=" + page.pageCount
-                          /* + "&keyword=" + keyword */
                           + "&keyword=" + option.keyword
-                          + "&optionCode=" + option.optionCode
                           + "&optionCode=" + option.optionCode
                           + "&tag=" + option.tag
                           
@@ -247,31 +251,31 @@
             let chkarr = [];
             var token = $("meta[name='_csrf']").attr("content");
             var header = $("meta[name='_csrf_header']").attr("content");
-            // $('input:checkbox[name=boardNo]:checked').each(function(){
-            $('.input-check:checked').each(function(){
-                // chkall = chkall + " " + $(this).val();
-                chkarr.push($(this).val());
-            })
-//          console.log(chkall)
-            $.ajax({
-                url: '/board/delete',       // 요청 경로
-                type: 'post',               // 메소드 방식(get, post, put 등)
-                data: {chkbox : chkarr},                // 전송할 데이터
-                beforeSend : function(xhr) {
-                    xhr.setRequestHeader(header, token)
-                },
-                // 서버로부터 정상적인 응답
-                success: function(data){
-                    // alert("성공")
-                    location.reload()
-                },
-                // 에러
-                error: function(request, status, error){
-                    alert('게시글 삭제 중 에러가 발생하였습니다.')
-                },
-            })
+​
+            let result = confirm('게시글을 삭제하시겠습니까?')
+            if (result) {
+                $('.input-check:checked').each(function(){
+                    chkarr.push($(this).val());
+                })
+                $.ajax({
+                    url: '/admin/boardDel',       // 요청 경로
+                    type: 'post',               // 메소드 방식(get, post, put 등)
+                    data: {chkbox : chkarr},                // 전송할 데이터
+                    beforeSend : function(xhr) {
+                        xhr.setRequestHeader(header, token)
+                    },
+                    // 서버로부터 정상적인 응답
+                    success: function(data){
+                        // alert("성공")
+                        location.reload()
+                    },
+                    // 에러
+                    error: function(request, status, error){
+                        alert('게시글 삭제 중 에러가 발생하였습니다.')
+                    },
+                })
+            }            
         }
-
     </script>
 </body>
 </html>
