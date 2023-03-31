@@ -166,7 +166,6 @@
 	                    <button type="button" class="btn_comment_update" th:data="${comment.commentNo}">수정</button>
 	                    <button type="button" class="btn_comment_delete" th:data="${comment.commentNo}">삭제</button>
                 	</span>
-					
 					<p class="content" th:text="${comment.content}"></p>
 				</div>
 			</div>
@@ -292,10 +291,6 @@
 			
 		}
 		
-		
-
-
-	
 		function moveUpdate() {
 			location.href = "/board/update?boardNo=" + boardNo	
 		}
