@@ -1,11 +1,15 @@
 package com.human.project.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,18 +40,34 @@ public class ProfileController {
 	}
 
     @GetMapping("/update")
-	public String update(Model model, Users user, Authentication authentication) throws Exception {
+	public String update(@AuthenticationPrincipal OAuth2User principal, Model model, Users user, Authentication authentication) throws Exception {
         String userId = authentication.getName();
 		user.setUserId(userId);
 		Users selectedUser = userService.select(user);
 		model.addAttribute("user", selectedUser);
+
+		if( principal != null ) {
+			Map<String, Object> map = principal.getAttributes();
+			Map<String, Object> accountMap = (Map<String, Object>) map.get("kakao_account");
+			String email = String.valueOf( accountMap.get("email") );
+			model.addAttribute("social_email", email);
+			log.info(email);
+		}
 		return "profile/update";
 	}
 	
 	@PostMapping("/update")
-	public String updatePro(Users user, Authentication authentication) throws Exception {
+	public String updatePro(@AuthenticationPrincipal OAuth2User principal, Users user, Authentication authentication) throws Exception {
 		String userId = authentication.getName();
 		user.setUserId(userId);
+		
+		if(principal != null) {
+			Map<String, Object> map = principal.getAttributes();
+			Map<String, Object> accountMap = (Map<String, Object>) map.get("kakao_account");
+			String email = String.valueOf( accountMap.get("email") );
+			user.setEmail(email);
+		}
+
 		int result = userService.update(user);
 		if (result > 0) log.info("회원정보 수정 성공");
 		else			log.info("회원정보 수정 실패");
