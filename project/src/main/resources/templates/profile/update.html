@@ -8,6 +8,12 @@
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>프로필</title>
     <style>
+        @font-face {
+            font-family: 'Dovemayo_gothic';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.1/Dovemayo_gothic.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
         body{
             text-align: center;
         }
@@ -21,8 +27,8 @@
             color: rgb(255, 221, 221);
         }
         h1 {
-            font-family: 'Dongle', sans-serif;
-            font-size: 70px;
+            font-family: 'Dovemayo_gothic', sans-serif;
+            font-size: 50px;
             color: #FC1F74;
         }
         .check-id { display: none; }
@@ -30,53 +36,53 @@
         .input-underline {
             background-color: transparent;
             border: 0;
-            border-bottom: 2px solid #FC1F74;
+            border-bottom: 1.5px solid #FC1F74;
             border-radius: 0;
-            width: 250px;
+            width: 230px;
             color: white;
-			font-family: 'Dongle', sans-serif;
-            font-size: 30px;
+			font-family: 'Dovemayo_gothic', sans-serif;
+            font-size: 20px;
         }
         .input-underline:focus {
             color: white;
             background-color: transparent;
             border: 0;
-            border-bottom: 2px solid #FC1F74;
+            border-bottom: 1.5px solid rgb(255, 221, 221);
             outline: 0;
             box-shadow: 0 0 0 0.25rem transparent;
-			font-family: 'Dongle', sans-serif;
-            font-size: 30px;
+			font-family: 'Dovemayo_gothic', sans-serif;
+            font-size: 20px;
         }
     
         .sign-up {
-            font-family: 'Dongle', sans-serif;
-            font-size: 30px;
+            font-family: 'Dovemayo_gothic', sans-serif;
+            font-size: 20px;
         }
         #submit {
-            font-family: 'Dongle', sans-serif;
-            font-size: 30px;
+            font-family: 'Dovemayo_gothic', sans-serif;
+            font-size: 20px;
         }
         #reset {
-            font-family: 'Dongle', sans-serif;
-            font-size: 30px;
+            font-family: 'Dovemayo_gothic', sans-serif;
+            font-size: 20px;
         }
         #mollu {
             color: white;
             background-color: transparent;
             border: 0;
-            border-bottom: 2px solid #FC1F74;
+            border-bottom: 1.5px solid #FC1F74;
             outline: 0;
             box-shadow: 0 0 0 0.25rem transparent;
-			font-family: 'Dongle', sans-serif;
-            font-size: 30px;
+			font-family: 'Dovemayo_gothic', sans-serif;
+            font-size: 20px;
         }
         #complete {
-            font-family: 'Dongle', sans-serif;
-            font-size: 30px;
+            font-family: 'Dovemayo_gothic', sans-serif;
+            font-size: 20px;
         }
         #double-check {
-            font-family: 'Dongle', sans-serif;
-            font-size: 20px;
+            font-family: 'Dovemayo_gothic', sans-serif;
+            font-size: 18px;
         }
     </style>
 </head>
@@ -152,7 +158,6 @@
                             <td width="150">비밀번호 변경</td>
                             <td>
                                 <input type="password"  id="newPw" name="userPw" th:field="*{userPw}" th:errorclass="field-error" class="form-control input-underline"> <br>
-                            
                             </td>
                             <td>
                                 <div class="main-button">
