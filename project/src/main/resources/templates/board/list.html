@@ -10,18 +10,31 @@
 </head>
 <body layout:fragment="content">
     <style>
+        @font-face {
+        font-family: 'Dovemayo-Medium';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.0/Dovemayo-Medium.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+        }
+        h1 {
+            font-family: 'Dovemayo-Medium';
+            font-size: 50px;
+        }
         table {
+            font-family: 'Dovemayo-Medium';
             table-layout: fixed;
             border-collapse: collapse;
             width: 100%;
             border: 3px solid rgb(202, 197, 197);
         }
         tr, th {
+            font-family: 'Dovemayo-Medium';
             color: white;
             border-bottom: 1px solid #444444;
             padding: 10px;
         }
         th {
+            font-family: 'Dovemayo-Medium';
             text-align: center;
         }
         tbody tr:hover {
@@ -57,22 +70,12 @@
                 margin-top: 14px;
             }
         }
-        #list #list1 #list2 #list3 { 
+        #list, #list1, #list2, #list3, p { 
+            font-family: 'Dovemayo-Medium';
+            font-size: 20px;
             background-color: transparent !important;
             color: #ffffff;
         }
-        /* #list1 { 
-            background-color: transparent !important;
-            color: #ffffff;
-        }
-        #list2 { 
-            background-color: transparent !important;
-            color: #ffffff;
-        }
-        #list3 { 
-            background-color: transparent !important;
-            color: #ffffff;
-        } */
         #list:hover {
             color: #fb2ecf;
         }
@@ -85,8 +88,8 @@
         #list3:hover {
             color: #fb2ecf;
         }
-        #write {
-            font-size: 25px;
+        #write, #btn_board_del, #sh {
+            font-size: 15px;
             color: #fff;
             background-color: #000000;
             padding: 1px 12px;
@@ -98,8 +101,12 @@
             transition: all .3s;
             position: relative;
             overflow: hidden;
-            font-family: 'Dongle', sans-serif;
+            font-family: 'Dovemayo-Medium';
             margin-top: 5px;
+        }
+        p {
+            font-family: 'Dovemayo-Medium';
+            font-size: 15px;
         }
     </style>
 <div class="container">
@@ -111,11 +118,11 @@
                 <form action="/board/list" method="get">
                 <!-- csrf 토큰 -->
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                <p th:text="|${page.totalCount} 건의 게시글이 조회되었습니다.|" align="left"></p>
                 <a href="list" id="list">전체목록</a>
                 &nbsp;<a href="list?tag=국내" id="list1">국내</a>
                 &nbsp;<a href="list?tag=해외" id="list2">해외</a>
                 &nbsp;<a href="list?tag=기타" id="list3">기타</a>
+                <p th:text="|${page.totalCount} 건의 게시글이 조회되었습니다.|" align="left"></p>
                 <div align="right">
                     <!-- 페이징 옵션 -->
                     <p>게시물
@@ -147,7 +154,7 @@
                         	<th width="300">제목</th>
                         	<th width="150">작성자</th>
                         	<th width="100">조회수</th>
-                        	<th width="200">등록일자</th>
+                        	<th width="150">등록일자</th>
 						</thead>
                     </tr>
                     <!-- 조회된 데이터가 없을 때 -->
@@ -176,17 +183,15 @@
                             </th:block>
                             <td width="60" align="center" th:text=${board.joinCnt}></td>
                             <td width="180" align="center">
-                                <span th:text="${ #temporals.format(board.regDate, 'yyyy-MM-dd HH:mm:ss') }"></span>
+                                <span th:text="${ #temporals.format(board.regDate, 'yyyy-MM-dd') }"></span>
                             </td>
                         </tr>
                      </th:block>
                 </table>
                 <div align="right">
                     <th:block sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
-                        <a href="/board/insert" id="write">글쓰기</a>
+                        <button type="button" id="write" onclick="btnBoardAdd()">글쓰기</button>
                     </th:block>
-                </div>
-                <div align="right">
                     <th:block sec:authorize="hasAnyRole('ROLE_ADMIN')">
                         <button type="button" id="btn_board_del" onclick="btnBoardDel()">삭제</button>
                     </th:block>
@@ -216,7 +221,7 @@
                     <option value="4">작성자</option>
                 </select>
                 <input type="text" name="keyword" th:value="${param.keyword}" placeholder="검색어를 입력하세요.">
-                <button type="submit">검색</button>
+                <button type="submit" id="sh">검색</button>
                 </form>
                 <div class="back-foot"></div>
             </div>
@@ -290,6 +295,12 @@
                           + "&tag=" + option.tag
                           
         }
+
+        function btnBoardAdd(){
+            location.href="/board/insert"
+        }
+
+
         function btnBoardDel(){
             let chkarr = [];
             var token = $("meta[name='_csrf']").attr("content");

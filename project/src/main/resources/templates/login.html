@@ -4,22 +4,34 @@
                 layout:decorate="~{ui/user/layouts/main_template}">
 <head>
     <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>로그인</title>
     <style>
+        @font-face {
+            font-family: 'Dovemayo-Medium';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.0/Dovemayo-Medium.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
         body{
+            font-family: 'Dovemayo-Medium';
             text-align: center;
         }
         .sign-in{
+            font-family: 'Dovemayo-Medium';
             margin: auto;
         }
         .field-error {
+            font-family: 'Dovemayo-Medium';
             border: 1px solid red;
         }
         .page-content {
+            font-family: 'Dovemayo-Medium';
             color: rgb(255, 221, 221);
         }
         h1 {
-            font-family: 'Dongle', sans-serif;
+            font-family: 'Dovemayo-Medium';
             font-size: 70px;
             color: #EB0FD8;
         }
@@ -30,7 +42,7 @@
             border-radius: 0;
             width: 250px;
             color: white;
-            font-family: 'Dongle', sans-serif;
+            font-family: 'Dovemayo-Medium';
             font-size: 30px;
         }
         .input-underline:focus {
@@ -40,30 +52,31 @@
             border-bottom: 2px solid #EB0FD8;
             outline: 0;
             box-shadow: 0 0 0 0.25rem transparent;
-            font-family: 'Dongle', sans-serif;
+            font-family: 'Dovemayo-Medium';
             font-size: 30px;
         }
         .sign-in {
-            font-family: 'Dongle', sans-serif;
-            font-size: 30px;
+            font-family: 'Dovemayo-Medium';
+            font-size: 20px;
         }
         #submit {
-            font-family: 'Dongle', sans-serif;
-            font-size: 30px;
+            font-family: 'Dovemayo-Medium';
+            font-size: 20px;
         }
         #reset {
-            font-family: 'Dongle', sans-serif;
-            font-size: 30px;
+            font-family: 'Dovemayo-Medium';
+            font-size: 20px;
         }
         #logIn {
-            font-family: 'Dongle', sans-serif;
-            font-size: 30px;
+            font-family: 'Dovemayo-Medium';
+            font-size: 20px;
         }
         #sign-in {
-            font-family: 'Dongle', sans-serif;
-            font-size: 30px;
+            font-family: 'Dovemayo-Medium';
+            font-size: 20px;
         }
         .btn {
+        font-family: 'Dovemayo-Medium';
         font-size: 14px;
         color: #fff;
         background-color: #D204A9;
@@ -97,7 +110,7 @@
             <div class="col-lg-12">
                 <div class="page-content">
 					<form action="/login" method="post">
-		<h1>Sign In</h1><br>
+		<h1>로그인</h1><br>
 		<!-- csrf 토큰  -->
 		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 		<table class="sign-in">
