@@ -12,10 +12,78 @@
 </head>
 <body layout:fragment="content">
 	<style>
-		th, td {
-			font-size: 20px;
-			color: #000000;
+		@font-face {
+        font-family: 'Dovemayo-Medium';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.0/Dovemayo-Medium.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+        }
+		h1 {
+			font-family: 'Dovemayo-Medium';
 			text-align: center;
+		}
+		th, td {
+			font-family: 'Dovemayo-Medium';
+			font-size: 20px;
+			color: #ffffff;
+			text-align: center;
+		}
+		.page-content {
+		font-family: 'Dovemayo-Medium';
+		table-layout: fixed;
+		border-collapse: collapse;
+		width: 100%;
+		border: 3px solid rgb(202, 197, 197);
+		}
+		hr {
+			color: #ffffff;
+		}
+		#up {
+			font-family: 'Dovemayo-Medium';
+			font-size: 15px;
+			color: #fff;
+			background-color: #000000;
+			padding: 1px 12px;
+			display: inline-block;
+			font-weight: 100;
+			border-radius: 10%;
+			text-transform: capitalize;
+			letter-spacing: 0.5px;
+			transition: all .3s;
+			position: relative;
+			overflow: hidden;
+		}
+		#gum {
+			font-family: 'Dovemayo-Medium';
+			font-size: 15px;
+			color: #fff;
+			background-color: #000000;
+			padding: 1px 12px;
+			display: inline-block;
+			font-weight: 100;
+			border-radius: 10%;
+			text-transform: capitalize;
+			letter-spacing: 0.5px;
+			transition: all .3s;
+			position: relative;
+			overflow: hidden;
+		}
+		#srh {
+			font-family: 'Dovemayo-Medium';
+			font-size: 15px;
+			color: #fff;
+		}
+		#aa {
+			text-align:center; 
+			border:1px solid gray; 
+			color:gray;
+			width:100;
+		}
+		#bb {
+			text-align:center; 
+			border:1px solid gray; 
+			color:gray;
+			width:100;
 		}
 	</style>
 	<!-- csrf 토큰 -->
@@ -24,15 +92,40 @@
 <div class="container">
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="page-content">
-				<h1>관리자 페이지</h1>
-				<h3>ROLE_ADMIN 회원 관리</h3>
+			<div class="page-content" align="center">
+				<h1>관리자 페이지</h1><br>
+				<hr>
+					<table id="tbl">	
+						<tr>
+							<td width="350">
+								<a href="/admin/index">
+								<span class="icon color5"><i class="fa fa-user"></i></span>
+								회원관리
+								<!-- <span class="label label-default">2</span>-->
+								</a>
+							</td>
+							<td width="350">
+								<a href="/admin/role">
+								<span class="icon color5"><i class="fa fa-users"></i></span>
+								권한관리
+								</a>
+							</td>
+							<td width="350">
+								<a href="/chart_reset">
+								<span class="icon color5"><i class="fa fa-users"></i></span>
+								차트 리셋
+								</a>
+							</td>
+						</tr>
+					</table>
+						<hr><br>
+				<h3 align="left">ROLE_ADMIN 회원 관리</h3><br>
 				<table border="1">
 					<tr>
-						<td width="500">
-							<span id="srh" th:text="|${page.totalCount} 명의 회원이 조회되었습니다.|"></span>
+						<td width="3000">
+							<p th:text="|${page.totalCount} 명의 회원이 조회되었습니다.|" align="left" id="srh"></p>
 						</td>
-						<td width="500">
+						<td width="100">
 							<select id="rowsPerPage" name="rowsPerPage">
 								<option value="10">10개씩</option>
 								<option value="15">15개씩</option>
@@ -44,11 +137,8 @@
 						</td>
 					</tr>
 				</table>
-				
-				
-				
-				<table border="1">
-					<tr>
+				<table border="1" id="bb">
+					<tr id="aa">
 						<th><input type="checkbox" id="checkall"></th>
 						<th width="100">회원 번호</th>
 						<th width="150">회원 ID</th>
@@ -60,7 +150,7 @@
 					</tr>
 
 					<th:block th:each="user : ${usersList}">
-						<tr>
+						<tr id="bb">
 							<td><input type="checkbox" name="userNo" th:value=${user.userNo} class="input-check"></td>
 							<td th:text=${user.userNo}></td>
 							<td th:text=${user.userId}></td>
@@ -84,6 +174,11 @@
 					</th:block>
 				</table>
 
+				<div align="right">
+					<button type="button" onclick="btnModNick()" id="up">닉네임 변경</button>
+					<button type="button" onclick="btnUserDel()" id="up">회원 삭제</button>
+				</div>
+				
 				<!-- 페이지네이션 -->
                 <a th:href="|javascript: change(${page.firstPage});|">[처음]</a>
                 <th:block th:if="${page.prev} > 0">
@@ -99,11 +194,7 @@
                 </th:block>
                 <a th:href="|javascript: change(${page.lastPage});|">[마지막]</a>
 
-				<div align="right">
-					<button type="button" onclick="btnModNick()">닉네임 변경</button>
-					<button type="button" onclick="btnUserDel()">회원 삭제</button>
-				</div>
-				<br>
+				<br><br>
                 <!-- 검색 옵션 -->
 				<form action="/admin/index" method="get">
 					<select name="optionCode" id="optionCode">
@@ -112,7 +203,7 @@
 						<option value="2">회원 이름</option>
 					</select>
 					<input type="text" name="keyword" th:value="${param.keyword}" placeholder="검색어를 입력하세요.">
-					<button type="submit">검색</button>
+					<button type="submit" id="gum">검색</button>
 				</form>
 			</div>
 		</div>

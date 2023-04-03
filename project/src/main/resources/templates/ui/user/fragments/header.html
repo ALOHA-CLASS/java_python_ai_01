@@ -23,29 +23,35 @@
                   <!-- ***** Search End ***** -->
                   <!-- ***** Menu Start ***** -->
                   <style>
-                    .logout{
+                    @font-face {
+                    font-family: 'Dovemayo-Medium';
+                    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.0/Dovemayo-Medium.woff') format('woff');
+                    font-weight: normal;
+                    font-style: normal;
+                    }
+                    .logout {
                       background-color: transparent;
                       color:  #6f6f6f;
                       border: none;
                       position: relative;
                       top: 11px;
-                      font-size: 15px;
+                      font-size: 18px;
                     }
-                    #signin{
+                    #signin {
                       background-color: transparent !important;
                       color: #666;
                       border: none;
                       position: relative;
                       top: 5px;
-                      font-size: 15px;
+                      font-size: 18px;
                     }
-                    #signup{
+                    #signup {
                       background-color: transparent !important;
                       color: #6f6f6f;
                       border: none;
                       position: relative;
                       top: 5px;
-                      font-size: 15px;
+                      font-size: 18px;
                     }
                     .logout:hover {
                       color: #d204a9;
@@ -56,25 +62,33 @@
                     #signup:hover {
                       color: #d204a9 !important;
                     }
+                    .nav, .active, .commu {
+                      font-family: 'Dovemayo-Medium';
+                      font-size: 18px !important;
+                      background-color: transparent !important;
+                      color: #666;
+                      border: none;
+                      position: relative;
+                    }
                   </style>
                   <ul class="nav">
-                      <li><a href="/index" class="active">Home</a></li>
-                      <li><a href="/board/list">Community</a></li>
+                      <li><a href="/index" class="active">홈</a></li>
+                      <li><a href="/board/list" class="commu">커뮤니티</a></li>
                       <form id="login" action="/login" method="get">
-                        <li sec:authorize="isAnonymous()"><a href="javascript:;" onclick=btn_login() id="signin">Log in</a></li>
+                        <li sec:authorize="isAnonymous()"><a href="javascript:;" onclick=btn_login() id="signin">로그인</a></li>
                       </form>
                       <form id="join3" action="/join" method="get">
-                        <li sec:authorize="isAnonymous()"><a href="javascript:;" onclick=btn_join() id="signup">Sign up</a></li>
+                        <li sec:authorize="isAnonymous()"><a href="javascript:;" onclick=btn_join() id="signup">회원가입</a></li>
                       </form>
                       <th:block sec:authorize="isAuthenticated()">
                         
                           <form action="/logout" method="post">
                             <!-- csrf 토큰 -->
                             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                            <li><button type="submit" class="logout">Sign Out</button></li>
+                            <li><button type="submit" class="logout">로그아웃</button></li>
                           </form>
                   </th:block>
-                      <li sec:authorize="isAuthenticated()"><a href="/profile/my">Profile <img src="/cyborg/assets/images/avatar.jpg" alt=""></a></li>
+                      <li sec:authorize="isAuthenticated()"><a href="/profile/my">프로필 <img src="/cyborg/assets/images/avatar.jpg" alt=""></a></li>
                   </ul>   
                   <a class='menu-trigger'>
                       <span>Menu</span>

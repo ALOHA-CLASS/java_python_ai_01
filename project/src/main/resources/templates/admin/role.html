@@ -12,31 +12,96 @@
 </head>
 <body layout:fragment="content">
 	<style>
-		th, td {
-			font-size: 20px;
-			color: #000000;
+		@font-face {
+        font-family: 'Dovemayo-Medium';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.0/Dovemayo-Medium.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+        }
+		h1 {
+			font-family: 'Dovemayo-Medium';
 			text-align: center;
+		}
+		th, td {
+			font-family: 'Dovemayo-Medium';
+			font-size: 20px;
+			color: #ffffff;
+			text-align: center;
+		}
+		.page-content {
+		font-family: 'Dovemayo-Medium';
+		table-layout: fixed;
+		border-collapse: collapse;
+		width: 100%;
+		border: 3px solid rgb(202, 197, 197);
+		}
+		hr {
+			color: #ffffff;
+		}
+		#con {
+			font-family: 'Dovemayo-Medium';
+			font-size: 15px;
+			color: #fff;
+			background-color: #000000;
+			padding: 1px 12px;
+			display: inline-block;
+			font-weight: 100;
+			border-radius: 10%;
+			text-transform: capitalize;
+			letter-spacing: 0.5px;
+			transition: all .3s;
+			position: relative;
+			overflow: hidden;
+			
+		}
+		#sh {
+			font-family: 'Dovemayo-Medium';
+			font-size: 15px;
+			color: #fff;
+			background-color: #000000;
+			padding: 1px 12px;
+			display: inline-block;
+			font-weight: 100;
+			border-radius: 10%;
+			text-transform: capitalize;
+			letter-spacing: 0.5px;
+			transition: all .3s;
+			position: relative;
+			overflow: hidden;
+		}
+		#cho {
+			font-family: 'Dovemayo-Medium';
+			font-size: 15px;
+			color: #fff;
 		}
 	</style>
 	<!-- csrf 토큰 -->
 	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 ​
-<div class="container">
+<div class="container" align="center">
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="page-content">
-				<h1>관리자 페이지</h1>
-				<h3>ROLE_ADMIN 권한 관리</h3>
+				<h1>관리자 페이지</h1><br>
+				<h3>ROLE_ADMIN 권한 관리</h3><br>
 				
-				<select id="rowsPerPage" name="rowsPerPage">
-					<option value="10">10개씩</option>
-					<option value="15">15개씩</option>
-					<option value="20">20개씩</option>
-					<option value="30">30개씩</option>
-					<option value="40">40개씩</option>
-					<option value="50">50개씩</option>
-				</select>
-				<p th:text="|${page.totalCount} 명의 회원이 조회되었습니다.|" align="left"></p>
+				<table border="1">
+				<tr>
+					<td width="3000">
+						<p th:text="|${page.totalCount} 명의 회원이 조회되었습니다.|" align="left" id="cho"></p>
+					</td>
+					<td width="100">
+						<select id="rowsPerPage" name="rowsPerPage">
+							<option value="10">10개씩</option>
+							<option value="15">15개씩</option>
+							<option value="20">20개씩</option>
+							<option value="30">30개씩</option>
+							<option value="40">40개씩</option>
+							<option value="50">50개씩</option>
+						</select>
+					</td>
+				</tr>
+				</table>
 				<table border="1">
 					<tr>
 						<th width="40"></th>
@@ -95,8 +160,8 @@
 						<option value="ROLE_ADMIN">관리자</option>
 					</select>
 					<div align="right">
-						<button type="button" onclick="btnAddAuth()">권한 추가</button>
-						<button type="button" onclick="btnDelAuth()">권한 박탈</button>
+						<button type="button" onclick="btnAddAuth()" id="con">권한 추가</button>
+						<button type="button" onclick="btnDelAuth()" id="con">권한 박탈</button>
 					</div>
 				</div>
 				<br>
@@ -108,7 +173,7 @@
 						<option value="2">회원 이름</option>
 					</select>
 					<input type="text" name="keyword" th:value="${param.keyword}" placeholder="검색어를 입력하세요.">
-					<button type="submit">검색</button>
+					<button type="submit" id="sh">검색</button>
 				</form>
 				
 			</div>
