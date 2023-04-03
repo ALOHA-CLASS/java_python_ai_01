@@ -2,12 +2,11 @@ package com.human.project.service;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
 import com.human.project.domain.Option;
 import com.human.project.domain.Page;
 import com.human.project.domain.UserAuth;
 import com.human.project.domain.Users;
+
 
 public interface AdminService {
 	

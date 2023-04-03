@@ -37,6 +37,9 @@
         .check-nickname {
             display: none;
         }
+        .check-email {
+            display: none;
+        }
         .input-underline {
             background-color: transparent;
             border: 0;
@@ -182,8 +185,7 @@
                             <td>
                                 <div class="main-button">
                                     <a href="javascript:;" onclick="checkNickname()" class="double-check">중복확인</a>
-                                </div>
-                                
+                                </div>                                
                             </td>
                         </tr>
                         <tr class="error-row">
@@ -214,20 +216,7 @@
                                 </font>
                             </td>
                         </tr>
-                        <input type="hidden" value="-1" id="email-check" />
-                        <!-- <tr>
-                            <td width="150">이메일</td>
-                            <td colspan="2">
-                                <input type="text" name="email" th:field="*{email}" th:errorclass="field-error" class="form-control input-underline">
-                               
-                            </td>
-                            <td>
-                                <div class="main-button">
-                                    <a href="javascript:;" onclick="checkEmail()" class="double-check">이메일 확인</a>
-                                </div>
-                                
-                            </td>
-                        </tr> -->
+                        <input type="hidden" value="-1" id="input-email-check" />
                         <tr>
                             <td width="150">이메일</td>
                             <td>
@@ -242,6 +231,9 @@
                         <tr class="error-row">
                             <td width="150">&nbsp;</td>
                             <td colspan="2" align="left">
+                                
+                                <font color=#9bf525 id="email-check" class="check-email"><span>사용 가능 이메일</span></font>
+                                <font color="red" id="email-duplicated" class="check-email"><span>중복 이메일</span></font>
                                 <font color="red">
                                     <th:block th:if="${ #fields.hasErrors('email') }">
                                         <span th:errors="*{email}"></span>
@@ -277,7 +269,7 @@
                 }
                 // ID 사용가능
                 if( result == 'true' ) {
-                    alert('사용 가능한 아이디입니다.')
+                    alert('사용 가능한 아이디')
                     $('#id-check').show()
                     $('#id-duplicated').hide()
                     $('#input-check').val(1)
@@ -365,21 +357,27 @@
         
      	// email 중복확인
         function checkEmail() {
-        	asyncCheckEmail().then(function(result_m) {
-                
-                if( result_m == null ) {
-                	$('#email-check').val(-1)
+            asyncCheckEmail().then(function(result_email) {
+                // ID 미입력
+                if( result_email == null ) {
+                	$('#email-check').hide()
+                	$('#email-duplicated').hide()
+                	$('#input-email-check').val(-1)
                     return
                 }
-                
-                if( result_m == 'true' ) {
+                // ID 사용가능
+                if( result_email == 'true' ) {
                     alert('사용 가능한 이메일')
-                    $('#email-check').val(1)
+                    $('#email-check').show()
+                    $('#email-duplicated').hide()
+                    $('#input-email-check').val(1)
                 }
-                
+                // ID 중복
                 else {
-                    alert('이메일 중복')
-                    $('#email-check').val(0)
+                    alert('중복된 이메일')
+                    $('#email-duplicated').show()
+                    $('#email-check').hide()
+                    $('#input-email-check').val(0)
                 }
             })
         }
@@ -394,6 +392,7 @@
             	alert('이메일을 입력하세요')
                 return null
             }
+            console.log(data)
             const res = await $.ajax({
                 url:    '/user/check/email',       // 요청 경로
                 type:   'post',                 // 메소드 방식(get, post, put 등)
@@ -404,6 +403,7 @@
                     xhr.setRequestHeader(header, token)
                 },
             })
+            console.log(res)
             return res
         }
         
@@ -414,8 +414,7 @@
         
         
         
-        $(function() {
-        })
+        /* $(function() {}) */
         // 제출 전, 체크
         function check() {
             let check = $('#input-check').val()
@@ -424,13 +423,17 @@
                 return false
             }
             else if( check == 1 ) {
-            	let n_check = $('#input-n-check').val()
-                if( n_check != 1 ) {
+            	let nick_check = $('#input-n-check').val()
+                if( nick_check != 1 ) {
                     alert('닉네임 중복 확인이 필요합니다.')
                     return false
                 }
-                else if( n_check == 1 ) {
-                    return true
+                else if( nick_check == 1 ) {
+                	let email_check = $('#input-email-check').val()
+                	if( email_check != 1 ) {
+		                alert('이메일 중복 확인이 필요합니다.')
+		                return false
+       			    } else { return true }                    
                 }
             }
         }

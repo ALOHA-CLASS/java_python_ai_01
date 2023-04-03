@@ -1,7 +1,5 @@
 package com.human.project.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.human.project.domain.Users;
@@ -59,6 +56,7 @@ public class UserController {
 		
 		Users selectedUser = userService.select(user);
 		String nickname = user.getNickname();
+		log.info("닉네임"+ nickname);
 		
 		if( selectedUser != null ) {
 			log.info("닉네임 중복... : " + nickname);
@@ -72,13 +70,20 @@ public class UserController {
 	@PostMapping("/check/email")
 	public ResponseEntity<Boolean> checkUserEmail(Users user) throws Exception {
 		
-		Users selectedUser = userService.selectByEmail(user);
+		log.info("이메일 중복 확인 : " + user.toString());
+		
+		Users selectedUser = userService.select(user);
+		String email = user.getEmail();
 		
 		if( selectedUser != null ) {
-			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+			log.info("이메일 중복... : " + email);
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 		}
-		else {return new ResponseEntity<Boolean>(false, HttpStatus.OK);}
+		else {return new ResponseEntity<Boolean>(true, HttpStatus.OK);}
 	}
+	
+
+	
 
 	
 }

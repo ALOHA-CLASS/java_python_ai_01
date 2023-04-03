@@ -1,6 +1,5 @@
 package com.human.project.service;
 
-import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.Cookie;

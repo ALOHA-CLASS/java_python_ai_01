@@ -49,6 +49,7 @@
 		  FROM users
 		 WHERE user_id = #{userId}
 		 	OR nickname = #{nickname}
+		 	OR email = #{email}
 	</select>
 	
 	<!-- 회원 수정 -->
