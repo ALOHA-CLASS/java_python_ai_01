@@ -123,6 +123,8 @@
                     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                     <!-- 전송 가능 여부 - 가능(1), 불가능(0) -->
                     <input type="hidden" value="-1" id="input-check" />
+                    <input type="hidden" value="-1" id="input-n-check" />
+
                     <table class="sign-up">
                         <tr>
                             <td width="150">아이디</td>
@@ -182,7 +184,6 @@
                                 </font>
                             </td>
                         </tr>
-						<input type="hidden" value="-1" id="input-n-check" />
                         <tr>
                             <td width="150">닉네임</td>
                             <td>
@@ -239,7 +240,7 @@
                                 </font>
                             </td>
                         </tr>
-                </table>
+                    </table>
                         <div><br>
                             <button type="submit" id="submit" class="btn">등록</button>
 
@@ -260,12 +261,22 @@
         // 제출 전, 체크
         function check() {
             let check = $('#input-check').val()
-            if( check == 1 ) {
+            let n_check = $('#input-n-check').val()
+            if( check == 1 && n_check == 1 ) {
                 return true
             }
-            if( check == -1 ) {
+            if( check == -1 && n_check == -1) {
+                alert('중복 확인이 필요합니다.')
+                // check = $('#input-check').val(0)
+                // n_check = $('#input-n-check').val(0)
+                // checkUserId()
+                // checkNickname()
+            }
+            if(check == 1 && n_check == -1) {
+                alert('닉네임 중복 확인이 필요합니다.')
+            }
+            if(check == -1 && n_check == 1) {
                 alert('아이디 중복 확인이 필요합니다.')
-                checkUserId()
             }
             return false
         }
@@ -314,17 +325,7 @@
             return res
         }
 
-		function n_check() {
-            let n_check = $('#input-n-check').val()
-            if( n_check == 1 ) {
-                return true
-            }
-            if( n_check == -1 ) {
-                alert('닉네임 중복 확인이 필요합니다.')
-                checkNickname()
-            }
-            return false
-        }
+
         function checkNickname() {
             asyncCheckNickname().then(function(result_n) {
                 // 닉네임 미입력
@@ -347,7 +348,7 @@
                 }
             })
         }
-        // ID 중복확인
+        // 닉네임 중복확인
         async function asyncCheckNickname() {
             var token = $("meta[name='_csrf']").attr("content");
             var header = $("meta[name='_csrf_header']").attr("content");
