@@ -49,8 +49,9 @@
             background-color: transparent;
             border: 0;
             border-bottom: 1.5px solid #d204a9;
+            border-bottom: 1.5px solid #d204a9;
             border-radius: 0;
-            width: 250px;
+            width: 230px;
             color: white;
 			font-family: 'Dovemayo-Medium';
             font-size: 20px;
@@ -85,7 +86,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            column-gap: 20px;
+            column-gap: 15px;
         }
         .error-row {
             font-size: 17px;
@@ -95,9 +96,9 @@
 		font-size: 14px;
 		color: #fff;
 		background-color: #d204a9;
-		padding: 12px 30px;
+		padding: 10px 22px;
 		display: inline-block;
-		border-radius: 25px;
+		border-radius: 22px;
 		font-weight: 400;
 		text-transform: capitalize;
 		letter-spacing: 0.5px;
@@ -210,7 +211,6 @@
                             <td width="150">이름</td>
                             <td colspan="2">
                                 <input type="text" name="name" th:field="*{name}" th:errorclass="field-error" class="form-control input-underline">
-                                
                             </td>
                         </tr>
                         <tr class="error-row">
@@ -240,7 +240,7 @@
                             </td>
                         </tr>
                 </table>
-                        <div><br><br>
+                        <div><br>
                             <button type="submit" id="submit" class="btn">등록</button>
 
                             &nbsp;&nbsp;&nbsp;

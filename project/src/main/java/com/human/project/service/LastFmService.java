@@ -31,7 +31,7 @@ public class LastFmService {
     private static final String API_KEY = "7c299ab01d7a9433efb0c6bba589ca36";
     private static final String BASE_URL = "https://ws.audioscrobbler.com/2.0/";
 
-    private static final String Y_API_KEY = "AIzaSyCnvpcLvc31jJmX9nOdyvDj4HIrVPCg-oM";
+    private static final String Y_API_KEY = "AIzaSyC45vP_BS5g0t_Olv3qHWAbR534wtTuNoM";
 
     public void getChart() throws IOException {
         OkHttpClient client = new OkHttpClient();
@@ -53,7 +53,7 @@ public class LastFmService {
             String name = node.path("name").asText();
             String artist = node.path("artist").path("name").asText();
 
-            String url_s = "https://www.googleapis.com/youtube/v3/search?key=" + Y_API_KEY + "&regionCode=GB&part=snippet&q=" +artist + name;
+            String url_s = "https://www.googleapis.com/youtube/v3/search?key=" + Y_API_KEY + "&type=video&regionCode=GB&part=snippet&q=" +artist + name;
 
             Request request_s = new Request.Builder()
                 .url(url_s)
