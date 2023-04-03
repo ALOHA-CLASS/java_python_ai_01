@@ -4,8 +4,14 @@
 </head>
 <body>
 	<style>
+		@font-face {
+		font-family: 'Dovemayo_gothic';
+		src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.1/Dovemayo_gothic.woff2') format('woff2');
+		font-weight: normal;
+		font-style: normal;
+        }
 		#btn_comment {
-		font-size: 25px;
+		font-size: 20px;
 		color: #fff;
 		background-color: transparent;
 		padding: 1px 9px;
@@ -17,14 +23,14 @@
 		transition: all .3s;
 		position: relative;
 		overflow: hidden;
-		font-family: 'Dongle', sans-serif;
+		font-family: 'Dovemayo_gothic';
 		}
 		#btn_comment:hover {
 		background-color: #27292A;
 		color: #D204A9;
 		}
 		.btn_comment_answer {
-		font-size: 25px;
+		font-size: 20px;
 		color: #fff;
 		background-color: #000000;
 		padding: 1px 9px;
@@ -36,10 +42,10 @@
 		transition: all .3s;
 		position: relative;
 		overflow: hidden;
-		font-family: 'Dongle', sans-serif;
+		font-family: 'Dovemayo_gothic';
 		}
-		.btn_comment_insert {
-		font-size: 25px;
+		.btn_comment_answer_insert, .btn_comment_insert {
+		font-size: 20px;
 		color: #fff;
 		background-color: #000000;
 		padding: 1px 9px;
@@ -51,10 +57,10 @@
 		transition: all .3s;
 		position: relative;
 		overflow: hidden;
-		font-family: 'Dongle', sans-serif;
+		font-family: 'Dovemayo_gothic';
 		}
-		.btn_comment_cancel {
-		font-size: 25px;
+		.btn_comment_answer_cancel, .btn_comment_cancel {
+		font-size: 20px;
 		color: #fff;
 		background-color: #000000;
 		padding: 1px 9px;
@@ -66,7 +72,7 @@
 		transition: all .3s;
 		position: relative;
 		overflow: hidden;
-		font-family: 'Dongle', sans-serif;
+		font-family: 'Dovemayo_gothic';
 		}
 	</style>
 <input type="hidden" id="csrf-token" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
