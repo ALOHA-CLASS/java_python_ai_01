@@ -8,6 +8,12 @@
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>프로필</title>
     <style>
+        @font-face {
+            font-family: 'Dovemayo_gothic';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.1/Dovemayo_gothic.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
         body{
             text-align: center;
         }
@@ -21,8 +27,8 @@
             color: rgb(255, 221, 221);
         }
         h1 {
-            font-family: 'Dongle', sans-serif;
-            font-size: 70px;
+            font-family: 'Dovemayo_gothic', sans-serif;
+            font-size: 50px;
             color: #FC1F74;
         }
         .check-id { display: none; }
@@ -30,35 +36,53 @@
         .input-underline {
             background-color: transparent;
             border: 0;
-            border-bottom: 2px solid #FC1F74;
+            border-bottom: 1.5px solid #FC1F74;
             border-radius: 0;
-            width: 250px;
+            width: 230px;
             color: white;
-			font-family: 'Dongle', sans-serif;
-            font-size: 30px;
+			font-family: 'Dovemayo_gothic', sans-serif;
+            font-size: 20px;
         }
         .input-underline:focus {
             color: white;
             background-color: transparent;
             border: 0;
-            border-bottom: 2px solid #FC1F74;
+            border-bottom: 1.5px solid rgb(255, 221, 221);
             outline: 0;
             box-shadow: 0 0 0 0.25rem transparent;
-			font-family: 'Dongle', sans-serif;
-            font-size: 30px;
+			font-family: 'Dovemayo_gothic', sans-serif;
+            font-size: 20px;
         }
     
         .sign-up {
-            font-family: 'Dongle', sans-serif;
-            font-size: 30px;
+            font-family: 'Dovemayo_gothic', sans-serif;
+            font-size: 20px;
         }
         #submit {
-            font-family: 'Dongle', sans-serif;
-            font-size: 30px;
+            font-family: 'Dovemayo_gothic', sans-serif;
+            font-size: 20px;
         }
         #reset {
-            font-family: 'Dongle', sans-serif;
-            font-size: 30px;
+            font-family: 'Dovemayo_gothic', sans-serif;
+            font-size: 20px;
+        }
+        #mollu {
+            color: white;
+            background-color: transparent;
+            border: 0;
+            border-bottom: 1.5px solid #FC1F74;
+            outline: 0;
+            box-shadow: 0 0 0 0.25rem transparent;
+			font-family: 'Dovemayo_gothic', sans-serif;
+            font-size: 20px;
+        }
+        #complete {
+            font-family: 'Dovemayo_gothic', sans-serif;
+            font-size: 20px;
+        }
+        #double-check {
+            font-family: 'Dovemayo_gothic', sans-serif;
+            font-size: 18px;
         }
     </style>
 </head>
@@ -68,16 +92,15 @@
             <div class="col-lg-12">
                 <div class="page-content">
                 <h1>Profile</h1><br><br>
-                    <!-- csrf 토큰 -->
-                    
+                    <!-- csrf 토큰 --> 
                     <!-- 전송 가능 여부 - 가능(1), 불가능(0) -->
                     <form id="update" action="/profile/update" method="post" th:object="${user}" onsubmit="return check()">
                         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                         <table class="sign-up">
                         <tr>
                             <td width="150">아이디</td>
-                            <td>
-                                <span th:text="*{userId}">
+                            <td id="mollu">
+                                <span th:text="*{userId}" ></span>    
                             </td>
                         </tr>
                         <tr><td><br></td></tr>
@@ -89,7 +112,7 @@
                             </td>
                             <td>
                                 <div class="main-button">
-                                    <a href="javascript:;" onclick="checkNickname()">중복확인</a>
+                                    <a href="javascript:;" onclick="checkNickname()" id="double-check">중복확인</a>
                                 </div>
                             </td>
                         </tr>
@@ -123,16 +146,40 @@
                             </td>
                         </tr>
                         <tr>
-                            <td width="150">이메일</td>
-                            <td colspan="2">
-                                <input type="text" name="email" th:value="*{email}"  th:errorclass="field-error" class="form-control input-underline"> <br>
-                               
+                            <td  width="150">이메일</td>
+                            <td id="mollu" th:if="${not #strings.isEmpty(social_email)}">
+                                <span th:text="*{email}"> <br>
+                            </td>
+                            <td th:if="${#strings.isEmpty(social_email)}" colspan="2">
+                                <input  type="text" name="email" th:value="*{email}"  th:errorclass="field-error" class="form-control input-underline"> <br>
                             </td>
                         </tr>
-                </table>
+                        <tr th:if="${#strings.isEmpty(social_email)}">
+                            <td width="150">비밀번호 변경</td>
+                            <td>
+                                <input type="password"  id="newPw" name="userPw" th:field="*{userPw}" th:errorclass="field-error" class="form-control input-underline"> <br>
+                            </td>
+                            <td>
+                                <div class="main-button">
+                                    <a href="javascript:;" onclick="newPw()">비밀번호변경</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="error-row">
+                            <td width="150">&nbsp;</td>
+                            <td colspan="2" align="left">
+                                <font color="red">
+                                    <th:block th:if="${ #fields.hasErrors('userPw') }">
+                                        <span th:errors="*{userPw}"></span>
+                                    </th:block>
+                                </font>
+                            </td>
+                            </td>
+                        </tr>
+                    </table>
                         <div><br><br>
                             <div class="main-button">
-                                    <a href="javascript:;" onclick=btn_update()>수정 완료</a>
+                                    <a href="javascript:;" onclick=btn_update() id="complete">수정 완료</a>
                                 </form>
                             </div>
                         </div>
@@ -201,6 +248,41 @@
             })
             return res
         }
+
+    // 비밀번호 변경
+    function newPw() {
+        // let newPw = $('#newPw').val()
+        if($('#newPw').val() == "") {
+            alert("빈칸을 확인해주세요.")
+            return false;
+        }
+        else {
+            var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
+            $.ajax({
+                url: '/newPwUpdate',      // 요청 경로
+                type: 'post',               // 메소드 방식(get, post, put 등)
+                data: {userId : $('userId').val(), userPw : $('#newPw').val()},             // 전송할 데이터
+                // 전송
+                beforeSend : function(xhr) {
+                    xhr.setRequestHeader(header, token)
+                },
+                // 서버로부터 정상적인 응답
+                success: function(data){
+                    if( data == 'true' ) {
+                        alert("비밀번호가 변경되었습니다.");
+                    }
+                    else {
+                        alert("비밀번호 변경에 실패하였습니다.")
+                    }
+                },
+                // 에러
+                error: function(request, status, error){
+                    alert('@@@@@@@@@에러@@@@@@@@@@')
+                }
+            })
+        }
+    }
 
     function btn_update(){
         document.getElementById('update').submit();

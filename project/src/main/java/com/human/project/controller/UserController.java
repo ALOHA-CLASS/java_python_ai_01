@@ -80,16 +80,6 @@ public class UserController {
 		else {return new ResponseEntity<Boolean>(false, HttpStatus.OK);}
 	}
 
-	// 유저 삭제
-	@PostMapping("/delete")
-	public String userDel(@RequestParam(value="chkbox[]") List<String> userNoList) throws Exception{
-		int result = userService.delete(userNoList);
-		
-		if (result > 0) log.info("회원 삭제 성공");
-		else 			log.info("회원 삭제 실패");
-		
-		return "redirect:/admin";
-	}
 	
 }
 

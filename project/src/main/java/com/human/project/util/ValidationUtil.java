@@ -86,6 +86,51 @@ public class ValidationUtil {
 	}
 	
 
+	// public boolean passwordError(BindingResult result, Users user) {
+	public boolean passwordError(Users user) {
+		// String pattern = "^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&+=])(?=\\S+$).{8,20}$";
+		// String userId = user.getUserId();
+		String newPw = user.getUserPw();
+		// String userPwChk = user.getUserPw();
+		// String nickname = user.getNickname();
+		// String name	= user.getName();
+		// String email = user.getEmail();
+
+		// 유효성 검사를 수행할 필드를 정의
+		// String fieldName = "userPw";
+		boolean result = true;
+		log.info("newPw : " + newPw);
+		log.info("newPw 글자수 : " + newPw.length());
+		
+		if (newPw == null || newPw.trim().isEmpty()) {
+			// result.rejectValue(fieldName, "error.user", "*반드시 입력해야합니다.");
+			log.info("비밀번호 유효성 검사 1차 오류");
+			result = false;
+            return false;
+        }
+		// 새 비밀번호가 8글자 미만, 20글자 초과인 경우 유효성 검사에 실패합니다.
+		if (newPw.length() < 8 || newPw.length() > 20) {
+			// result.rejectValue(fieldName, "error.user", "*8글자 이상 20자 이하로 입력해야합니다.");
+			log.info("비밀번호 유효성 검사 2차 오류");
+			result = false;
+			return false;
+		}
+		
+		// 새 비밀번호가 숫자, 영문자, 특수문자 중 하나 이상이 빠져있거나 공백이 있다면 유효성 검사에 실패합니다.
+		if (!newPw.matches("^(?=.*[a-zA-Z])(?=.*\\d)(?=.*\\W).{8,20}$")) {
+			// result.rejectValue(fieldName, "error.user", "영문자, 숫자, 특수문자를 각각 하나 이상 포함해야합니다.");
+			boolean regexResult = newPw.matches("^(?=.*[a-zA-Z])(?=.*\\d)(?=.*\\W).{8,20}$");
+			log.info("정규식 결과 : " + regexResult);
+			log.info("비밀번호 유효성 검사 3차 오류");
+			result = false;
+			return false;
+		}
+
+		log.info("비밀번호 유효성 결과 : " + result);
+		
+		return true;
+	}
+	
 }
 
 

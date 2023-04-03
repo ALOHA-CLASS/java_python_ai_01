@@ -130,7 +130,7 @@ public class HomeController {
 	 * @throws Exception
 	 */
 	
-	 @PostMapping("/join")
+	@PostMapping("/join")
 	public String joinPro(@Validated Users user, BindingResult bindingResult, HttpServletRequest request) throws Exception {
 		
 		// 유효성 검증 오류확인
@@ -223,6 +223,33 @@ public class HomeController {
             return new ResponseEntity<>(uuidPw, HttpStatus.OK);
         }
 
+	}
+
+	// 비밀번호 변경
+	@PostMapping("/newPwUpdate")
+	// public ResponseEntity<String> newPwUpdate(@Validated Users user, Authentication authentication, BindingResult bindingResult) throws Exception {
+	public ResponseEntity<String> newPwUpdate(Users user, Authentication authentication) throws Exception {
+		
+		// 유효성 검증 오류확인
+		if(!validationUtil.passwordError(user)) {
+			log.info("유효성 검증 오류..");
+			return new ResponseEntity<>("false", HttpStatus.OK);
+		}
+
+		String userId = authentication.getName();
+		user.setUserId(userId);
+
+		int newPw = userService.newPw(user);
+
+		String newPwStr = user.getUserPw();
+		log.info("변경 할 비밀번호 " + newPwStr);
+
+		// // 비밀번호 암호화
+		newPwStr = passwordEncoder.encode(newPwStr);
+		user.setUserPw(newPwStr);
+		userMapper.newPw(user);
+
+		return new ResponseEntity<>("true", HttpStatus.OK);
 	}
     
     // 아이디 찾기

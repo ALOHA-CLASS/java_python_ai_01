@@ -10,11 +10,17 @@
 </head>
 <body layout:fragment="content">
     <style>
+        @font-face {
+            font-family: 'Dovemayo_gothic';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.1/Dovemayo_gothic.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
         table {
+            font-family: 'Dovemayo_gothic';
+            font-size:18px
             table-layout: fixed;
-            border-collapse: collapse;
             width: 100%;
-            border: 3px solid rgb(202, 197, 197);
         }
         tr, th {
             color: white;
@@ -57,54 +63,111 @@
                 margin-top: 14px;
             }
         }
+        #list #list1 #list2 #list3 { 
+            background-color: transparent !important;
+            color: #ffffff;
+        }
+        /* #list1 { 
+            background-color: transparent !important;
+            color: #ffffff;
+        }
+        #list2 { 
+            background-color: transparent !important;
+            color: #ffffff;
+        }
+        #list3 { 
+            background-color: transparent !important;
+            color: #ffffff;
+        } */
+        #list:hover {
+            color: #fb2ecf;
+        }
+        #list1:hover {
+            color: #fb2ecf;
+        }
+        #list2:hover {
+            color: #fb2ecf;
+        }
+        #list3:hover {
+            color: #fb2ecf;
+        }
+        #write, #btn_board_del, .btnSearch {
+            font-size: 18px;
+            color: #fff;
+            background-color: #000000;
+            padding: 1px 10px;
+            display: inline-block;
+            font-weight: 100;
+            border-radius: 10%;
+            text-transform: capitalize;
+            letter-spacing: 0.5px;
+            transition: all .3s;
+            position: relative;
+            overflow: hidden;
+            font-family: 'Dovemayo_gothic', sans-serif;
+            margin-top: 5px;
+        }
+        .page-content {
+            font-family: 'Dovemayo_gothic';
+            font-size:18px
+        }
+        .txtSearch {
+			background-color: black;
+			color: white;
+        }
     </style>
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
             <div class="page-content" align="center">
                 <div class="back-head"></div>
-                <h1><em>C</em>arnival <em>C</em>ommunity</h1>
-                <form action="/board/list" method="post">
+                <h1><em>C</em>arnival <em>C</em>ommunity</h1><br>
+                <form action="/board/list" method="get">
                 <!-- csrf 토큰 -->
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                <p th:text="|${page.totalCount} 건의 게시글이 조회되었습니다.|" align="left"></p>
-                <a href="list">[전체목록]</a>
-                <a href="list?tag=국내">[국내]</a>
-                <a href="list?tag=해외">[해외]</a>
-                <a href="list?tag=기타">[기타]</a>
-                <div align="right">
-                    <!-- 페이징 옵션 -->
-                    <p>게시물
-                    <select id="rowsPerPage" name="rowsPerPage">
-                        <option value="5">5개씩</option>
-                        <option value="10">10개씩</option>
-                        <option value="15">15개씩</option>
-                        <option value="20">20개씩</option>
-                        <option value="30">30개씩</option>
-                        <option value="40">40개씩</option>
-                        <option value="50">50개씩</option>
-                    </select>
-                    페이지
-                    <select id="pageCount" name="pageCount">
-                        <option value="5">5개씩</option>
-                        <option value="10">10개씩</option>
-                        <option value="20">20개씩</option>
-                    </select>
-                    </p>
-                </div>
+                <table>
+                    <tr>
+                        <td colspan=2 align="center">
+                            <a href="list" id="list">전체목록</a>
+                            &nbsp;<a href="list?tag=국내" id="list1">국내</a>
+                            &nbsp;<a href="list?tag=해외" id="list2">해외</a>
+                            &nbsp;<a href="list?tag=기타" id="list3">기타</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td th:text="|${page.totalCount} 건의 게시글이 조회되었습니다.|" align="left"></td>
+                        <td align="right">게시물
+                            <select id="rowsPerPage" name="rowsPerPage">
+                                <option value="5">5개씩</option>
+                                <option value="10">10개씩</option>
+                                <option value="15">15개씩</option>
+                                <option value="20">20개씩</option>
+                                <option value="30">30개씩</option>
+                                <option value="40">40개씩</option>
+                                <option value="50">50개씩</option>
+                            </select>
+                            페이지
+                            <select id="pageCount" name="pageCount">
+                                <option value="5">5개씩</option>
+                                <option value="10">10개씩</option>
+                                <option value="20">20개씩</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
                 <table>
                     <tr>
                         <thead>
                             <th:block sec:authorize="hasAnyRole('ROLE_ADMIN')">
                                 <th width="30"><input type="checkbox" id="checkall"></th>
                             </th:block>
-                            <th width="50">번호</th>
-                            <th width="50">구분</th>
-                            <th width="250">제목</th>
-                            <th width="150">작성자</th>
-                            <th width="100">조회수</th>
-                            <th width="200">등록일자</th>
-                        </thead>
+                        	<th width="50">번호</th>
+                        	<th width="60">구분</th>
+                        	<th width="300">제목</th>
+                        	<th width="150">작성자</th>
+                        	<th width="100">조회수</th>
+                        	<th width="200">등록일자</th>
+						</thead>
                     </tr>
                     <!-- 조회된 데이터가 없을 때 -->
                     <tr th:if="${ #lists.isEmpty(boardList) }">
@@ -130,23 +193,23 @@
                             <th:block th:if="${board.nickname != null}">
                                 <td align="center" th:text=${board.nickname}></td>    
                             </th:block>
-                            
-                            <td align="center">0</td>
-                            <td width="200" align="center">
+                            <td width="60" align="center" th:text=${board.joinCnt}></td>
+                            <td width="180" align="center">
                                 <span th:text="${ #temporals.format(board.regDate, 'yyyy-MM-dd HH:mm:ss') }"></span>
                             </td>
                         </tr>
                      </th:block>
                 </table>
-                <div align="left">
-                    <th:block sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
-                        <a href="/board/insert">글쓰기</a>
-                    </th:block>
-                </div>
                 <div align="right">
+                    <th:block sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
+                        <br><button type="button" id="write" onclick="btnBoardAdd()">글쓰기</button>
+                    </th:block>
                     <th:block sec:authorize="hasAnyRole('ROLE_ADMIN')">
                         <button type="button" id="btn_board_del" onclick="btnBoardDel()">삭제</button>
                     </th:block>
+                </div>
+                <div align="right">
+                    
                 </div>
                 <br>
                 <!-- 페이지네이션 -->
@@ -172,8 +235,8 @@
                     <option value="3">제목 + 내용</option>
                     <option value="4">작성자</option>
                 </select>
-                <input type="text" name="keyword" th:value="${param.keyword}" placeholder="검색어를 입력하세요.">
-                <button type="submit">검색</button>
+                <input type="text" name="keyword" class="txtSearch" th:value="${param.keyword}" placeholder="검색어 입력">
+                <button type="submit" class="btnSearch">검색</button>
                 </form>
                 <div class="back-foot"></div>
             </div>
@@ -247,11 +310,15 @@
                           + "&tag=" + option.tag
                           
         }
+
+        function btnBoardAdd(){
+            location.href="/board/insert"
+        }
+
         function btnBoardDel(){
             let chkarr = [];
             var token = $("meta[name='_csrf']").attr("content");
             var header = $("meta[name='_csrf_header']").attr("content");
-​
             let result = confirm('게시글을 삭제하시겠습니까?')
             if (result) {
                 $('.input-check:checked').each(function(){
