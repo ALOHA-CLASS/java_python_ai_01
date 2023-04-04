@@ -135,7 +135,9 @@
     }
 
     function btn_delete(){
-        document.getElementById('delete').submit();
+        if (confirm("정말로 회원을 탈퇴하시겠습니까?")){
+            document.getElementById('delete').submit();
+        }     
     }
 </script>
 </body>
