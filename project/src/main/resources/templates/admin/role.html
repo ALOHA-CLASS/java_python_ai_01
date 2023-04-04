@@ -22,22 +22,39 @@
 			font-family: 'Dovemayo-Medium';
 			text-align: center;
 		}
-		th, td {
+		th{
+			font-family: 'Dovemayo-Medium';
+			font-size: 20px;
+			color: #ffffff;
+			text-align: center;
+			background-color: rgb(0, 0, 0);
+		}
+		td {
 			font-family: 'Dovemayo-Medium';
 			font-size: 20px;
 			color: #ffffff;
 			text-align: center;
 		}
 		.page-content {
-		font-family: 'Dovemayo-Medium';
-		table-layout: fixed;
-		border-collapse: collapse;
-		width: 100%;
-		border: 3px solid rgb(202, 197, 197);
+			font-family: 'Dovemayo-Medium';
+			table-layout: fixed;
+			border-collapse: collapse;
+			width: 100%;
+			border: 3px solid rgb(202, 197, 197);
 		}
 		hr {
 			color: #ffffff;
 		}
+		#tb_border, #tr_list {
+			text-align:center; 
+			border-bottom:1px solid gray; 
+			color:gray;
+			width:100;
+		}
+		#tr_list:hover {
+        	background-color: rgb(110, 109, 110);
+        	color: rgb(243, 200, 253);
+        }
 		#con {
 			font-family: 'Dovemayo-Medium';
 			font-size: 15px;
@@ -83,27 +100,51 @@
 		<div class="col-lg-12">
 			<div class="page-content">
 				<h1>관리자 페이지</h1><br>
-				<h3>ROLE_ADMIN 권한 관리</h3><br>
-				
-				<table border="1">
-				<tr>
-					<td width="3000">
-						<p th:text="|${page.totalCount} 명의 회원이 조회되었습니다.|" align="left" id="cho"></p>
-					</td>
-					<td width="100">
-						<select id="rowsPerPage" name="rowsPerPage">
-							<option value="10">10개씩</option>
-							<option value="15">15개씩</option>
-							<option value="20">20개씩</option>
-							<option value="30">30개씩</option>
-							<option value="40">40개씩</option>
-							<option value="50">50개씩</option>
-						</select>
-					</td>
-				</tr>
-				</table>
-				<table border="1">
+				<hr>
+					<table id="tbl">	
+						<tr>
+							<td width="350">
+								<a href="/admin/index">
+								<span class="icon color5"><i class="fa fa-user"></i></span>
+								회원관리
+								<!-- <span class="label label-default">2</span>-->
+								</a>
+							</td>
+							<td width="350">
+								<a href="/admin/role">
+								<span class="icon color5"><i class="fa fa-users"></i></span>
+								권한관리
+								</a>
+							</td>
+							<td width="350">
+								<a href="/chart_reset">
+								<span class="icon color5"><i class="fa fa-users"></i></span>
+								차트 리셋
+								</a>
+							</td>
+						</tr>
+					</table>
+						<hr><br>
+				<h3 align="left">ROLE_ADMIN 권한 관리</h3><br>
+				<table>
 					<tr>
+						<td width="3000">
+							<p th:text="|${page.totalCount} 명의 회원이 조회되었습니다.|" align="left" id="cho"></p>
+						</td>
+						<td width="100">
+							<select id="rowsPerPage" name="rowsPerPage">
+								<option value="10">10개씩</option>
+								<option value="15">15개씩</option>
+								<option value="20">20개씩</option>
+								<option value="30">30개씩</option>
+								<option value="40">40개씩</option>
+								<option value="50">50개씩</option>
+							</select>
+						</td>
+					</tr>
+				</table>
+				<table>
+					<tr id="tb_border">
 						<th width="40"></th>
 						<th width="100">회원 번호</th>
 						<th width="150">회원 ID</th>
@@ -113,9 +154,8 @@
 						<th width="200">회원 등록 일자</th>
 						<th width="200">권한 등급</th>
 					</tr>
-​
-					<th:block th:each="user : ${usersList}">
-						<tr>
+​					<th:block th:each="user : ${usersList}">
+						<tr id="tr_list">
 							<td><input type="radio" name="userNo" th:value=${user.userNo} class="radio-check"></td>
 							<td th:text=${user.userNo}></td>
 							<td th:text=${user.userId}></td>
@@ -138,7 +178,14 @@
 						</tr>
 					</th:block>
 				</table>
-
+				<div align='right'>
+					<select name="auth_list" id="auth_list" >
+						<option value="ROLE_USER">사용자</option>
+						<option value="ROLE_ADMIN">관리자</option>
+					</select>
+						<button type="button" onclick="btnAddAuth()" id="con">권한 추가</button>
+						<button type="button" onclick="btnDelAuth()" id="con">권한 박탈</button>
+				</div>
 				<!-- 페이지네이션 -->
                 <a th:href="|javascript: change(${page.firstPage});|">[처음]</a>
                 <th:block th:if="${page.prev} > 0">
@@ -153,17 +200,6 @@
                     <a th:href="|javascript: change(${page.next});|">[다음]</a>
                 </th:block>
                 <a th:href="|javascript: change(${page.lastPage});|">[마지막]</a>
-
-				<div>
-					<select name="auth_list" id="auth_list">
-						<option value="ROLE_USER">사용자</option>
-						<option value="ROLE_ADMIN">관리자</option>
-					</select>
-					<div align="right">
-						<button type="button" onclick="btnAddAuth()" id="con">권한 추가</button>
-						<button type="button" onclick="btnDelAuth()" id="con">권한 박탈</button>
-					</div>
-				</div>
 				<br>
                 <!-- 검색 옵션 -->
 				<form action="/admin/role" method="get">
