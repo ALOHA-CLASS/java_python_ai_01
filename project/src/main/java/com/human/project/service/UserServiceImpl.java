@@ -214,6 +214,12 @@ public class UserServiceImpl implements UserService {
 		int result = userMapper.newPw(user);
 		return result;
 	}
+	// 이메일 변경
+	@Override
+	public int newEmail(Users user) throws Exception {
+		int result = userMapper.newEmail(user);
+		return result;
+	}
 }
 
 

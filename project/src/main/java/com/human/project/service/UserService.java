@@ -47,4 +47,6 @@ public interface UserService {
 	// 모든 쿠키 삭제
 	public boolean deleteCookies(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
+	// 이메일 변경
+	public int newEmail(Users user) throws Exception;
 }

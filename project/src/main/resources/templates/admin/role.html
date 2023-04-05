@@ -27,6 +27,69 @@
 			font-size: 20px;
 			color: #ffffff;
 			text-align: center;
+			background-color: rgb(0, 0, 0);
+		}
+		td {
+			font-family: 'Dovemayo-Medium';
+			font-size: 20px;
+			color: #ffffff;
+			text-align: center;
+		}
+		.page-content {
+			font-family: 'Dovemayo-Medium';
+			table-layout: fixed;
+			border-collapse: collapse;
+			width: 100%;
+			border: 3px solid rgb(202, 197, 197);
+		}
+		hr {
+			color: #ffffff;
+		}
+		#tb_border, #tr_list {
+			text-align:center; 
+			border-bottom:1px solid gray; 
+			color:gray;
+			width:100;
+		}
+		#tr_list:hover {
+        	background-color: rgb(110, 109, 110);
+        	color: rgb(243, 200, 253);
+        }
+		#con {
+			font-family: 'Dovemayo-Medium';
+			font-size: 15px;
+			color: #fff;
+			background-color: #000000;
+			padding: 1px 12px;
+			display: inline-block;
+			font-weight: 100;
+			border-radius: 10%;
+			text-transform: capitalize;
+			letter-spacing: 0.5px;
+			transition: all .3s;
+			position: relative;
+			overflow: hidden;
+			
+		}
+		#sh {
+			font-family: 'Dovemayo-Medium';
+			font-size: 15px;
+			color: #fff;
+			background-color: #000000;
+			padding: 1px 12px;
+			display: inline-block;
+			font-weight: 100;
+			border-radius: 10%;
+			text-transform: capitalize;
+			letter-spacing: 0.5px;
+			transition: all .3s;
+			position: relative;
+			overflow: hidden;
+		}
+		#cho {
+			font-family: 'Dovemayo-Medium';
+			font-size: 15px;
+			color: #fff;
 		}
 		.page-content {
 		font-family: 'Dovemayo-Medium';
@@ -95,7 +158,7 @@
 	<!-- csrf 토큰 -->
 	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 ​
-<div class="container">
+<div class="container" align="center">
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="page-content" align="center">

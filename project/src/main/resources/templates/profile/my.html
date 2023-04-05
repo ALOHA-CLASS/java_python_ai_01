@@ -8,6 +8,12 @@
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>프로필</title>
     <style>
+        @font-face {
+        font-family: 'Dovemayo_gothic';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.1/Dovemayo_gothic.woff2') format('woff2');
+        font-weight: normal;
+        font-style: normal;
+        }
         body{
             text-align: center;
         }
@@ -21,7 +27,7 @@
             color: rgb(255, 221, 221);
         }
         h1 {
-            font-family: 'Dongle', sans-serif;
+            font-family: 'Dovemayo_gothic';
             font-size: 70px;
             color: #FC1F74;
         }
@@ -34,7 +40,7 @@
             border-radius: 0;
             width: 250px;
             color: white;
-			font-family: 'Dongle', sans-serif;
+			font-family: 'Dovemayo_gothic';
             font-size: 30px;
         }
         .input-underline:focus {
@@ -44,28 +50,28 @@
             border-bottom: 2px solid #FC1F74;
             outline: 0;
             box-shadow: 0 0 0 0.25rem transparent;
-			font-family: 'Dongle', sans-serif;
+			font-family: 'Dovemayo_gothic';
             font-size: 30px;
         }
     
         .sign-up {
-            font-family: 'Dongle', sans-serif;
+            font-family: 'Dovemayo_gothic';
             font-size: 30px;
         }
         #submit {
-            font-family: 'Dongle', sans-serif;
+            font-family: 'Dovemayo_gothic';
             font-size: 30px;
         }
         #reset {
-            font-family: 'Dongle', sans-serif;
+            font-family: 'Dovemayo_gothic';
             font-size: 30px;
         }
         #modify {
-			font-family: 'Dongle', sans-serif;
+			font-family: 'Dovemayo_gothic';
             font-size: 30px;
         }
         #out {
-			font-family: 'Dongle', sans-serif;
+			font-family: 'Dovemayo_gothic';
             font-size: 30px;
         }
     </style>
@@ -75,7 +81,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="page-content">
-                <h1>Profile</h1><br><br>
+                <h1>프로필</h1><br><br>
                     <!-- csrf 토큰 -->
                     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                     <!-- 전송 가능 여부 - 가능(1), 불가능(0) -->
@@ -129,7 +135,9 @@
     }
 
     function btn_delete(){
-        document.getElementById('delete').submit();
+        if (confirm("정말로 회원을 탈퇴하시겠습니까?")){
+            document.getElementById('delete').submit();
+        }     
     }
 </script>
 </body>
