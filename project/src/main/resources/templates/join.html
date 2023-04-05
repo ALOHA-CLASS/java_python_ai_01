@@ -45,6 +45,9 @@
         .check-nickname {
             display: none;
         }
+        .check-email {
+            display: none;
+        }
         .input-underline {
             background-color: transparent;
             border: 0;
@@ -124,6 +127,7 @@
                     <!-- 전송 가능 여부 - 가능(1), 불가능(0) -->
                     <input type="hidden" value="-1" id="input-check" />
                     <input type="hidden" value="-1" id="input-n-check" />
+                    <input type="hidden" value="-1" id="input-e-check" />
 
                     <table class="sign-up">
                         <tr>
@@ -226,13 +230,21 @@
                         </tr>
                         <tr>
                             <td width="150">이메일</td>
-                            <td colspan="2">
+                            <td>
                                 <input type="text" name="email" th:field="*{email}" th:errorclass="field-error" class="form-control input-underline">
+                            </td>
+                            <td>
+                                <div class="main-button">
+                                    <a href="javascript:;" onclick="checkEmail()" class="double-check">중복확인</a>
+                                </div>
+                                
                             </td>
                         </tr>
                         <tr class="error-row">
                             <td width="150">&nbsp;</td>
                             <td colspan="2" align="left">
+                                <font color=#9bf525 id="email-check" class="check-email"><span>사용 가능한 이메일입니다.</span></font>
+                                <font color="red" id="email-duplicated" class="check-email"><span>중복된 이메일입니다.</span></font>
                                 <font color="red">
                                     <th:block th:if="${ #fields.hasErrors('email') }">
                                         <span th:errors="*{email}"></span>
@@ -262,21 +274,26 @@
         function check() {
             let check = $('#input-check').val()
             let n_check = $('#input-n-check').val()
-            if( check == 1 && n_check == 1 ) {
+            let e_check = $('#input-e-check').val()
+            
+            if( check == 1 && n_check == 1 && e_check == 1) {
                 return true
             }
-            if( check == -1 && n_check == -1) {
+            if( check == -1 || n_check == -1 || e_check == -1) {
                 alert('중복 확인이 필요합니다.')
                 // check = $('#input-check').val(0)
                 // n_check = $('#input-n-check').val(0)
                 // checkUserId()
                 // checkNickname()
             }
-            if(check == 1 && n_check == -1) {
+            if(check == 1 && n_check == -1 && e_check == 1) {
                 alert('닉네임 중복 확인이 필요합니다.')
             }
-            if(check == -1 && n_check == 1) {
+            if(check == -1 && n_check == 1 && e_check == 1) {
                 alert('아이디 중복 확인이 필요합니다.')
+            }
+            if(check == 1 && n_check == 1 && e_check == -1) {
+                alert('이메일 중복 확인이 필요합니다.')
             }
             return false
         }
@@ -360,6 +377,52 @@
             }
             const res = await $.ajax({
                 url:    '/user/check/nickname',       // 요청 경로
+                type:   'post',                 // 메소드 방식(get, post, put 등)
+                data:   data,                   // 전송할 데이터.
+                dataType: "text",
+                // 전송 전
+                beforeSend : function(xhr) {
+                    xhr.setRequestHeader(header, token)
+                },
+            })
+            return res
+        }
+
+        function checkEmail() {
+            asyncCheckEmail().then(function(result_e) {
+                // 이메일 미입력
+                if( result_e == null ) {
+                    return
+                }
+                // 이메일 사용가능
+                if( result_e == 'true' ) {
+                    alert('사용 가능한 이메일입니다.')
+                    $('#email-check').show()
+                    $('#email-duplicated').hide()
+                    $('#input-e-check').val(1)
+                }
+                // 이메일 중복
+                else {
+                    alert('중복된 이메일입니다')
+                    $('#email-duplicated').show()
+                    $('#email-check').hide()
+                    $('#input-e-check').val(0)
+                }
+            })
+        }
+
+        // 이메일 중복확인
+        async function asyncCheckEmail() {
+            var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
+            let email = $('#email').val()
+            let data = {'email' : email}
+            if( email == undefined || email == '' ) {
+                alert('이메일을 입력해주세요.')
+                return null
+            }
+            const res = await $.ajax({
+                url:    '/user/check/email',       // 요청 경로
                 type:   'post',                 // 메소드 방식(get, post, put 등)
                 data:   data,                   // 전송할 데이터.
                 dataType: "text",
