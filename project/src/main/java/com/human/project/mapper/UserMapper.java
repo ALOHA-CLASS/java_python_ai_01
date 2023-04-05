@@ -50,4 +50,6 @@ public interface UserMapper {
 	// 선택 회원 삭제
 	public int deleteSelectedUser(@Param("noList") String noList) throws Exception;
 
+	// 이메일 변경
+	public int newEmail(Users user) throws Exception;
 }

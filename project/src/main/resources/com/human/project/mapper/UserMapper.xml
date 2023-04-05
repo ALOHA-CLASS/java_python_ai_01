@@ -49,6 +49,7 @@
 		  FROM users
 		 WHERE user_id = #{userId}
 		 	OR nickname = #{nickname}
+			OR email = #{email}
 	</select>
 	
 	<!-- 회원 수정 -->
@@ -114,6 +115,13 @@
 	<update id="newPw">
 		UPDATE users
 		SET user_pw = #{userPw}
+		WHERE user_id = #{userId}
+	</update>
+
+	<!-- 이메일 변경 -->
+	<update id="newEmail">
+		UPDATE users
+		SET email = #{email}
 		WHERE user_id = #{userId}
 	</update>
 </mapper>

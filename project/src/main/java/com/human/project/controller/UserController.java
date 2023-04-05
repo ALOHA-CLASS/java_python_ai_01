@@ -72,6 +72,26 @@ public class UserController {
 		log.info("닉네임 사용가능 : " + nickname);
 		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 	}
+	// 이메일 중복확인
+	@ResponseBody
+	@PostMapping("/check/email")
+	public ResponseEntity<Boolean> checkUserEmail(Users user) throws Exception {
+			
+		Users selectedEmail = userService.select(user);
+		String email = user.getEmail();
+		log.info("이메일 : " + email);
+		log.info("selected" + selectedEmail);
+			
+		// 이메일 중복 (사용불가)
+		if( selectedEmail != null ) {
+			log.info("이메일 중복... : " + email);
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+		}
+			
+		// 이메일 중복 아님(사용가능)
+		log.info("이메일 사용가능 : " + email);
+		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+	}
 
 	
 }
