@@ -54,10 +54,8 @@ public class BoardController {
 	public String insert(Board board, Principal principal, Model model) throws Exception {
 		
 		if (principal != null) {
-			
-		String userId = principal.getName();
-		model.addAttribute("userId", userId);
-        
+			String userId = principal.getName();
+			model.addAttribute("userId", userId);
 		}
 		
 		return "board/insert";
@@ -69,7 +67,7 @@ public class BoardController {
 	@PostMapping("/insert")
 	public String insertPro(Board board, Principal principal, Model model) throws Exception {
 
-		log.info("board : " +board);
+		// log.info("board : " +board);
 		// 게시글 쓰기 요청
 		int result = boardService.insert(board);
 		
@@ -88,7 +86,7 @@ public class BoardController {
 		if (principal != null) {
 			String userId = principal.getName();
 			model.addAttribute("userId", userId);
-	        log.info("userId : "+userId);
+	        // log.info("userId : "+userId);
 		}
 		
 		Board board = boardService.read(boardNo);
