@@ -33,6 +33,7 @@ public class Users {
 	private String name;
 	
 	@Email(message = "*이메일 형식으로 입력해야합니다.")
+//	@Column(unique = true)
 	private String email;
 	
 	private boolean enabled;
