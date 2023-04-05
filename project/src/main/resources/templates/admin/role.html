@@ -22,7 +22,7 @@
 			font-family: 'Dovemayo-Medium';
 			text-align: center;
 		}
-		th{
+		th, td {
 			font-family: 'Dovemayo-Medium';
 			font-size: 20px;
 			color: #ffffff;
@@ -91,6 +91,69 @@
 			font-size: 15px;
 			color: #fff;
 		}
+		.page-content {
+		font-family: 'Dovemayo-Medium';
+		table-layout: fixed;
+		border-collapse: collapse;
+		width: 100%;
+		border: 3px solid rgb(202, 197, 197);
+		}
+		hr {
+			color: #ffffff;
+		}
+		#con {
+			font-family: 'Dovemayo-Medium';
+			font-size: 15px;
+			color: #ffffff;
+			background-color: #000000;
+			padding: 1px 12px;
+			display: inline-block;
+			font-weight: 100;
+			border-radius: 10%;
+			text-transform: capitalize;
+			letter-spacing: 0.5px;
+			transition: all .3s;
+			position: relative;
+			overflow: hidden;
+			
+		}
+		#sh {
+			font-family: 'Dovemayo-Medium';
+			font-size: 15px;
+			color: #ffffff;
+			background-color: #000000;
+			padding: 1px 12px;
+			display: inline-block;
+			font-weight: 100;
+			border-radius: 10%;
+			text-transform: capitalize;
+			letter-spacing: 0.5px;
+			transition: all .3s;
+			position: relative;
+			overflow: hidden;
+		}
+		#cho {
+			font-family: 'Dovemayo-Medium';
+			font-size: 15px;
+			color: #ffffff;
+		}
+		#aa {
+			text-align:center; 
+			border:1px solid gray; 
+			color:gray;
+			width:100;
+		}
+		#bb {
+			text-align:center; 
+			border:1px solid gray; 
+			color:gray;
+			width:100;
+		}
+		#paging{
+			float: left;
+			position: relative;
+			left: 45%;
+		}
 	</style>
 	<!-- csrf 토큰 -->
 	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
@@ -98,7 +161,7 @@
 <div class="container" align="center">
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="page-content">
+			<div class="page-content" align="center">
 				<h1>관리자 페이지</h1><br>
 				<hr>
 					<table id="tbl">	
@@ -124,7 +187,7 @@
 							</td>
 						</tr>
 					</table>
-						<hr><br>
+				<hr><br>
 				<h3 align="left">ROLE_ADMIN 권한 관리</h3><br>
 				<table>
 					<tr>
@@ -143,8 +206,8 @@
 						</td>
 					</tr>
 				</table>
-				<table>
-					<tr id="tb_border">
+				<table border="1" id="bb">
+					<tr id="aa">
 						<th width="40"></th>
 						<th width="100">회원 번호</th>
 						<th width="150">회원 ID</th>
@@ -154,8 +217,8 @@
 						<th width="200">회원 등록 일자</th>
 						<th width="200">권한 등급</th>
 					</tr>
-​					<th:block th:each="user : ${usersList}">
-						<tr id="tr_list">
+					<th:block th:each="user : ${usersList}">
+						<tr id="bb">
 							<td><input type="radio" name="userNo" th:value=${user.userNo} class="radio-check"></td>
 							<td th:text=${user.userNo}></td>
 							<td th:text=${user.userId}></td>
@@ -178,29 +241,36 @@
 						</tr>
 					</th:block>
 				</table>
-				<div align='right'>
-					<select name="auth_list" id="auth_list" >
+				<div style="float: left;">
+					<select name="auth_list" id="auth_list">
 						<option value="ROLE_USER">사용자</option>
 						<option value="ROLE_ADMIN">관리자</option>
 					</select>
-						<button type="button" onclick="btnAddAuth()" id="con">권한 추가</button>
-						<button type="button" onclick="btnDelAuth()" id="con">권한 박탈</button>
 				</div>
-				<!-- 페이지네이션 -->
-                <a th:href="|javascript: change(${page.firstPage});|">[처음]</a>
-                <th:block th:if="${page.prev} > 0">
-                    <a th:href="|javascript: change(${page.prev});|">[이전]</a>
-                </th:block>
-                <th:block th:each="no : ${#numbers.sequence(page.startPage, page.endPage)}">
-                    <th:block th:if="${no == page.pageNum}"><b></th:block>
-                    <a th:href="|javascript: change(${no});|" th:text="${no}"></a>
-                    <th:block th:if="${no == page.pageNum}"></b></th:block>
-                </th:block>
-                <th:block th:if="${page.next} <= ${page.lastPage}">
-                    <a th:href="|javascript: change(${page.next});|">[다음]</a>
-                </th:block>
-                <a th:href="|javascript: change(${page.lastPage});|">[마지막]</a>
+				<div style="float: right;">
+					<button type="button" onclick="btnAddAuth()" id="con">권한 추가</button>
+					<button type="button" onclick="btnDelAuth()" id="con">권한 박탈</button>
+				</div>
 				<br>
+				<!-- 페이지네이션 -->
+				<div id="paging">
+					<a th:href="|javascript: change(${page.firstPage});|">[처음]</a>
+					<th:block th:if="${page.prev} > 0">
+						<a th:href="|javascript: change(${page.prev});|">[이전]</a>
+					</th:block>
+					<th:block th:each="no : ${#numbers.sequence(page.startPage, page.endPage)}">
+						<th:block th:if="${no == page.pageNum}"><b></th:block>
+						<a th:href="|javascript: change(${no});|" th:text="${no}"></a>
+						<th:block th:if="${no == page.pageNum}"></b></th:block>
+					</th:block>
+					<th:block th:if="${page.next} <= ${page.lastPage}">
+						<a th:href="|javascript: change(${page.next});|">[다음]</a>
+					</th:block>
+					<a th:href="|javascript: change(${page.lastPage});|">[마지막]</a>
+				</div>
+
+				<br><br>
+
                 <!-- 검색 옵션 -->
 				<form action="/admin/role" method="get">
 					<select name="optionCode" id="optionCode">

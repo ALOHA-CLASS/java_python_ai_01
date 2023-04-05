@@ -107,7 +107,7 @@
 			</tr>
 		</table>
 		<div align="center">
-			<span th:if="${board.userId == #authentication.principal.username}">
+			<span th:if="${board.userId == #authentication.principal.username} or ${#authorization.expression('hasRole(''ADMIN'')')}">
 				<button type="button" onclick="boardUpdate()" id="btn">수정</button>
 			</span>
 			<button type="button" onclick="moveList()" id="btn">목록</button>

@@ -24,7 +24,7 @@
 			font-family: 'Dovemayo_gothic', sans-serif;
 			font-size: 23px;
 		}
-		.indent { margin-left: 100px; }
+		.indent { margin-left: 30px; }
 		.comment_wrap {
 			display: flex;
 		}
@@ -38,18 +38,19 @@
 			color: white;
 			font-family: 'Dovemayo_gothic', sans-serif;
 			font-size: 18px;
-			color: D5D5D5
 		}
 		#content {
+			width: 500px;
 			background-color: black;
 			color: white;
+			resize: none;
 		}
 		table {
 			width: 100%;
 		}
 		.btn, .btn_comment_update, .btn_comment_delete, .btn_comment {
 		font-size: 18px;
-		color: #fff;
+		color: #ffffff;
 		background-color: #000000;
 		padding: 1px 10px;
 		display: inline-block;
@@ -63,12 +64,12 @@
 		font-family: 'Dovemayo_gothic', sans-serif;
 		}
 		.btn:hover {
-		background-color: #fff;
+		background-color: #ffffff;
 		color: #D204A9;
 		}
 		.btn_comment {
 		font-size: 25px;
-		color: #fff;
+		color: #ffffff;
 		background-color: #000000;
 		padding: 1px 12px;
 		display: inline-block;
@@ -82,7 +83,7 @@
 		font-family: 'Dovemayo-Medium';
 		}
 		.btn_comment:hover {
-		background-color: #fff;
+		background-color: #ffffff;
 		color: #D204A9;
 		}
 		#comment_list {
@@ -109,14 +110,20 @@
     	<input type="hidden" th:name=userId th:value="${userId}"/>
 		<table width=500>
 			<tr>
-				<td colspan=4 th:style="${'font-size:50px'}" th:text="'[ ' + ${board.tag} +' ]' + '   ' +${board.title}">
+				<td colspan=4 th:style="${'font-size:50px'}" th:text="'[ ' + ${board.tag} + ' ]' + '   ' + ${board.title}">
 					<label th:text="${board.title}"></label>
 				</td>
 			</tr>
 
 			<tr>
 				<td><b>작성자</b></td>
-				<td colspan=2 th:text="${board.nickname}"></td>
+				<th:block th:if="${board.nickname == null}">
+					<td th:text=${board.userId}></td>
+				</th:block>
+				<th:block th:if="${board.nickname != null}">
+					<td th:text=${board.nickname}></td>    
+				</th:block>
+				<!-- <td colspan=2 th:text="${board.nickname}"></td> -->
 				<td><b>조회</b></td><td th:text="${board.joinCnt}"></td>
 
 			</tr>
@@ -131,14 +138,12 @@
 				<td style="border:1;" colspan=5 th:text="${board.content}"></td>
 			</tr>
 		</table>
-	
+		<hr>
 	</form>
-	
-	<hr>
 	
 	 <!-- 버튼 -->
 	 <div align="right">
-		<span th:if="${board.userId == userId}">
+		<span th:if="${board.userId == userId} or ${#authorization.expression('hasRole(''ADMIN'')')}">
 			<button type="button" onclick="moveUpdate()" class="btn">수정</button>
 			<button type="button" onclick="boardDelete()" class="btn">삭제</button>
 		</span>
@@ -176,7 +181,7 @@
 			</div>
 		</th:block>
 	</div>
-
+	
 	<!-- 댓글 입력 -->
 	<th:block sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
 		<div class="comment_txt">

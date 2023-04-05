@@ -81,7 +81,9 @@
 		<div class="comment_wrap">
 			<th:block th:if="${comment.commentNo != comment.groupNo}">
 				<th:block th:each=" no : ${ #numbers.sequence(1, comment.depthNo) }">
-					<div class="indent"></div>
+					<th:block th:if="${no < 19}">
+						<div class="indent"></div>
+					</th:block>
 				</th:block>
 			</th:block>
 		
@@ -93,8 +95,13 @@
 				<input type="hidden" class="sub_count" th:value="${comment.subCnt}">
 				<!-- <p class="userId" style="font-size:5px" th:text="${userId}" id="userId"></p> -->
 				<input type="hidden" class='userId' th:value="${comment.userId}"/>
-				<span class="nickname" th:text="${comment.nickname}"></span>
-				<span class="regDate" th:text="${comment.regDate}"></span>
+				<th:block th:if="${comment.nickname == null}">
+					<span align="center" th:text=${comment.userId}></span>
+				</th:block>
+				<th:block th:if="${comment.nickname != null}">
+					<span align="center" th:text=${comment.nickname}></span>    
+				</th:block>
+				<span class="regDate" th:text="${ #temporals.format(comment.regDate, 'yyyy-MM-dd HH:mm:ss')}"></span>
 				<span th:if="${comment.userId == userId} or ${#authorization.expression('hasRole(''ADMIN'')')}">
                 	<button type="button" class="btn_comment_update" th:data="${comment.commentNo}">수정</button>
                 	<button type="button" class="btn_comment_delete" th:data="${comment.commentNo}">삭제</button>

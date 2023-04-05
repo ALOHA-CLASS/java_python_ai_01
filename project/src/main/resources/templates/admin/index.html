@@ -22,7 +22,7 @@
 			font-family: 'Dovemayo-Medium';
 			text-align: center;
 		}
-		th{
+		th, td {
 			font-family: 'Dovemayo-Medium';
 			font-size: 20px;
 			color: #ffffff;
@@ -45,10 +45,35 @@
 			width: 100%;
 			border: 3px solid rgb(202, 197, 197);
 		}
-		#btn_all{
+		.page-content {
+		font-family: 'Dovemayo-Medium';
+		table-layout: fixed;
+		border-collapse: collapse;
+		width: 100%;
+		border: 3px solid rgb(202, 197, 197);
+		}
+		hr {
+			color: #ffffff;
+		}
+		#up {
 			font-family: 'Dovemayo-Medium';
 			font-size: 15px;
-			color: #fff;
+			color: #ffffff;
+			background-color: #000000;
+			padding: 1px 12px;
+			display: inline-block;
+			font-weight: 100;
+			border-radius: 10%;
+			text-transform: capitalize;
+			letter-spacing: 0.5px;
+			transition: all .3s;
+			position: relative;
+			overflow: hidden;
+		}
+		#gum {
+			font-family: 'Dovemayo-Medium';
+			font-size: 15px;
+			color: #ffffff;
 			background-color: #000000;
 			padding: 1px 12px;
 			display: inline-block;
@@ -63,19 +88,20 @@
 		#srh {
 			font-family: 'Dovemayo-Medium';
 			font-size: 15px;
-			color: #fff;
+			color: #ffffff;
 		}
-		#tb_border, #tr_list {
+		#aa {
 			text-align:center; 
-			border-bottom:1px solid gray; 
+			border:1px solid gray; 
 			color:gray;
 			width:100;
 		}
-		#tr_list:hover {
-        	background-color: rgb(110, 109, 110);
-        	color: rgb(243, 200, 253);
-        }
-
+		#bb {
+			text-align:center; 
+			border:1px solid gray; 
+			color:gray;
+			width:100;
+		}
 	</style>
 	<!-- csrf 토큰 -->
 	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
@@ -128,9 +154,9 @@
 						</td>
 					</tr>
 				</table>
-				<table>
-					<tr id="tb_border">
-						<th><input type="checkbox" id="checkall"></th>
+				<table border="1" id="bb">
+					<tr id="aa">
+						<th width="40"><input type="checkbox" id="checkall"></th>
 						<th width="100">회원 번호</th>
 						<th width="150">회원 ID</th>
 						<th width="150">회원 닉네임</th>
@@ -141,7 +167,7 @@
 					</tr>
 
 					<th:block th:each="user : ${usersList}">
-						<tr id="tr_list">
+						<tr id="bb">
 							<td><input type="checkbox" name="userNo" th:value=${user.userNo} class="input-check"></td>
 							<td th:text=${user.userNo}></td>
 							<td th:text=${user.userId}></td>
@@ -164,10 +190,9 @@
 						</tr>
 					</th:block>
 				</table>
-
 				<div align="right">
-					<button type="button" onclick="btnModNick()" id="btn_all">닉네임 변경</button>
-					<button type="button" onclick="btnUserDel()" id="btn_all">회원 삭제</button>
+					<button type="button" onclick="btnModNick()" id="up">닉네임 변경</button>
+					<button type="button" onclick="btnUserDel()" id="up">회원 삭제</button>
 				</div>
 				
 				<!-- 페이지네이션 -->
@@ -194,7 +219,7 @@
 						<option value="2">회원 이름</option>
 					</select>
 					<input type="text" name="keyword" th:value="${param.keyword}" placeholder="검색어를 입력하세요.">
-					<button type="submit" id="btn_all">검색</button>
+					<button type="submit" id="gum">검색</button>
 				</form>
 			</div>
 		</div>
