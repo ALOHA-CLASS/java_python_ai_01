@@ -1,13 +1,12 @@
 package com.human.project.service;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.human.project.domain.UserAuth;
 import com.human.project.domain.UserSocial;
 import com.human.project.domain.Users;
+
 
 public interface UserService {
 	

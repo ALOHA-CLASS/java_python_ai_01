@@ -45,6 +45,13 @@
         em {
             color: rgb(252, 15, 220);
         }
+        .back-head {
+            background-image: url(/img/yaho1.png);
+            background-size: 100%;
+            background-repeat: no-repeat;
+            background-position: center;
+            height: 120px;
+        }
         .back-foot {
             background-image: url(/img/yaho2.png);
             background-size: 100%;
@@ -174,7 +181,7 @@
                             <td width="70" align="center">
                             	<a th:href="|/board/list?tag=${board.tag}|" th:text=${board.tag}></a>
                             </td>
-                            <td width="300" align="left">
+                            <td align="center">
                                 <a th:href="|/board/read?boardNo=${board.boardNo}|" th:text=${board.title}></a>
                             </td>
                             <th:block th:if="${board.nickname == null}">
@@ -310,7 +317,6 @@
             let chkarr = [];
             var token = $("meta[name='_csrf']").attr("content");
             var header = $("meta[name='_csrf_header']").attr("content");
-
             let result = confirm('게시글을 삭제하시겠습니까?')
             if (result) {
                 $('.input-check:checked').each(function(){

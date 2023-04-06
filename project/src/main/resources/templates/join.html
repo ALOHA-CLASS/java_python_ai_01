@@ -196,8 +196,7 @@
                             <td>
                                 <div class="main-button">
                                     <a href="javascript:;" onclick="checkNickname()" class="double-check">중복확인</a>
-                                </div>
-                                
+                                </div>                                
                             </td>
                         </tr>
                         <tr class="error-row">
@@ -228,23 +227,19 @@
                                 </font>
                             </td>
                         </tr>
+                        <input type="hidden" value="-1" id="input-email-check" />
                         <tr>
                             <td width="150">이메일</td>
                             <td>
                                 <input type="text" name="email" th:field="*{email}" th:errorclass="field-error" class="form-control input-underline">
                             </td>
-                            <td>
-                                <div class="main-button">
-                                    <a href="javascript:;" onclick="checkEmail()" class="double-check">중복확인</a>
-                                </div>
-                                
-                            </td>
                         </tr>
                         <tr class="error-row">
                             <td width="150">&nbsp;</td>
                             <td colspan="2" align="left">
-                                <font color=#9bf525 id="email-check" class="check-email"><span>사용 가능한 이메일입니다.</span></font>
-                                <font color="red" id="email-duplicated" class="check-email"><span>중복된 이메일입니다.</span></font>
+                                
+                                <font color=#9bf525 id="email-check" class="check-email"><span>사용 가능 이메일</span></font>
+                                <font color="red" id="email-duplicated" class="check-email"><span>중복 이메일</span></font>
                                 <font color="red">
                                     <th:block th:if="${ #fields.hasErrors('email') }">
                                         <span th:errors="*{email}"></span>
@@ -274,26 +269,15 @@
         function check() {
             let check = $('#input-check').val()
             let n_check = $('#input-n-check').val()
-            let e_check = $('#input-e-check').val()
             
-            if( check == 1 && n_check == 1 && e_check == 1) {
+            if( check == 1 && n_check == 1) {
                 return true
             }
-            if( check == -1 || n_check == -1 || e_check == -1) {
-                alert('중복 확인이 필요합니다.')
-                // check = $('#input-check').val(0)
-                // n_check = $('#input-n-check').val(0)
-                // checkUserId()
-                // checkNickname()
-            }
-            if(check == 1 && n_check == -1 && e_check == 1) {
+            if(check == 1 && n_check == -1) {
                 alert('닉네임 중복 확인이 필요합니다.')
             }
-            if(check == -1 && n_check == 1 && e_check == 1) {
+            if(check == -1 && n_check == 1) {
                 alert('아이디 중복 확인이 필요합니다.')
-            }
-            if(check == 1 && n_check == 1 && e_check == -1) {
-                alert('이메일 중복 확인이 필요합니다.')
             }
             return false
         }
@@ -301,11 +285,14 @@
             asyncCheckUserId().then(function(result) {
                 // ID 미입력
                 if( result == null ) {
+                	$('#id-check').hide()
+                	$('#id-duplicated').hide()
+                	$('#input-check').val(-1)
                     return
                 }
                 // ID 사용가능
                 if( result == 'true' ) {
-                    alert('사용 가능한 아이디입니다.')
+                    alert('사용 가능한 아이디')
                     $('#id-check').show()
                     $('#id-duplicated').hide()
                     $('#input-check').val(1)
@@ -326,7 +313,7 @@
             let userId = $('#userId').val()
             let data = {'userId' : userId}
             if( userId == undefined || userId == '' ) {
-                alert('아이디를 입력해주세요.')
+            	alert('아이디를 입력하세요')
                 return null
             }
             const res = await $.ajax({
@@ -347,6 +334,9 @@
             asyncCheckNickname().then(function(result_n) {
                 // 닉네임 미입력
                 if( result_n == null ) {
+                	$('#nickname-check').hide()
+                	$('#nickname-duplicated').hide()
+                	$('#input-n-check').val(-1)
                     return
                 }
                 // 닉네임 사용가능
@@ -388,51 +378,6 @@
             return res
         }
 
-        function checkEmail() {
-            asyncCheckEmail().then(function(result_e) {
-                // 이메일 미입력
-                if( result_e == null ) {
-                    return
-                }
-                // 이메일 사용가능
-                if( result_e == 'true' ) {
-                    alert('사용 가능한 이메일입니다.')
-                    $('#email-check').show()
-                    $('#email-duplicated').hide()
-                    $('#input-e-check').val(1)
-                }
-                // 이메일 중복
-                else {
-                    alert('중복된 이메일입니다')
-                    $('#email-duplicated').show()
-                    $('#email-check').hide()
-                    $('#input-e-check').val(0)
-                }
-            })
-        }
-
-        // 이메일 중복확인
-        async function asyncCheckEmail() {
-            var token = $("meta[name='_csrf']").attr("content");
-            var header = $("meta[name='_csrf_header']").attr("content");
-            let email = $('#email').val()
-            let data = {'email' : email}
-            if( email == undefined || email == '' ) {
-                alert('이메일을 입력해주세요.')
-                return null
-            }
-            const res = await $.ajax({
-                url:    '/user/check/email',       // 요청 경로
-                type:   'post',                 // 메소드 방식(get, post, put 등)
-                data:   data,                   // 전송할 데이터.
-                dataType: "text",
-                // 전송 전
-                beforeSend : function(xhr) {
-                    xhr.setRequestHeader(header, token)
-                },
-            })
-            return res
-        }
 
 		function btn_join() {
 			document.getElementById('join').submit();
