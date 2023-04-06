@@ -27,6 +27,23 @@
 			font-size: 20px;
 			color: #ffffff;
 			text-align: center;
+			background-color: rgb(0, 0, 0);
+		}
+		td {
+			font-family: 'Dovemayo-Medium';
+			font-size: 20px;
+			color: #ffffff;
+			text-align: center;
+		}
+		hr {
+			color: #ffffff;
+		}
+		.page-content {
+			font-family: 'Dovemayo-Medium';
+			table-layout: fixed;
+			border-collapse: collapse;
+			width: 100%;
+			border: 3px solid rgb(202, 197, 197);
 		}
 		.page-content {
 		font-family: 'Dovemayo-Medium';
@@ -41,7 +58,7 @@
 		#up {
 			font-family: 'Dovemayo-Medium';
 			font-size: 15px;
-			color: #fff;
+			color: #ffffff;
 			background-color: #000000;
 			padding: 1px 12px;
 			display: inline-block;
@@ -56,7 +73,7 @@
 		#gum {
 			font-family: 'Dovemayo-Medium';
 			font-size: 15px;
-			color: #fff;
+			color: #ffffff;
 			background-color: #000000;
 			padding: 1px 12px;
 			display: inline-block;
@@ -71,7 +88,7 @@
 		#srh {
 			font-family: 'Dovemayo-Medium';
 			font-size: 15px;
-			color: #fff;
+			color: #ffffff;
 		}
 		#aa {
 			text-align:center; 
@@ -120,7 +137,7 @@
 					</table>
 						<hr><br>
 				<h3 align="left">ROLE_ADMIN 회원 관리</h3><br>
-				<table border="1">
+				<table>
 					<tr>
 						<td width="3000">
 							<p th:text="|${page.totalCount} 명의 회원이 조회되었습니다.|" align="left" id="srh"></p>
@@ -139,7 +156,7 @@
 				</table>
 				<table border="1" id="bb">
 					<tr id="aa">
-						<th><input type="checkbox" id="checkall"></th>
+						<th width="40"><input type="checkbox" id="checkall"></th>
 						<th width="100">회원 번호</th>
 						<th width="150">회원 ID</th>
 						<th width="150">회원 닉네임</th>
@@ -173,7 +190,6 @@
 						</tr>
 					</th:block>
 				</table>
-
 				<div align="right">
 					<button type="button" onclick="btnModNick()" id="up">닉네임 변경</button>
 					<button type="button" onclick="btnUserDel()" id="up">회원 삭제</button>

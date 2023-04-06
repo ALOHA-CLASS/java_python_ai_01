@@ -85,7 +85,7 @@ public class ValidationUtil {
 		return false;
 	}
 	
-
+	// 비밀번호 변경 시 유효성 & 정규식 검사
 	// public boolean passwordError(BindingResult result, Users user) {
 	public boolean passwordError(Users user) {
 		// String pattern = "^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&+=])(?=\\S+$).{8,20}$";
@@ -130,7 +130,28 @@ public class ValidationUtil {
 		
 		return true;
 	}
+	// /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$
+	// 이메일 변경 시 유효성 & 정규식 검사
+	public boolean emailError(Users user) {
+
+		String newEmail = user.getEmail();
+
+		boolean result = true;
+		log.info("newEmail : " + newEmail);
 	
+		// 새 비밀번호가 숫자, 영문자, 특수문자 중 하나 이상이 빠져있거나 공백이 있다면 유효성 검사에 실패합니다.
+		if (!newEmail.matches("^([\\w-]+(?:\\.[\\w-]+)*)@((?:[\\w-]+\\.)*\\w[\\w-]{0,66})\\.([a-z]{2,6}(?:\\.[a-z]{2})?)$")) {
+			boolean regexResult = newEmail.matches("^([\\w-]+(?:\\.[\\w-]+)*)@((?:[\\w-]+\\.)*\\w[\\w-]{0,66})\\.([a-z]{2,6}(?:\\.[a-z]{2})?)$");
+			log.info("정규식 결과 : " + regexResult);
+			log.info("이메일 유효성 검사 2차 오류");
+			result = false;
+			return false;
+		}
+
+		log.info("이메일 유효성 결과 : " + result);
+		
+		return true;
+	}
 }
 
 

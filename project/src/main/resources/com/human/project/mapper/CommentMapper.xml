@@ -94,15 +94,17 @@
 			      ,r2.upd_date 	sub_upd_date
 			      ,r2.sub_cnt sub_sub_cnt
 			      ,u.nickname
-			  FROM users u, comment r1
+			  FROM comment r1 LEFT JOIN users u ON r1.user_id = u.user_id
 			       LEFT JOIN (
 								SELECT *
 								FROM comment
 								WHERE comment_no <> group_no
 							) r2
 			       ON r1.group_no = r2.group_no
-			WHERE r1.board_no = #{boardNo}
-			  AND r1.user_id = u.user_id
+			WHERE (r1.board_no = #{boardNo}
+			  AND r1.user_id = u.user_id)
+               OR (r1.board_no = #{boardNo}
+			  AND r1.user_id LIKE '삭제%')
 			ORDER BY r1.group_no ASC
 			        ,r1.seq_no ASC
 			        ,r1.depth_no ASC
@@ -119,8 +121,7 @@
 	<!-- 댓글 수정 -->
 	<update id="update">
 		UPDATE comment 
-		SET user_id = #{userId}, 
-			content = #{content}, 
+		SET content = #{content}, 
 			group_no = #{groupNo}, 
 			parent_no = #{parentNo},
 			depth_no = #{depthNo},
@@ -155,10 +156,9 @@
 
 	<!-- 댓글 조회 -->
 	<select id="select" resultType="Comment">
-		SELECT c.*, u.nickname 
-		  FROM comment c, users u
-		 WHERE c.comment_no = #{commentNo}
-		   AND c.user_id=u.user_id
+		SELECT *
+		  FROM comment
+		 WHERE comment_no = #{commentNo}
 	</select>
 
 </mapper>

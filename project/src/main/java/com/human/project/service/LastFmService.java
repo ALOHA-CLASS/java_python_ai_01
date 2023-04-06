@@ -16,6 +16,8 @@ import com.google.common.io.ByteStreams;
 import com.human.project.domain.Chart;
 import com.human.project.mapper.ChartRepository;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
@@ -24,19 +26,23 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
+@PropertySource("classpath:application.properties")
 public class LastFmService {
     @Autowired
     private ChartRepository chartRepository;
 
-    private static final String API_KEY = "7c299ab01d7a9433efb0c6bba589ca36";
+    @Value("${lastfm-api-key}")
+    private String lastfm_api_key;
+
     private static final String BASE_URL = "https://ws.audioscrobbler.com/2.0/";
 
-    private static final String Y_API_KEY = "AIzaSyC45vP_BS5g0t_Olv3qHWAbR534wtTuNoM";
+    @Value("${yotube-api-key}")
+    private String youtube_api_key;
 
     public void getChart() throws IOException {
         OkHttpClient client = new OkHttpClient();
 
-        String url1 = String.format("%s?method=chart.gettoptracks&api_key=%s&page=1&format=json", BASE_URL, API_KEY);
+        String url1 = String.format("%s?method=chart.gettoptracks&api_key=%s&page=1&format=json", BASE_URL, lastfm_api_key);
         Request request = new Request.Builder()
                 .url(url1)
                 .build();
@@ -53,7 +59,7 @@ public class LastFmService {
             String name = node.path("name").asText();
             String artist = node.path("artist").path("name").asText();
 
-            String url_s = "https://www.googleapis.com/youtube/v3/search?key=" + Y_API_KEY + "&type=video&regionCode=GB&part=snippet&q=" +artist + name;
+            String url_s = "https://www.googleapis.com/youtube/v3/search?key=" + youtube_api_key + "&type=video&regionCode=GB&part=snippet&q=" +artist + name;
 
             Request request_s = new Request.Builder()
                 .url(url_s)
@@ -77,7 +83,7 @@ public class LastFmService {
             String videoUrl = "https://www.youtube.com/watch?v=" + videoId;
 
             request = new Request.Builder()
-                .url(BASE_URL + "?method=track.getInfo&api_key=" + API_KEY + "&artist=" + artist + "&track=" + name +  "&format=json")
+                .url(BASE_URL + "?method=track.getInfo&api_key=" + lastfm_api_key + "&artist=" + artist + "&track=" + name +  "&format=json")
                 .build();
             response = client.newCall(request).execute();
             String responsebody = response.body().string();
