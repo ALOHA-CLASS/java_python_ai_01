@@ -91,7 +91,7 @@
 	<!-- 회원 삭제시 게시글 작성사 수정 -->
 	<update id="userDelBoardUpdate">
 		UPDATE board
-		   SET user_id = '삭제된 작성자 입니다.'
+		   SET user_id = '삭제된 작성자입니다.'
  		 WHERE user_id in (select user_id
 					         from users
 		 		            where user_no in (${noList}));
@@ -100,7 +100,7 @@
 	<!-- 회원 삭제시 댓글 작성자 수정 -->
 	<update id="userDelCommentUpdate">
 		UPDATE comment
-		   SET user_id = '삭제된 작성자 입니다.'
+		   SET user_id = '삭제된 작성자입니다.'
  		 WHERE user_id in (select user_id
 					         from users
 		 			        where user_no in (${noList}));

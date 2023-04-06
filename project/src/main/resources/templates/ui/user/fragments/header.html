@@ -80,14 +80,18 @@
                       <form id="join3" action="/join" method="get">
                         <li sec:authorize="isAnonymous()"><a href="javascript:;" onclick=btn_join() id="signup">회원가입</a></li>
                       </form>
+                      <th:block th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                        <form action="/admin" method="get">
+                          <li><button type="submit" class="logout">관리자</button></li>
+                        </form>
+                      </th:block>
                       <th:block sec:authorize="isAuthenticated()">
-                        
                           <form action="/logout" method="post">
                             <!-- csrf 토큰 -->
                             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                             <li><button type="submit" class="logout">로그아웃</button></li>
                           </form>
-                  </th:block>
+                      </th:block>
                       <li sec:authorize="isAuthenticated()"><a href="/profile/my">프로필 <img src="/cyborg/assets/images/avatar.jpg" alt=""></a></li>
                   </ul>   
                   <a class='menu-trigger'>

@@ -57,11 +57,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		
 			.antMatchers("/logout").permitAll()
 			.antMatchers("/join").permitAll()
-//			.antMatchers("/user/check/id").permitAll()
-//			.antMatchers("/user/check/nickname").permitAll()
-//			.antMatchers("/user/check/phoneNumber").permitAll()
-//			.antMatchers("/user/check/email").permitAll()
-			.antMatchers("/user/check/**").permitAll()
+			.antMatchers("/user/check/id").permitAll()
+			.antMatchers("/user/check/nickname").permitAll()
+			.antMatchers("/user/check/email").permitAll()
+			.antMatchers("/user/check/phoneNumber").permitAll()
 			.antMatchers("/user/**").hasAnyRole("USER", "ADMIN") 	// 사용자/관리자 접근 허용
 			.antMatchers("/admin/**").permitAll()
 			// .antMatchers("/admin/**").hasRole("ADMIN") 				// 관리자만 접근 허용

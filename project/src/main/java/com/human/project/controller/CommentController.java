@@ -30,12 +30,11 @@ public class CommentController {
 		if (principal != null) {
 			String userId = principal.getName();
 			model.addAttribute("userId", userId);
-	        log.info("userId : "+userId);
+	        // log.info("userId : "+userId);
 		}
 		
 		List<Comment> commentList = commentService.list(boardNo);
 		model.addAttribute("commentList", commentList);
-		
 
 		return "comment/list";
 	}
@@ -49,7 +48,7 @@ public class CommentController {
 		if (principal != null) {
 			String userId = principal.getName();
 			model.addAttribute("userId", userId);
-			log.info("userId : "+userId);
+			// log.info("userId : "+userId);
 			result = commentService.insert(comment, userId);
 		}
 		
@@ -72,7 +71,7 @@ public class CommentController {
 		if (principal != null) {
 			String userId = principal.getName();
 			model.addAttribute("userId", userId);
-			log.info("userId : "+userId);
+			// log.info("userId : "+userId);
 			result = commentService.update(comment);
 		}
 
@@ -99,9 +98,8 @@ public class CommentController {
 		if (principal != null) {
 			String userId = principal.getName();
 			model.addAttribute("userId", userId);
-			log.info("userId : "+userId);
+			// log.info("userId : "+userId);
 			result = commentService.delete(commentNo);
-			result = commentService.update(comment);
 		}
 		
 		if(result > 0) 			log.info("댓글 삭제 성공...");

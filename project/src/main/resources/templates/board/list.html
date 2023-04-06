@@ -106,6 +106,9 @@
             font-family: 'Dovemayo-Medium';
             font-size: 15px;
         }
+        #tbla:hover{
+            background-color: #27292A;
+        }
     </style>
 <div class="container">
     <div class="row">
@@ -120,27 +123,35 @@
                 &nbsp;<a href="list?tag=국내" id="list1">국내</a>
                 &nbsp;<a href="list?tag=해외" id="list2">해외</a>
                 &nbsp;<a href="list?tag=기타" id="list3">기타</a>
-                <p th:text="|${page.totalCount} 건의 게시글이 조회되었습니다.|" align="left"></p>
-                <div align="right">
-                    <!-- 페이징 옵션 -->
-                    <p>게시물
-                    <select id="rowsPerPage" name="rowsPerPage">
-                        <option value="5">5개씩</option>
-                        <option value="10">10개씩</option>
-                        <option value="15">15개씩</option>
-                        <option value="20">20개씩</option>
-                        <option value="30">30개씩</option>
-                        <option value="40">40개씩</option>
-                        <option value="50">50개씩</option>
-                    </select>
-                    페이지
-                    <select id="pageCount" name="pageCount">
-                        <option value="5">5개씩</option>
-                        <option value="10">10개씩</option>
-                        <option value="20">20개씩</option>
-                    </select>
-                    </p>
-                </div>
+                <table>
+                    <tr id="tbla">
+                        <td>
+                            <p th:text="|${page.totalCount} 건의 게시글이 조회되었습니다.|" align="left"></p>
+                        </td>
+                        <td>
+                            <div align="right">
+                                <!-- 페이징 옵션 -->
+                                <p>게시물
+                                <select id="rowsPerPage" name="rowsPerPage">
+                                    <option value="5">5개씩</option>
+                                    <option value="10">10개씩</option>
+                                    <option value="15">15개씩</option>
+                                    <option value="20">20개씩</option>
+                                    <option value="30">30개씩</option>
+                                    <option value="40">40개씩</option>
+                                    <option value="50">50개씩</option>
+                                </select>
+                                페이지
+                                <select id="pageCount" name="pageCount">
+                                    <option value="5">5개씩</option>
+                                    <option value="10">10개씩</option>
+                                    <option value="20">20개씩</option>
+                                </select>
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
                 <table>
                     <tr>
                         <thead>
