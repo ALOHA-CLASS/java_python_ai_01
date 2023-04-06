@@ -27,7 +27,7 @@
 			font-size: 20px;
 			color: #ffffff;
 			text-align: center;
-			background-color: rgb(0, 0, 0);
+			background-color: #27292A;
 		}
 		td {
 			font-family: 'Dovemayo-Medium';
@@ -218,6 +218,7 @@
 						<th width="200">권한 등급</th>
 					</tr>
 					<th:block th:each="user : ${usersList}">
+						<tr id="bb">
 						<tr id="bb">
 							<td><input type="radio" name="userNo" th:value=${user.userNo} class="radio-check"></td>
 							<td th:text=${user.userNo}></td>
