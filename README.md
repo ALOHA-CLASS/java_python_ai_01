@@ -33,6 +33,13 @@
 - 웹 IDE : <img src="https://img.shields.io/badge/github-181717?style=flat&logo=github&logoColor=white"/>
 
 
+## 요구사항 정의서
+<< 요구사항 정의서 이미지 >>
+
+## ERD
+![그림1](https://user-images.githubusercontent.com/120995522/230264333-8c11f3b6-e373-4134-af9e-8acc661e93be.png)
+
+
 ## 주요 기능
 - 게시판
 - 소셜 회원가입(카카오)
@@ -106,14 +113,6 @@
 - 게시물 관리
 ![게시글 보기+댓글 - 관리자](https://user-images.githubusercontent.com/120995529/230303254-7edf9e50-f3a1-43ac-aec9-f2c40f323240.png)
 ***
-
-
-## 요구사항 정의서
-<< 요구사항 정의서 이미지 >>
-
-## ERD
-![그림1](https://user-images.githubusercontent.com/120995522/230264333-8c11f3b6-e373-4134-af9e-8acc661e93be.png)
-
 
 
 ## 한계
