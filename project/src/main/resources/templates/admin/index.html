@@ -27,13 +27,6 @@
 			font-size: 20px;
 			color: #ffffff;
 			text-align: center;
-			background-color: #27292A;
-		}
-		td {
-			font-family: 'Dovemayo-Medium';
-			font-size: 20px;
-			color: #ffffff;
-			text-align: center;
 		}
 		hr {
 			color: #ffffff;
@@ -102,6 +95,9 @@
 			color:gray;
 			width:100;
 		}
+		thead {
+			background-color: #000000;
+		}
 	</style>
 	<!-- csrf 토큰 -->
 	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
@@ -156,14 +152,16 @@
 				</table>
 				<table border="1" id="bb">
 					<tr id="aa">
-						<th width="40"><input type="checkbox" id="checkall"></th>
-						<th width="100">회원 번호</th>
-						<th width="150">회원 ID</th>
-						<th width="150">회원 닉네임</th>
-						<th width="100">회원 이름</th>
-						<th width="150">회원 Email</th>
-						<th width="200">회원 등록 일자</th>
-						<th width="200">권한 등급</th>
+						<thead>
+							<th width="40"><input type="checkbox" id="checkall"></th>
+							<th width="100">회원 번호</th>
+							<th width="150">회원 ID</th>
+							<th width="150">회원 닉네임</th>
+							<th width="100">회원 이름</th>
+							<th width="150">회원 Email</th>
+							<th width="200">회원 등록 일자</th>
+							<th width="200">권한 등급</th>
+						</thead>
 					</tr>
 
 					<th:block th:each="user : ${usersList}">
