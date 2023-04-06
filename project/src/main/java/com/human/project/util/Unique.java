@@ -5,15 +5,15 @@ import javax.validation.*;
 
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = { UniqueValidator.class })
+@Constraint(validatedBy = { UniqueUserValidator.class })
 public @interface Unique {
-    String message() default "{unique.message}";
+    String message() default "중ㅋ벅ㅋ";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
 
-    String fieldName();
-
     Class<?> domainClass();
+
+    String email();
 }
