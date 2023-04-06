@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+				xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 </head>
 <body>
@@ -103,12 +104,16 @@
 				</th:block>
 				<span class="regDate" th:text="${ #temporals.format(comment.regDate, 'yyyy-MM-dd HH:mm:ss')}"></span>
 				<span th:if="${comment.userId == userId} or ${#authorization.expression('hasRole(''ADMIN'')')}">
-                	<button type="button" class="btn_comment_update" th:data="${comment.commentNo}">수정</button>
+					<th:block th:if="${comment.userId != '삭제된 작성자입니다.'}">
+						<button type="button" class="btn_comment_update" th:data="${comment.commentNo}">수정</button>
+					</th:block>
                 	<button type="button" class="btn_comment_delete" th:data="${comment.commentNo}">삭제</button>
-        </span>
+        		</span>
 				<p class="content" th:text="${comment.content}"></p>
 				<th:block sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
-				<button type="button" class="btn_comment_answer" th:data="${comment.commentNo}" id="btn_comment_answer">답글</button>
+					<th:block th:if="${comment.nickname != null}">
+						<button type="button" class="btn_comment_answer" th:data="${comment.commentNo}" id="btn_comment_answer">답글</button>
+					</th:block>
 				</th:block>
 			</div>
 		</div>
