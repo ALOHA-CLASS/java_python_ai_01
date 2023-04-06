@@ -64,6 +64,7 @@
 ***
 
 <img src="https://github.com/ALOHA-CLASS/java_python_ai_01/blob/main/project/portfolio/mybatis.png" width="24" height="24">
+Mybatis
 
 
 ![마이바티스](https://github.com/ALOHA-CLASS/java_python_ai_01/blob/main/project/portfolio/mybatis.png)
