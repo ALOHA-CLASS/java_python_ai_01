@@ -54,7 +54,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// * 문자열 형태로 Role 을 지정 --> "ROLE_" 접두사가 자동으로 붙는다
 		// ex) USER  -->  ROLE_USER
 		http.authorizeRequests()
-		
 			.antMatchers("/logout").permitAll()
 			.antMatchers("/join").permitAll()
 			.antMatchers("/user/check/id").permitAll()
@@ -62,9 +61,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/user/check/email").permitAll()
 			.antMatchers("/user/check/phoneNumber").permitAll()
 			.antMatchers("/user/**").hasAnyRole("USER", "ADMIN") 	// 사용자/관리자 접근 허용
-			.antMatchers("/admin/**").permitAll()
-			// .antMatchers("/admin/**").hasRole("ADMIN") 				// 관리자만 접근 허용
-	//		.anyRequest().authenticated()							// 그외의 요청은 인증된 사용자만			
+			.antMatchers("/board/list").permitAll()
+			.antMatchers("/board/insert").hasAnyRole("USER", "ADMIN")
+			.antMatchers("/board/update").hasAnyRole("USER", "ADMIN")
+			.antMatchers("/comment/**").hasAnyRole("USER", "ADMIN")
+			.antMatchers("/profile/my").hasAnyRole("USER", "ADMIN")
+			.antMatchers("/profile/update").hasAnyRole("USER", "ADMIN")
+			.antMatchers("/admin/**").hasRole("ADMIN") 				// 관리자만 접근 허용
+			// .antMatchers("/admin/**").permitAll()
+			// .anyRequest().authenticated()							// 그외의 요청은 인증된 사용자만			
 			.anyRequest().permitAll()
 			;
 		
