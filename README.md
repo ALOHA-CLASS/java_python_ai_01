@@ -58,6 +58,7 @@
 ![youtubebutton-1](https://user-images.githubusercontent.com/120995529/230284511-ee522bc3-144a-49ab-acf0-a92e92415fbf.png)
 </div>
 </details>
+
 ***
 
 <details>
@@ -74,6 +75,7 @@
 ![회원가입후자동로그인1](https://user-images.githubusercontent.com/120995529/230287394-42d1ad03-acf2-40dd-88b2-886e993147ff.png)
 </div>
 </details>
+
 ***
 
 <details>
@@ -93,6 +95,7 @@
   ![비밀번호변경휴요성](https://user-images.githubusercontent.com/120995529/230287999-6a4df00d-eccf-4e8a-8602-640e2aafd713.png)
 </div>
 </details>
+
 ***
 
 <details>
@@ -105,6 +108,7 @@
 ![카카오로그인](https://user-images.githubusercontent.com/120995529/230291839-393ea344-22f5-48b9-bafa-98acf5e455e1.png)
 </div>
 </details>
+
 ***
 
 <details>
@@ -115,6 +119,7 @@
 ![아이디비밀번호찾기](https://user-images.githubusercontent.com/120995529/230292688-2bff2a72-ed7f-4a5b-a2ec-d51f2a49af61.jpg)
 </div>
 </details>
+
 ***
 
 <details>
@@ -128,6 +133,7 @@
 ![커뮤니티](https://user-images.githubusercontent.com/120995529/230296940-9c449c10-8336-4728-a790-c3a0a280dbf5.jpg)
 </div>
 </details>
+
 ***
 
 <details>
@@ -147,6 +153,7 @@
 ![게시글 보기+댓글 - 관리자](https://user-images.githubusercontent.com/120995529/230303254-7edf9e50-f3a1-43ac-aec9-f2c40f323240.png)
 </div>
 </details>
+
 ***
 
 
