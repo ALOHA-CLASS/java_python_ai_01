@@ -1,61 +1,338 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
+				xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+			    layout:decorate="~{ui/admin/layouts/admin_template}"
 	 			xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
 <head>
 	<meta charset="UTF-8">
+	<meta name="_csrf" th:content="${_csrf.token}"/>
+	<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 	<title>관리자 페이지</title>
 </head>
-<body>
-	<h1>관리자 페이지</h1>
-	<h3>ROLE_ADMIN 권한</h3>
-	
-	<!-- 익명 사용자 (비로그인) -->
-	<th:block sec:authorize="isAnonymous()">
-		<div>
-			<a href="/login">로그인</a>
+<body layout:fragment="content">
+	<style>
+		@font-face {
+        font-family: 'Dovemayo-Medium';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.0/Dovemayo-Medium.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+        }
+		h1 {
+			font-family: 'Dovemayo-Medium';
+			text-align: center;
+		}
+		th, td {
+			font-family: 'Dovemayo-Medium';
+			font-size: 20px;
+			color: #ffffff;
+			text-align: center;
+		}
+		hr {
+			color: #ffffff;
+		}
+		.page-content {
+			font-family: 'Dovemayo-Medium';
+			table-layout: fixed;
+			border-collapse: collapse;
+			width: 100%;
+			border: 3px solid rgb(202, 197, 197);
+		}
+		.page-content {
+		font-family: 'Dovemayo-Medium';
+		table-layout: fixed;
+		border-collapse: collapse;
+		width: 100%;
+		border: 3px solid rgb(202, 197, 197);
+		}
+		hr {
+			color: #ffffff;
+		}
+		#up {
+			font-family: 'Dovemayo-Medium';
+			font-size: 15px;
+			color: #ffffff;
+			background-color: #000000;
+			padding: 1px 12px;
+			display: inline-block;
+			font-weight: 100;
+			border-radius: 10%;
+			text-transform: capitalize;
+			letter-spacing: 0.5px;
+			transition: all .3s;
+			position: relative;
+			overflow: hidden;
+		}
+		#gum {
+			font-family: 'Dovemayo-Medium';
+			font-size: 15px;
+			color: #ffffff;
+			background-color: #000000;
+			padding: 1px 12px;
+			display: inline-block;
+			font-weight: 100;
+			border-radius: 10%;
+			text-transform: capitalize;
+			letter-spacing: 0.5px;
+			transition: all .3s;
+			position: relative;
+			overflow: hidden;
+		}
+		#srh {
+			font-family: 'Dovemayo-Medium';
+			font-size: 15px;
+			color: #ffffff;
+		}
+		#aa {
+			text-align:center; 
+			border:1px solid gray; 
+			color:gray;
+			width:100;
+		}
+		#bb {
+			text-align:center; 
+			border:1px solid gray; 
+			color:gray;
+			width:100;
+		}
+		thead {
+			background-color: #000000;
+		}
+	</style>
+	<!-- csrf 토큰 -->
+	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+<div class="container">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="page-content" align="center">
+				<h1>관리자 페이지</h1><br>
+				<hr>
+					<table id="tbl">	
+						<tr>
+							<td width="350">
+								<a href="/admin/index">
+								<span class="icon color5"><i class="fa fa-user"></i></span>
+								회원관리
+								<!-- <span class="label label-default">2</span>-->
+								</a>
+							</td>
+							<td width="350">
+								<a href="/admin/role">
+								<span class="icon color5"><i class="fa fa-users"></i></span>
+								권한관리
+								</a>
+							</td>
+							<td width="350">
+								<a href="/chart_reset">
+								<span class="icon color5"><i class="fa fa-users"></i></span>
+								차트 리셋
+								</a>
+							</td>
+						</tr>
+					</table>
+						<hr><br>
+				<h3 align="left">ROLE_ADMIN 회원 관리</h3><br>
+				<table>
+					<tr>
+						<td width="3000">
+							<p th:text="|${page.totalCount} 명의 회원이 조회되었습니다.|" align="left" id="srh"></p>
+						</td>
+						<td width="100">
+							<select id="rowsPerPage" name="rowsPerPage">
+								<option value="10">10개씩</option>
+								<option value="15">15개씩</option>
+								<option value="20">20개씩</option>
+								<option value="30">30개씩</option>
+								<option value="40">40개씩</option>
+								<option value="50">50개씩</option>
+							</select>
+						</td>
+					</tr>
+				</table>
+				<table border="1" id="bb">
+					<tr id="aa">
+						<thead>
+							<th width="40"><input type="checkbox" id="checkall"></th>
+							<th width="100">회원 번호</th>
+							<th width="150">회원 ID</th>
+							<th width="150">회원 닉네임</th>
+							<th width="100">회원 이름</th>
+							<th width="150">회원 Email</th>
+							<th width="200">회원 등록 일자</th>
+							<th width="200">권한 등급</th>
+						</thead>
+					</tr>
+
+					<th:block th:each="user : ${usersList}">
+						<tr id="bb">
+							<td><input type="checkbox" name="userNo" th:value=${user.userNo} class="input-check"></td>
+							<td th:text=${user.userNo}></td>
+							<td th:text=${user.userId}></td>
+							<td th:text=${user.nickname}></td>
+							<td th:text=${user.name}></td>
+							<td th:text=${user.email}></td>
+							<td>
+					 			<span th:text="${ #temporals.format(user.regDate, 'yyyy-MM-dd') }"></span>
+					 		</td>
+							<td>
+								<th:block th:each="userAuth : ${user.authList}">
+									<th:block th:if="${userAuth.auth == 'ROLE_USER'}">
+										사용자
+									</th:block>
+									<th:block th:if="${userAuth.auth == 'ROLE_ADMIN'}">
+										관리자
+									</th:block>
+								</th:block>
+							</td>
+						</tr>
+					</th:block>
+				</table>
+				<div align="right">
+					<button type="button" onclick="btnModNick()" id="up">닉네임 변경</button>
+					<button type="button" onclick="btnUserDel()" id="up">회원 삭제</button>
+				</div>
+				
+				<!-- 페이지네이션 -->
+                <a th:href="|javascript: change(${page.firstPage});|">[처음]</a>
+                <th:block th:if="${page.prev} > 0">
+                    <a th:href="|javascript: change(${page.prev});|">[이전]</a>
+                </th:block>
+                <th:block th:each="no : ${#numbers.sequence(page.startPage, page.endPage)}">
+                    <th:block th:if="${no == page.pageNum}"><b></th:block>
+                    <a th:href="|javascript: change(${no});|" th:text="${no}"></a>
+                    <th:block th:if="${no == page.pageNum}"></b></th:block>
+                </th:block>
+                <th:block th:if="${page.next} <= ${page.lastPage}">
+                    <a th:href="|javascript: change(${page.next});|">[다음]</a>
+                </th:block>
+                <a th:href="|javascript: change(${page.lastPage});|">[마지막]</a>
+
+				<br><br>
+                <!-- 검색 옵션 -->
+				<form action="/admin/index" method="get">
+					<select name="optionCode" id="optionCode">
+						<option value="0">아이디</option>
+						<option value="1">닉네임</option>
+						<option value="2">회원 이름</option>
+					</select>
+					<input type="text" name="keyword" th:value="${param.keyword}" placeholder="검색어를 입력하세요.">
+					<button type="submit" id="gum">검색</button>
+				</form>
+			</div>
 		</div>
-	</th:block>
+	</div>
+</div>
+<script th:inline="javascript">
+	let page = [[${page}]]
+	let option = [[${option}]]
+
+	document.addEventListener('DOMContentLoaded', function(){
+
+		// 검색 옵션 초기화
+		let optionCode = document.getElementById('optionCode')
+		for (let i = 0; i < optionCode.options.length; i++) {
+			if( option.optionCode == optionCode.options[i].value)   {
+				optionCode.options[i].selected = true
+			}
+		}
+		// rowsPerPage( 게시글 개수 옵션 ) 초기화
+		let rowsPerPage = document.getElementById('rowsPerPage')
+		for (let i = 0; i < rowsPerPage.options.length; i++) {
+			if( page.rowsPerPage == rowsPerPage.options[i].value)   {
+				rowsPerPage.options[i].selected = true
+			}
+		}
+		// rowsPerPage ( 게시글 개수 ) 변경 이벤트
+		rowsPerPage.addEventListener('change', function(){
+			page.rowsPerPage = rowsPerPage.value
+			change()
+		})
+		
+		// Checkbox All 체크 여부
+		let checkall = document.getElementById('checkall')
+		checkall.addEventListener('click', function(){
+			var chk = checkall.checked;
+			if (chk){
+				$('.input-check').prop('checked', true)
+			}else{
+				$('.input-check').prop('checked', false)
+			}
+		})
+	})
+	function change(pageNum=1){
+		location.href = "/admin/index?"
+						+ "pageNum=" + pageNum
+						+ "&rowsPerPage="+ page.rowsPerPage
+						+ "&keyword=" + option.keyword
+						+ "&optionCode=" + option.optionCode
+	}
+
 	
-	
-	<!-- 인증된 사용자 (로그인) -->
-	<th:block sec:authorize="isAuthenticated()">
-		<div>
-			<form action="/logout">
-				<span sec:authentication="principal.username"></span>
-				<span sec:authentication="principal.authorities"></span>
-				<button type="submit">로그아웃</button>
-			</form>		
-		</div>
-	</th:block>
-	
-	
+	function btnUserDel(){
+		let chkarr = [];
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+		
+		let result = confirm("삭제 하시겠습니까?")
+		if (result) {
+			$('.input-check:checked').each(function(){
+				chkarr.push($(this).val());
+			})
+
+			$.ajax({
+				url: '/admin/delete',		// 요청 경로
+				type: 'post',				// 메소드 방식(get, post, put 등)
+				data: {chkbox : chkarr},				// 전송할 데이터
+				
+				beforeSend : function(xhr) {
+					xhr.setRequestHeader(header, token)
+				},
+				// 서버로부터 정상적인 응답
+				success: function(data){
+					// alert("성공")
+					location.reload()
+				},
+				// 에러
+				error: function(request, status, error){
+					alert('회원 삭제 중 에러가 발생하였습니다.')
+				},
+			})
+		}
+	}
+
+	function btnModNick(){
+		let chkarr = [];
+		var token = $("meta[name='_csrf']").attr("content");
+		var header = $("meta[name='_csrf_header']").attr("content");
+		
+		let result = confirm("닉네임을 '불건전한 닉네임'으로 변경하시겠습니까?")
+		if (result) {
+			$('.input-check:checked').each(function(){
+				chkarr.push($(this).val());
+			})
+
+			$.ajax({
+				url: '/admin/modNick',		// 요청 경로
+				type: 'post',				// 메소드 방식(get, post, put 등)
+				data: {chkbox : chkarr},				// 전송할 데이터
+				
+				beforeSend : function(xhr) {
+					xhr.setRequestHeader(header, token)
+				},
+				// 서버로부터 정상적인 응답
+				success: function(data){
+					// alert("성공")
+					location.reload()
+				},
+				// 에러
+				error: function(request, status, error){
+					alert('닉네임 변경 중 에러가 발생하였습니다.')
+				},
+			})
+		}
+	}
+</script>
 	
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

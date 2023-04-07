@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.human.project.mapper.UserMapper">
+
+	<!-- 유저 매핑 -->
+	<resultMap type="Users" id="userMap">
+		<id property="userId" column="user_id"/>
+		<result property="userNo" column="user_no"/>
+		<result property="userPw" column="user_pw"/>
+		<result property="nickname" column="nickname"/>
+		<result property="name" column="name"/>
+		<result property="email" column="email"/>
+		<result property="enabled" column="enabled"/>
+		<result property="regDate" column="reg_date"/>
+		<result property="updDate" column="upd_date"/>
+		<collection property="authList" resultMap="authMap"></collection>
+	</resultMap>
+	
+	<!-- 권한 매핑 -->
+	<resultMap type="UserAuth" id="authMap">
+		<id property="authNo" column="auth_no"/>
+		<result property="userId" column="user_id"/>
+		<result property="auth" column="auth"/>
+	</resultMap>
+
+	<!-- 회원가입 -->
+	<insert id="join">
+		INSERT INTO users ( user_id, user_pw, name, nickname, email )
+		VALUES ( #{userId}, #{userPw}, #{name}, #{nickname}, #{email})
+	</insert>
+	
+	<!-- 권한등록 -->
+	<insert id="insertAuth">
+		INSERT INTO user_auth ( user_id, auth )
+		VALUES ( #{userId}, #{auth} )
+	</insert>
+	
+	<!-- 권한등록 -->
+	<insert id="insertSocial">
+		INSERT INTO user_social ( user_id, social_type, access_token )
+		VALUES ( #{userId}, #{socialType}, #{accessToken} )
+	</insert>
+	
+	<!-- 아이디 조회 -->
+	<select id="select" resultType="Users">
+		SELECT *
+		  FROM users
+		 WHERE user_id = #{userId}
+		 	OR nickname = #{nickname}
+		 	OR email = #{email}
+	</select>
+	
+	<!-- 회원 수정 -->
+	<update id="update">
+		UPDATE 	users
+		SET		nickname = #{nickname},
+				name = #{name},
+				email = #{email},
+				upd_date = now()
+		WHERE 	user_id = #{userId}
+	</update>
+
+	<!-- 회원 삭제 -->
+	<delete id="delete">
+		DELETE FROM users
+		WHERE  user_id = #{userId}
+	</delete>
+
+	<!-- 아이디 조회 -->
+	<select id="selectSocial" resultType="UserSocial">
+		SELECT *
+		  FROM user_social
+		 WHERE user_id = #{userId} 
+	</select>
+	
+	<!-- 이메일 조회 -->
+	<select id="selectByEmail" resultType="Users">
+		SELECT *
+		  FROM users
+		 WHERE email = #{email} 
+	</select>
+	
+	<!-- 이메일 조회 -->
+	<select id="selectByEmail2" resultType="UserSocial">
+		<!-- SELECT *
+		  FROM  
+		 WHERE (
+		 		SELECT * FROM user_social where users.user_id = user_social.user_id
+		 ) 
+		 AND email = #{email}  -->
+		SELECT user_social.*
+		FROM user_social, users
+		INNER JOIN users ON users.user_id = user_social.user_id
+		WHERE users.email = #{email} 
+	</select>
+
+	<!-- 아이디 찾기 -->
+	<select id="findId" resultType="Users">
+		SELECT *
+		  FROM users
+		 WHERE name = #{name} and email = #{email} 
+	</select>
+
+	<!-- 비밀번호 찾기 -->
+	<select id="findPw" resultType="Users">
+		SELECT *
+		  FROM users
+		 WHERE user_id = #{userId} and email = #{email} 
+	</select>
+
+
+	<!-- 임시 비밀번호 받기 & 비밀번호 변경 -->
+	<update id="newPw">
+		UPDATE users
+		SET user_pw = #{userPw}
+		WHERE user_id = #{userId}
+	</update>
+
+	<!-- 이메일 변경 -->
+	<update id="newEmail">
+		UPDATE users
+		SET email = #{email}
+		WHERE user_id = #{userId}
+	</update>
+</mapper>

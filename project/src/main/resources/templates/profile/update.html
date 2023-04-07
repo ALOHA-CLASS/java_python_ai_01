@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                layout:decorate="~{ui/user/layouts/main_template}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title>프로필</title>
+    <style>
+        @font-face {
+            font-family: 'Dovemayo_gothic';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.1/Dovemayo_gothic.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+        body{
+            text-align: center;
+        }
+        .sign-up{
+            margin: auto;
+        }
+        .field-error {
+            border: 1px solid red;
+        }
+        .page-content {
+            color: rgb(255, 221, 221);
+        }
+        h1 {
+            font-family: 'Dovemayo_gothic', sans-serif;
+            font-size: 50px;
+            color: #FC1F74;
+        }
+        .check-id { display: none; }
+		.check-nickname { display: none; }
+        .check-email { display: none; }
+        .input-underline {
+            background-color: transparent;
+            border: 0;
+            border-bottom: 1.5px solid #FC1F74;
+            border-radius: 0;
+            width: 230px;
+            color: white;
+			font-family: 'Dovemayo_gothic', sans-serif;
+            font-size: 20px;
+        }
+        .input-underline:focus {
+            color: white;
+            background-color: transparent;
+            border: 0;
+            border-bottom: 1.5px solid rgb(255, 221, 221);
+            outline: 0;
+            box-shadow: 0 0 0 0.25rem transparent;
+			font-family: 'Dovemayo_gothic', sans-serif;
+            font-size: 20px;
+        }
+    
+        .sign-up {
+            font-family: 'Dovemayo_gothic', sans-serif;
+            font-size: 20px;
+        }
+        #submit {
+            font-family: 'Dovemayo_gothic', sans-serif;
+            font-size: 20px;
+        }
+        #reset {
+            font-family: 'Dovemayo_gothic', sans-serif;
+            font-size: 20px;
+        }
+        #mollu {
+            color: white;
+            background-color: transparent;
+            border: 0;
+            border-bottom: 1.5px solid #FC1F74;
+            outline: 0;
+            box-shadow: 0 0 0 0.25rem transparent;
+			font-family: 'Dovemayo_gothic', sans-serif;
+            font-size: 20px;
+        }
+        #complete {
+            font-family: 'Dovemayo_gothic', sans-serif;
+            font-size: 20px;
+        }
+        #double-check {
+            font-family: 'Dovemayo_gothic', sans-serif;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body layout:fragment="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="page-content">
+                <h1>Profile</h1><br><br>
+                    <!-- csrf 토큰 --> 
+                    <!-- 전송 가능 여부 - 가능(1), 불가능(0) -->
+                    <form id="update" action="/profile/update" method="post" th:object="${user}" onsubmit="return check()">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                        <table class="sign-up">
+                        <tr>
+                            <td width="150">아이디</td>
+                            <td id="mollu">
+                                <span th:text="*{userId}" ></span>    
+                            </td>
+                        </tr>
+                        <tr><td><br></td></tr>
+                        <input type="hidden" value="-1" id="input-check" />
+                        <tr>
+                            <td width="150">닉네임</td>
+                            <td>
+                                <input type="text" id="nickname" name="nickname" th:field="*{nickname}" th:value="*{nickname}" th:errorclass="field-error" class="form-control input-underline">
+                            </td>
+                            <td>
+                                <div class="main-button">
+                                    <a href="javascript:;" onclick="checkNickname()" id="double-check">중복확인</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="error-row">
+                            <td width="150">&nbsp;</td>
+                            <td colspan="2" align="left">
+                                <font color=#9bf525 id="nickname-check" class="check-nickname"><span>사용 가능한 닉네임입니다.</span></font>
+                                <font color="red" id="nickname-duplicated" class="check-nickname" ><span>중복된 닉네임입니다.</span></font>
+                                <font color="red">
+                                    <th:block th:if="${ #fields.hasErrors('nickname') }">
+                                        <span th:errors="*{nickname}"></span>
+                                    </th:block>
+                                </font>
+                            </td>
+                        </tr>
+						<tr>
+                            <td width="150">이름</td>
+                            <td colspan="2">
+                                <input type="text" name="name" th:value="*{name}"  th:errorclass="field-error" class="form-control input-underline">
+                                
+                            </td>
+                        </tr>
+                        <tr class="error-row">
+                            <td width="150">&nbsp;</td>
+                            <td colspan="2" align="left">
+                                <font color="red">
+                                    <th:block th:if="${ #fields.hasErrors('name') }">
+                                        <span th:errors="*{name}"></span>
+                                    </th:block>
+                                </font>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td  width="150">이메일</td>
+                            <td id="mollu" th:if="${not #strings.isEmpty(social_email)}">
+                                <span th:text="*{email}"> <br>
+                            </td>
+                            <td th:if="${#strings.isEmpty(social_email)}" >
+                                <input  type="text" id="newEmail" name="email" th:value="*{email}"  th:errorclass="field-error" class="form-control input-underline">
+                            </td>
+                            <td>
+                                <div class="main-button">
+                                    <a href="javascript:;" onclick="newEmail()">이메일변경</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="error-row">
+                            <td width="150">&nbsp;</td>
+                            <td colspan="2" align="left">
+                                <font color=#9bf525 id="email-check" class="check-email"><span>이메일이 변경되었습니다.</span></font>
+                                <font color="red" id="email-duplicated" class="check-email" ><span>중복된 이메일입니다.</span></font>
+                                <font color="red">
+                                    <th:block th:if="${ #fields.hasErrors('email') }">
+                                        <span th:errors="*{email}"></span>
+                                    </th:block>
+                                </font>
+                            </td>
+                        </tr>
+                        <tr th:if="${#strings.isEmpty(social_email)}">
+                            <td width="150">비밀번호 변경</td>
+                            <td>
+                                <input type="password" id="newPw" name="userPw" th:field="*{userPw}" th:errorclass="field-error" class="form-control input-underline">
+                            </td>
+                            <td>
+                                <div class="main-button">
+                                    <a href="javascript:;" onclick="newPw()">비밀번호변경</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="error-row">
+                            <td width="150">&nbsp;</td>
+                            <td colspan="2" align="left">
+                                <font color="red">
+                                    <th:block th:if="${ #fields.hasErrors('userPw') }">
+                                        <span th:errors="*{userPw}"></span>
+                                    </th:block>
+                                </font>
+                            </td>
+                            </td>
+                        </tr>
+                    </table>
+                        <div><br><br>
+                            <div class="main-button">
+                                    <a href="javascript:;" onclick=btn_update() id="complete">수정 완료</a>
+                            </div>
+                        </div>
+                    </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    function check(){
+        function check() {
+            let check = $('#input-check').val()            
+            if( check == 1 ) {
+                return true
+            }
+            if( check == -1 ) {
+                alert('아이디 중복 확인이 필요합니다.')
+                checkUserId()
+            }
+            return false
+        }
+    }
+
+    function checkNickname() {
+            asyncCheckNickname().then(function(result_n) {
+                // 닉네임 미입력
+                if( result_n == null ) {
+                    return
+                }
+                // 닉네임 사용가능
+                if( result_n == 'true' ) {
+                    alert('사용 가능한 닉네임입니다.')
+                    $('#nickname-check').show()
+                    $('#nickname-duplicated').hide()
+                    $('#input-n-check').val(1)
+                }
+                // 닉네임 중복
+                else {
+                    alert('중복된 닉네임입니다')
+                    $('#nickname-duplicated').show()
+                    $('#nickname-check').hide()
+                    $('#input-n-check').val(0)
+                }
+            })
+        }
+        // ID 중복확인
+        async function asyncCheckNickname() {
+            var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
+            let nickname = $('#nickname').val()
+            let data = {'nickname' : nickname}
+            if( nickname == undefined || nickname == '' ) {
+                alert('닉네임을 입력해주세요.')
+                return null
+            }
+            const res = await $.ajax({
+                url:    '/user/check/nickname',       // 요청 경로
+                type:   'post',                 // 메소드 방식(get, post, put 등)
+                data:   data,                   // 전송할 데이터.
+                dataType: "text",
+                // 전송
+                beforeSend : function(xhr) {
+                    xhr.setRequestHeader(header, token)
+                },
+            })
+            return res
+        }
+
+    // 비밀번호 변경
+    function newPw() {
+        // let newPw = $('#newPw').val()
+        if($('#newPw').val() == "") {
+            alert("빈칸을 확인해주세요.")
+            return false;
+        }
+        else {
+            var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
+            $.ajax({
+                url: '/newPwUpdate',      // 요청 경로
+                type: 'post',               // 메소드 방식(get, post, put 등)
+                data: {userId : $('userId').val(), userPw : $('#newPw').val()},             // 전송할 데이터
+                // 전송
+                beforeSend : function(xhr) {
+                    xhr.setRequestHeader(header, token)
+                },
+                // 서버로부터 정상적인 응답
+                success: function(data){
+                    if( data == 'true' ) {
+                        alert("비밀번호가 변경되었습니다.");
+                    }
+                    else {
+                        alert("비밀번호 변경에 실패하였습니다.")
+                    }
+                },
+                // 에러
+                error: function(request, status, error){
+                    alert('@@@@@@@@@에러@@@@@@@@@@')
+                }
+            })
+        }
+    }
+
+    function newEmail() {
+            asyncNewEmail().then(function(result_e) {
+                // 이메일 미입력
+                if( result_e == null ) {
+                    return
+                }
+                // 이메일 사용가능
+                if( result_e == 'true' ) {
+                    alert('사용 가능한 이메일입니다.')
+                    $('#email-check').show()
+                    $('#email-duplicated').hide()
+                    $('#input-e-check').val(1)
+                }
+                // 이메일 중복
+                else {
+                    alert('중복된 이메일입니다')
+                    $('#email-duplicated').show()
+                    $('#email-check').hide()
+                    $('#input-e-check').val(0)
+                }
+            })
+    }
+
+    // 이메일 변경
+    async function asyncNewEmail() {
+        // let pw = this.$('#newEmail').val()
+
+        if($('#newEmail').val() == "" || $('#newEmail').val() == undefined) {
+            alert("빈칸을 확인해주세요.")
+            return null;
+        }
+        // if($('#newEmail').val() == pw){
+        //     alert("이메일이 같습니다. 다시 확인해주세요.")
+        //     return false;
+        // }
+        else {
+            var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
+            $.ajax({
+                url: '/newEmailUpdate',      // 요청 경로
+                type: 'post',               // 메소드 방식(get, post, put 등)
+                data: {userId : $('userId').val(), email : $('#newEmail').val()},             // 전송할 데이터
+                // 전송
+                beforeSend : function(xhr) {
+                    xhr.setRequestHeader(header, token)
+                },
+                // 서버로부터 정상적인 응답
+                success: function(data){
+                    if( data == 'fail' ) {
+                        alert("이메일 형식이 아닙니다.");
+                    }
+                    if( data == 'true' ) {
+                        alert("이메일이 변경되었습니다.");
+                        $('#email-check').show()
+                        $('#email-duplicated').hide()
+                    }
+                    if( data == 'false' ) {
+                        alert("중복된 이메일입니다.");
+                        $('#email-duplicated').show()
+                        $('#email-check').hide()
+                    }
+                    // else {
+                    //     alert("이메일 변경에 실패하였습니다.")
+                    // }
+                },
+                // 에러
+                error: function(request, status, error){
+                    alert('@@@@@@@@@에러@@@@@@@@@@')
+                }
+            })
+        }
+    }   
+
+    function btn_update(){
+        document.getElementById('update').submit();
+    }
+</script>
+</body>
+</html>
+
+
+
+

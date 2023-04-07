@@ -1,0 +1,146 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<!-- namespace : 매퍼 인터페이스의 경로 작성 -->
+<mapper namespace="com.human.project.mapper.BoardMapper">
+
+    <!-- 게시글 쓰기 -->
+    <insert id="insert">
+        INSERT INTO board ( tag, title, user_id, content )
+        VALUES ( #{tag}, #{title}, #{userId}, #{content} )
+    </insert>
+    
+    <!-- 게시글 읽기 -->
+    <select id="read" resultType="Board">
+        SELECT b.*, IFNULL( u.nickname, '삭제된 계정입니다.') AS nickname
+        FROM board b LEFT JOIN users u ON b.user_id = u.user_id
+        WHERE board_no = #{boardNo}
+    </select>
+    
+    <!-- 게시글 수정 -->
+    <update id="update">
+        UPDATE board
+           SET title = #{title}
+              ,content = #{content}
+              ,upd_date = now()
+        WHERE board_no = #{boardNo}
+          AND user_id = #{userId}
+    </update>
+    
+    <!-- 게시글 삭제 -->
+    <delete id="delete">
+        DELETE FROM board
+        WHERE board_no = #{boardNo}
+    </delete>
+    
+    <!-- 구분으로 모아보기 -->
+    <select id="viewWithTag" resultType="Board">
+        SELECT b.*, u.nickname
+        FROM board b  LEFT JOIN users u ON u.user_id = b.user_id
+        WHERE b.board_no > 0
+          
+          AND b.tag = #{tag}
+          AND (
+                <if test="option.optionCode == 0">
+                        b.title LIKE CONCAT('%',#{option.keyword},'%')
+                   OR u.nickname LIKE CONCAT('%',#{option.keyword},'%')
+                   OR b.content LIKE CONCAT('%',#{option.keyword},'%')
+                </if>
+                <if test="option.optionCode == 1">
+                        b.title LIKE CONCAT('%',#{option.keyword},'%')
+                </if>
+                <if test="option.optionCode == 2">
+                        b.content LIKE CONCAT('%',#{option.keyword},'%')
+                </if>
+                <if test="option.optionCode == 3">
+                        b.title LIKE CONCAT('%',#{option.keyword},'%')
+                    OR  b.content LIKE CONCAT('%',#{option.keyword},'%')
+                </if>
+                <if test="option.optionCode == 4">
+                        b.writer LIKE CONCAT('%',#{option.keyword},'%')
+                </if>
+          )
+        ORDER BY reg_date DESC
+        LIMIT #{page.index}, #{page.rowsPerPage}
+    </select>
+    <!-- 게시글 목록 - 검색/페이징 -->
+    <select id="boardList" resultType="Board">
+        SELECT b.*, u.nickname, IFNULL( u.user_id, '삭제된 계정입니다.') AS user_id
+        FROM board b  LEFT JOIN users u ON u.user_id = b.user_id
+        WHERE b.board_no > 0
+          <choose>
+			<when test="option.tag.equals('')">
+				AND 1 = 1
+			</when>
+			<otherwise>
+				AND b.tag LIKE CONCAT('%', #{option.tag}, '%')
+			</otherwise>
+		 </choose>
+          AND (
+                <if test="option.optionCode == 0">
+                        b.title LIKE CONCAT('%',#{option.keyword},'%')
+                   OR u.nickname LIKE CONCAT('%',#{option.keyword},'%')
+                   OR b.content LIKE CONCAT('%',#{option.keyword},'%')
+                </if>
+                <if test="option.optionCode == 1">
+                        b.title LIKE CONCAT('%',#{option.keyword},'%')
+                </if>
+                <if test="option.optionCode == 2">
+                        b.content LIKE CONCAT('%',#{option.keyword},'%')
+                </if>
+                <if test="option.optionCode == 3">
+                        b.title LIKE CONCAT('%',#{option.keyword},'%')
+                    OR  b.content LIKE CONCAT('%',#{option.keyword},'%')
+                </if>
+                <if test="option.optionCode == 4">
+                        b.writer LIKE CONCAT('%',#{option.keyword},'%')
+                </if>
+          )
+        ORDER BY reg_date DESC
+        LIMIT #{page.index}, #{page.rowsPerPage}
+    </select>
+    
+    <!-- 게시글 개수 - 검색어 포함 -->
+    <select id="countWithKeyword" resultType="int">
+        SELECT count(*)
+        FROM board b  LEFT JOIN users u ON u.user_id = b.user_id
+        WHERE b.board_no > 0
+          <choose>
+			<when test="option.tag.equals('')">
+				AND 1 = 1
+			</when>
+			<otherwise>
+				AND b.tag LIKE CONCAT('%', #{option.tag}, '%')
+			</otherwise>
+		 </choose>
+          AND (
+                <if test="option.optionCode == 0">
+                        b.title LIKE CONCAT('%',#{option.keyword},'%')
+                   OR u.nickname LIKE CONCAT('%',#{option.keyword},'%')
+                   OR b.content LIKE CONCAT('%',#{option.keyword},'%')
+                </if>
+                <if test="option.optionCode == 1">
+                        b.title LIKE CONCAT('%',#{option.keyword},'%')
+                </if>
+                <if test="option.optionCode == 2">
+                        b.content LIKE CONCAT('%',#{option.keyword},'%')
+                </if>
+                <if test="option.optionCode == 3">
+                        b.title LIKE CONCAT('%',#{option.keyword},'%')
+                    OR  b.content LIKE CONCAT('%',#{option.keyword},'%')
+                </if>
+                <if test="option.optionCode == 4">
+                        u.nickname LIKE CONCAT('%',#{option.keyword},'%')
+                </if>
+          )
+    </select>
+    
+    <!-- 조회수 -->
+    <update id="joinCntUp" >
+    	UPDATE board
+    	SET join_cnt = join_cnt + 1
+    	WHERE board_no = #{boardNo}
+	</update>
+</mapper>
+

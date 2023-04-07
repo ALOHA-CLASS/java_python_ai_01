@@ -27,7 +27,7 @@ public class UserController {
 	public String index() {
 		log.info("사용자 페이지...");
 		
-		return "/user/index";
+		return "user/index";
 	}
 	
 	// ID 중복확인
@@ -48,9 +48,43 @@ public class UserController {
 		log.info("ID 사용가능 : " + userId);
 		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 	}
- 
-}
+	
+	// 닉네임 중복확인
+	@ResponseBody
+	@PostMapping("/check/nickname")
+	public ResponseEntity<Boolean> checkUserNickname(Users user) throws Exception {
+		
+		Users selectedUser = userService.select(user);
+		String nickname = user.getNickname();
+		log.info("닉네임"+ nickname);
+		
+		if( selectedUser != null ) {
+			log.info("닉네임 중복... : " + nickname);
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+		}
+		else {return new ResponseEntity<Boolean>(true, HttpStatus.OK);}
+	}
+	
+	// 이메일 중복확인
+	@ResponseBody
+	@PostMapping("/check/email")
+	public ResponseEntity<Boolean> checkUserEmail(Users user) throws Exception {
+		
+		log.info("이메일 중복 확인 : " + user.toString());
+		
+		Users selectedUser = userService.select(user);
+		String email = user.getEmail();
+		
+		if( selectedUser != null ) {
+			log.info("이메일 중복... : " + email);
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+		}
+		else {return new ResponseEntity<Boolean>(true, HttpStatus.OK);}
+	}
+	
 
+	
+}
 
 
 
