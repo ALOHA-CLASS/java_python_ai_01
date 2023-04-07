@@ -48,7 +48,7 @@
 
 ## 프로젝트 리뷰
 <details>
-<summary><h4>메인 화면</h4></summary>
+<summary><h3>메인 화면</h3></summary>
 <div markdown="1">
 
 - 해외 음원 차트 50개를 보여 줌
@@ -62,7 +62,7 @@
 ***
 
 <details>
-<summary><h4>회원가입</h4></summary>
+<summary><h3>회원가입</h3></summary>
 <div markdown="1">
 
 - 중복확인 한개라도 수행 안할 시 등록이 안됨
@@ -79,7 +79,7 @@
 ***
 
 <details>
-<summary><h4>프로필</h4></summary>
+<summary><h3>프로필</h3></summary>
 <div markdown="1">
 
 ![프로필](https://user-images.githubusercontent.com/120995529/230287658-a474c314-aade-43b4-a54f-25b1adce236f.png)
@@ -99,7 +99,7 @@
 ***
 
 <details>
-<summary><h4>로그인</h4></summary>
+<summary><h3>로그인</h3></summary>
 <div markdown="1">
 
 - 아이디 저장 및 자동 로그인 기능
@@ -112,7 +112,7 @@
 ***
 
 <details>
-<summary><h4>아이디 / 비밀번호 찾기</h4></summary>
+<summary><h3>아이디 / 비밀번호 찾기</h3></summary>
 <div markdown="1">
 
 - 비밀번호 찾기 수행 시 비밀번호는 임시 비밀번호로 변경
@@ -123,7 +123,7 @@
 ***
 
 <details>
-<summary><h4>커뮤니티</h4></summary>
+<summary><h3>커뮤니티</h3></summary>
 <div markdown="1">
 
 - 로그인 여부
@@ -137,7 +137,7 @@
 ***
 
 <details>
-<summary><h4>관리자</h4></summary>
+<summary><h3>관리자</h3></summary>
 <div markdown="1">
 
 - 회원관리
