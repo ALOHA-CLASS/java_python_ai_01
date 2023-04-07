@@ -1,169 +1,194 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
-                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-                layout:decorate="~{ui/user/layouts/main_template}">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{ui/user/layouts/main_template}">
 <head>
-    <meta charset="UTF-8">
-    <meta name="_csrf" th:content="${_csrf.token}"/>
-    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-    <title>로그인</title>
-    <style>
-        @font-face {
-            font-family: 'Dovemayo_gothic';
-            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.1/Dovemayo_gothic.woff2') format('woff2');
-            font-weight: normal;
-            font-style: normal;
-        }
-        body{
-            font-family: 'Dovemayo-Medium';
-            text-align: center;
-        }
-        .sign-in{
-            font-family: 'Dovemayo-Medium';
-            margin: auto;
-        }
-        .field-error {
-            font-family: 'Dovemayo-Medium';
-            border: 1px solid red;
-        }
-        .page-content {
-            font-family: 'Dovemayo-Medium';
-            color: rgb(255, 221, 221);
-        }
-        h1 {
-            font-family: 'Dovemayo_gothic', sans-serif;
-            font-size: 50px;
-            color: #EB0FD8;
-        }
-        .input-underline {
-            background-color: transparent;
-            border: 0;
-            border-bottom: 1.5px solid #EB0FD8;
-            border-radius: 0;
-            width: 250px;
-            color: white;
-            font-family: 'Dovemayo_gothic', sans-serif;
-            font-size: 20px;
-        }
-        .input-underline:focus {
-            color: white;
-            background-color: transparent;
-            border: 0;
-            border-bottom: 1.5px solid rgb(255, 221, 221);
-            outline: 0;
-            box-shadow: 0 0 0 0.25rem transparent;
-            font-family: 'Dovemayo_gothic', sans-serif;
-            font-size: 20px;
-        }
-        .sign-in {
-            font-family: 'Dovemayo_gothic', sans-serif;
-            font-size: 20px;
-        }
-        #submit {
-            font-family: 'Dovemayo_gothic', sans-serif;
-            font-size: 20px;
-        }
-        #reset {
-            font-family: 'Dovemayo_gothic', sans-serif;
-            font-size: 20px;
-        }
-        #logIn {
-            font-family: 'Dovemayo_gothic', sans-serif;
-            font-size: 20px;
-        }
-        #sign-in {
-            font-family: 'Dovemayo_gothic', sans-serif;
-            font-size: 20px;
-        }
-        .btn {
-        font-family: 'Dovemayo-Medium';
-        font-size: 14px;
-        color: #fff;
-        background-color: #D204A9;
-        padding: 40px 25px;
-        display: inline-block;
-        border-radius: 22px;
-        font-weight: 400;
-        text-transform: capitalize;
-        letter-spacing: 0.5px;
-        transition: all .3s;
-        position: relative;
-        overflow: hidden;
-        align:center;
-        }
-        .btn:hover {
-        background-color: #fff;
-        color: #D204A9;
-        }
-        .btn-kakao-login {
-            display: inline-block;
-            margin: 10px 0;
-            max-width: 240px;
-        }
-        .forgot-passwoed-link {
-            color: white;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
+<title>로그인</title>
+<style>
+@font-face {
+	font-family: 'Dovemayo_gothic';
+	src:
+		url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.1/Dovemayo_gothic.woff2')
+		format('woff2');
+	font-weight: normal;
+	font-style: normal;
+}
+
+body {
+	font-family: 'Dovemayo-Medium';
+	text-align: center;
+}
+
+.sign-in {
+	font-family: 'Dovemayo-Medium';
+	margin: auto;
+}
+
+.field-error {
+	font-family: 'Dovemayo-Medium';
+	border: 1px solid red;
+}
+
+.page-content {
+	font-family: 'Dovemayo-Medium';
+	color: rgb(255, 221, 221);
+}
+
+h1 {
+	font-family: 'Dovemayo_gothic', sans-serif;
+	font-size: 50px;
+	color: #EB0FD8;
+}
+
+.input-underline {
+	background-color: transparent;
+	border: 0;
+	border-bottom: 1.5px solid #EB0FD8;
+	border-radius: 0;
+	width: 250px;
+	color: white;
+	font-family: 'Dovemayo_gothic', sans-serif;
+	font-size: 20px;
+}
+
+.input-underline:focus {
+	color: white;
+	background-color: transparent;
+	border: 0;
+	border-bottom: 1.5px solid rgb(255, 221, 221);
+	outline: 0;
+	box-shadow: 0 0 0 0.25rem transparent;
+	font-family: 'Dovemayo_gothic', sans-serif;
+	font-size: 20px;
+}
+
+.sign-in {
+	font-family: 'Dovemayo_gothic', sans-serif;
+	font-size: 20px;
+}
+
+#submit {
+	font-family: 'Dovemayo_gothic', sans-serif;
+	font-size: 20px;
+}
+
+#reset {
+	font-family: 'Dovemayo_gothic', sans-serif;
+	font-size: 20px;
+}
+
+#logIn {
+	font-family: 'Dovemayo_gothic', sans-serif;
+	font-size: 20px;
+}
+
+#sign-in {
+	font-family: 'Dovemayo_gothic', sans-serif;
+	font-size: 20px;
+}
+
+.btn {
+	font-family: 'Dovemayo-Medium';
+	font-size: 14px;
+	color: #fff;
+	background-color: #D204A9;
+	padding: 40px 25px;
+	display: inline-block;
+	border-radius: 22px;
+	font-weight: 400;
+	text-transform: capitalize;
+	letter-spacing: 0.5px;
+	transition: all .3s;
+	position: relative;
+	overflow: hidden;
+	align: center;
+}
+
+.btn:hover {
+	background-color: #fff;
+	color: #D204A9;
+}
+
+.btn-kakao-login {
+	display: inline-block;
+	margin: 10px 0;
+	max-width: 240px;
+}
+
+.btn-naver-login {
+	display: inline-block;
+	margin: 10px 0;
+	max-width: 240px;
+}
+
+.forgot-passwoed-link {
+	color: white;
+}
+</style>
 </head>
 <body layout:fragment="content">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="page-content">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="page-content">
 					<form action="/login" method="post">
-                        <h1>로그인</h1><br>
-                        <!-- csrf 토큰  -->
-                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                        <table class="sign-in">
-                            <tr>
-                                <td colspan=2>
-                                    <input type="text" name="id" placeholder="아이디" th:value="${userId}" class="form-control input-underline">
-                                </td>
-                                <td rowspan=2>
-                                    &nbsp;&nbsp;&nbsp;
-                                    <button type="submit" id="logIn" class="btn">로그인</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan=2>
-                                    <input type="password" name="pw" placeholder="비밀번호" class="form-control input-underline">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan=2 align=left>
-                                    <!-- 아이디 저장 체크 안함 -->
-                                    <th:block th:if="${!rememberId}">
-                                        <input type="checkbox" name="remember-id" id="remember-id">
-                                    </th:block>
-                                    <!-- 아이디 저장 체크 함 -->
-                                    <th:block th:if="${rememberId}">
-                                        <input type="checkbox" name="remember-id" id="remember-id" checked>
-                                    </th:block>
-                                    <label for="remember-id">아이디 저장</label>
+						<h1>로그인</h1>
+						<br>
+						<!-- csrf 토큰  -->
+						<input type="hidden" th:name="${_csrf.parameterName}"
+							th:value="${_csrf.token}" />
+						<table class="sign-in">
+							<tr>
+								<td colspan=2><input type="text" name="id"
+									placeholder="아이디" th:value="${userId}"
+									class="form-control input-underline"></td>
+								<td rowspan=2>&nbsp;&nbsp;&nbsp;
+									<button type="submit" id="logIn" class="btn">로그인</button>
+								</td>
+							</tr>
+							<tr>
+								<td colspan=2><input type="password" name="pw"
+									placeholder="비밀번호" class="form-control input-underline">
+								</td>
+							</tr>
+							<tr>
+								<td colspan=2 align=left>
+									<!-- 아이디 저장 체크 안함 --> <th:block th:if="${!rememberId}">
+										<input type="checkbox" name="remember-id" id="remember-id">
+									</th:block> <!-- 아이디 저장 체크 함 --> <th:block th:if="${rememberId}">
+										<input type="checkbox" name="remember-id" id="remember-id"
+											checked>
+									</th:block> <label for="remember-id">아이디 저장</label> <input type="checkbox"
+									name="remember-me" id="remember-me"> <label
+									for="remember-me">자동 로그인</label>
+								</td>
+							</tr>
+							<tr>
+								<td colspan=3><a href="/oauth2/authorization/kakao"
+									class="btn-kakao-login"> <img
+										src="/img/btn-kakao-login.png" alt="카카오 로그인">
+								</a><br></td>
+							</tr>
+							<tr>
+								<td colspan=3><a href="/oauth2/authorization/naver"
+									class="btn-naver-login"> <img
+										src="/img/btn-naver.login.png" alt="네이버 로그인">
+								</a><br></td>
+							</tr>
+							<tr>
+								<td colspan=3><a href="/join" class="forgot-passwoed-link">회원가입</a>
+									&nbsp; <a href="/find" class="forgot-passwoed-link">아이디/비밀번호
+										찾기</a></td>
+							</tr>
 
-                                    <input type="checkbox" name="remember-me" id="remember-me">
-                                    <label for="remember-me">자동 로그인</label>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan=3>
-                                    <a href="/oauth2/authorization/kakao" class="btn-kakao-login">
-                                        <img src="/img/btn-kakao-login.png" alt="카카오 로그인">
-                                    </a><br>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan=3>
-                                    <a href="/join" class="forgot-passwoed-link">회원가입</a> &nbsp;
-                                    <a href="/find" class="forgot-passwoed-link">아이디/비밀번호 찾기</a>
-                                </td>
-                            </tr>
+						</table>
 
-                        </table>
-                        
 
-                        
-                    </form>
+
+					</form>
 				</div>
 			</div>
 		</div>
