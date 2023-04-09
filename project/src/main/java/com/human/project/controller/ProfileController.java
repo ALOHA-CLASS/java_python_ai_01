@@ -48,10 +48,17 @@ public class ProfileController {
 
 		if( principal != null ) {
 			Map<String, Object> map = principal.getAttributes();
+			if(map.get("kakao_account") != null) {
 			Map<String, Object> accountMap = (Map<String, Object>) map.get("kakao_account");
 			String email = String.valueOf( accountMap.get("email") );
 			model.addAttribute("social_email", email);
 			log.info(email);
+			}
+			if(map.get("response") != null) {
+				Map<String, Object> accountMap = (Map<String, Object>) map.get("response");
+				String email = String.valueOf( accountMap.get("email") );
+				user.setEmail(email);	
+			}
 		}
 		return "profile/update";
 	}
@@ -63,11 +70,20 @@ public class ProfileController {
 		
 		if(principal != null) {
 			Map<String, Object> map = principal.getAttributes();
+			log.info("map.get(\"kakao_account\")"+map.get("kakao_account"));
+			log.info("map.get(\"response\")"+map.get("response"));
+			if(map.get("kakao_account") != null) {
+			
 			Map<String, Object> accountMap = (Map<String, Object>) map.get("kakao_account");
 			String email = String.valueOf( accountMap.get("email") );
-			user.setEmail(email);
+			user.setEmail(email);	
+			}
+			if(map.get("response") != null) {
+			Map<String, Object> accountMap = (Map<String, Object>) map.get("response");
+			String email = String.valueOf( accountMap.get("email") );
+			user.setEmail(email);	
+			}
 		}
-
 		int result = userService.update(user);
 		if (result > 0) log.info("회원정보 수정 성공");
 		else			log.info("회원정보 수정 실패");
