@@ -3,12 +3,23 @@
 
 <!-- th:fragment 속성으로 공통으로 사용할 프래그먼트를 정의. -->
 <body th:fragment="footer">
+  <style>
+      @font-face {
+        font-family: 'Dovemayo-Medium';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.0/Dovemayo-Medium.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
+    p {
+      font-family: 'Dovemayo-Medium';
+    }
+  </style>
 	<footer>
     <div class="container">
       <div class="row">
         <div class="col-lg-12">
 
-          <p>Copyright © human <a href="#">Last Carnival.</a> All rights reserved. 
+          <p>Copyright © human <a href="#">Last Carnival.</a> All rights reserved.
 
           <br>Design: <a href="https://templatemo.com" target="_blank" title="free CSS templates">TemplateMo</a>  Distributed By <a href="https://themewagon.com" target="_blank" >ThemeWagon</a></p>
         </div>

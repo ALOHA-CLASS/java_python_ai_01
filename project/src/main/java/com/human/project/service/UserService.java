@@ -1,13 +1,12 @@
 package com.human.project.service;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.human.project.domain.UserAuth;
 import com.human.project.domain.UserSocial;
 import com.human.project.domain.Users;
+
 
 public interface UserService {
 	
@@ -47,4 +46,6 @@ public interface UserService {
 	// 모든 쿠키 삭제
 	public boolean deleteCookies(HttpServletRequest request, HttpServletResponse response) throws Exception;
 
+	// 이메일 변경
+	public int newEmail(Users user) throws Exception;
 }

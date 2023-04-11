@@ -56,23 +56,23 @@
     
         .sign-up {
             font-family: 'Dovemayo_gothic';
-            font-size: 30px;
+            font-size: 25px;
         }
         #submit {
             font-family: 'Dovemayo_gothic';
-            font-size: 30px;
+            font-size: 25px;
         }
         #reset {
             font-family: 'Dovemayo_gothic';
-            font-size: 30px;
+            font-size: 25px;
         }
         #modify {
 			font-family: 'Dovemayo_gothic';
-            font-size: 30px;
+            font-size: 20px;
         }
         #out {
 			font-family: 'Dovemayo_gothic';
-            font-size: 30px;
+            font-size: 20px;
         }
     </style>
 </head>
@@ -135,7 +135,9 @@
     }
 
     function btn_delete(){
-        document.getElementById('delete').submit();
+        if (confirm("정말로 회원을 탈퇴하시겠습니까?")){
+            document.getElementById('delete').submit();
+        }     
     }
 </script>
 </body>

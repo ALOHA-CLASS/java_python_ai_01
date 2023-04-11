@@ -45,6 +45,13 @@
         em {
             color: rgb(252, 15, 220);
         }
+        .back-head {
+            background-image: url(/img/yaho1.png);
+            background-size: 100%;
+            background-repeat: no-repeat;
+            background-position: center;
+            height: 120px;
+        }
         .back-foot {
             background-image: url(/img/yaho2.png);
             background-size: 100%;
@@ -99,6 +106,9 @@
             font-family: 'Dovemayo-Medium';
             font-size: 15px;
         }
+        #tbla:hover{
+            background-color: #27292A;
+        }
     </style>
 <div class="container">
     <div class="row">
@@ -113,27 +123,35 @@
                 &nbsp;<a href="list?tag=국내" id="list1">국내</a>
                 &nbsp;<a href="list?tag=해외" id="list2">해외</a>
                 &nbsp;<a href="list?tag=기타" id="list3">기타</a>
-                <p th:text="|${page.totalCount} 건의 게시글이 조회되었습니다.|" align="left"></p>
-                <div align="right">
-                    <!-- 페이징 옵션 -->
-                    <p>게시물
-                    <select id="rowsPerPage" name="rowsPerPage">
-                        <option value="5">5개씩</option>
-                        <option value="10">10개씩</option>
-                        <option value="15">15개씩</option>
-                        <option value="20">20개씩</option>
-                        <option value="30">30개씩</option>
-                        <option value="40">40개씩</option>
-                        <option value="50">50개씩</option>
-                    </select>
-                    페이지
-                    <select id="pageCount" name="pageCount">
-                        <option value="5">5개씩</option>
-                        <option value="10">10개씩</option>
-                        <option value="20">20개씩</option>
-                    </select>
-                    </p>
-                </div>
+                <table>
+                    <tr id="tbla">
+                        <td>
+                            <p th:text="|${page.totalCount} 건의 게시글이 조회되었습니다.|" align="left"></p>
+                        </td>
+                        <td>
+                            <div align="right">
+                                <!-- 페이징 옵션 -->
+                                <p>게시물
+                                <select id="rowsPerPage" name="rowsPerPage">
+                                    <option value="5">5개씩</option>
+                                    <option value="10">10개씩</option>
+                                    <option value="15">15개씩</option>
+                                    <option value="20">20개씩</option>
+                                    <option value="30">30개씩</option>
+                                    <option value="40">40개씩</option>
+                                    <option value="50">50개씩</option>
+                                </select>
+                                페이지
+                                <select id="pageCount" name="pageCount">
+                                    <option value="5">5개씩</option>
+                                    <option value="10">10개씩</option>
+                                    <option value="20">20개씩</option>
+                                </select>
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
                 <table>
                     <tr>
                         <thead>
@@ -144,7 +162,7 @@
                         	<th width="60">구분</th>
                         	<th width="300">제목</th>
                         	<th width="150">작성자</th>
-                        	<th width="100">조회수</th>
+                        	<th width="50">조회수</th>
                         	<th width="150">등록일자</th>
 						</thead>
                     </tr>
@@ -159,11 +177,11 @@
                             <th:block sec:authorize="hasAnyRole('ROLE_ADMIN')">
                                 <td align="center"><input type="checkbox" name="boardNo" th:value=${board.boardNo} class="input-check"></td>
                             </th:block>
-                            <td width="50" align="center" th:text=${board.boardNo}></td>
-                            <td width="70" align="center">
+                            <td align="center" th:text=${board.boardNo}></td>
+                            <td align="center">
                             	<a th:href="|/board/list?tag=${board.tag}|" th:text=${board.tag}></a>
                             </td>
-                            <td width="300" align="left">
+                            <td>
                                 <a th:href="|/board/read?boardNo=${board.boardNo}|" th:text=${board.title}></a>
                             </td>
                             <th:block th:if="${board.nickname == null}">
@@ -172,8 +190,8 @@
                             <th:block th:if="${board.nickname != null}">
                                 <td align="center" th:text=${board.nickname}></td>    
                             </th:block>
-                            <td width="60" align="center" th:text=${board.joinCnt}></td>
-                            <td width="180" align="center">
+                            <td align="center" th:text=${board.joinCnt}></td>
+                            <td align="center">
                                 <span th:text="${ #temporals.format(board.regDate, 'yyyy-MM-dd') }"></span>
                             </td>
                         </tr>
@@ -299,7 +317,6 @@
             let chkarr = [];
             var token = $("meta[name='_csrf']").attr("content");
             var header = $("meta[name='_csrf_header']").attr("content");
-
             let result = confirm('게시글을 삭제하시겠습니까?')
             if (result) {
                 $('.input-check:checked').each(function(){

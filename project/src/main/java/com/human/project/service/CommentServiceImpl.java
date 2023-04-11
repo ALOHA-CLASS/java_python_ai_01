@@ -23,7 +23,7 @@ public class CommentServiceImpl implements CommentService {
 		
 		
 		for (Comment comment : commentList) {
-			log.info(comment.toString());
+			// log.info(comment.toString());
 		}
 		
 		
@@ -43,7 +43,7 @@ public class CommentServiceImpl implements CommentService {
 		
 		// 댓글 번호 최댓값
 		int commentNo = commentMapper.maxCommentNo();
-		log.info("commentNo : " + commentNo);
+		// log.info("commentNo : " + commentNo);
 		comment.setUserId(userId);
 		comment.setCommentNo(commentNo);
 		comment.setGroupNo(commentNo);
@@ -68,7 +68,6 @@ public class CommentServiceImpl implements CommentService {
 		Comment comment = commentMapper.select(commentNo);
 		
 		int subCnt = comment.getSubCnt();
-		
 		// 자식 댓글이 없으면, 삭제
 		if( subCnt == 0 ) {
 			// 삭제요청
@@ -76,8 +75,7 @@ public class CommentServiceImpl implements CommentService {
 		}
 		// 자식 댓글이 있으면, "삭제된 게시글 입니다" 로 내용 수정
 		else {
-			comment.setNickname("---");
-			comment.setContent("삭제된 게시글 입니다");
+			comment.setContent("삭제된 댓글입니다.");
 			result = commentMapper.update(comment);
 			return result;
 		}
@@ -115,10 +113,6 @@ public class CommentServiceImpl implements CommentService {
 		return result;
 	}
 	
-	// 5
-	// 	10
-	// 		12
-	// 			14
 	// 부모 댓글의 자식 개수 갱신
 	public void syncsubCnt(int parentNo, int no) throws Exception {
 		

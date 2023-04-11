@@ -8,6 +8,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.human.project.util.Unique;
+
 import lombok.Data;
 
 @Data
@@ -32,7 +34,9 @@ public class Users {
 	@NotBlank(message = "*반드시 입력해야합니다.")
 	private String name;
 	
-	@Email(message = "*이메일 형식으로 입력해야합니다.")
+	@NotBlank(message = "*반드시 입력해야 합니다.")
+	@Email(message = "*이메일 형식으로 입력해야 합니다.")
+	@Unique(domainClass = Users.class, email = "email", message="이메일 중벅")
 	private String email;
 	
 	private boolean enabled;

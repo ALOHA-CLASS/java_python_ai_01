@@ -1,5 +1,8 @@
 package com.human.project.controller;
 
+import java.io.IOException;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -12,10 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.human.project.domain.Chart;
 import com.human.project.mapper.ChartRepository;
 import com.human.project.service.LastFmService;
-
-
-import java.io.IOException;
-import java.util.Optional;
 
 @Controller
 public class LastFmController {

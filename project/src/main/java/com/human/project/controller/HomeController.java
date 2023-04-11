@@ -4,7 +4,6 @@ package com.human.project.controller;
 
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -13,10 +12,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -70,23 +67,24 @@ public class HomeController {
         Map<String, Object> map = principal.getAttributes();
         log.info("map : " + map);
         log.info("map : " + map.get("properties"));
+        if(map.get("properties") != null) {
+			Map<String, Object> proMap = (Map<String, Object>) map.get("properties");
+			Map<String, Object> accountMap = (Map<String, Object>) map.get("kakao_account");
 
-        Map<String, Object> proMap = (Map<String, Object>) map.get("properties");
-        Map<String, Object> accountMap = (Map<String, Object>) map.get("kakao_account");
+			String profile_image = String.valueOf( proMap.get("profile_image") );
+			String thumbnail_image = String.valueOf( proMap.get("thumbnail_image") );
 
-        String profile_image = String.valueOf( proMap.get("profile_image") );
-        String thumbnail_image = String.valueOf( proMap.get("thumbnail_image") );
-
-        String email = String.valueOf( accountMap.get("email") );
+			String email = String.valueOf( accountMap.get("email") );
 
 
-        log.info("map : " + proMap);
-        log.info("email : " + email);
-        log.info("profile_image : " + proMap.get("profile_image"));
+			log.info("map : " + proMap);
+			log.info("email : " + email);
+			log.info("profile_image : " + proMap.get("profile_image"));
 
-        model.addAttribute("email", email);
-        model.addAttribute("profile_image", profile_image);
-        model.addAttribute("thumbnail_image", thumbnail_image);
+			model.addAttribute("email", email);
+			model.addAttribute("profile_image", profile_image);
+			model.addAttribute("thumbnail_image", thumbnail_image);
+        }
       }
 		return "index";
 	}
@@ -159,48 +157,48 @@ public class HomeController {
 		return "redirect:/";
 	}
 	
-    //아이디&비밀번호 찾기
-	@PostMapping("/find_id")
-	public ResponseEntity<List> findId(Users user) throws Exception {    	
-		Users selectedUser = userService.selectByEmail(user);
-		String findId = selectedUser.getUserId();
-		String findName = selectedUser.getName();
-		List<String> result = Arrays.asList(findId, findName);
-		return new ResponseEntity<List>(result, HttpStatus.OK);
-    }
+    // // 아이디 찾기
+	// @PostMapping("/find_id")
+	// public ResponseEntity<List> findId(Users user) throws Exception {    	
+	// 	Users selectedUser = userService.selectByEmail(user);
+	// 	String findId = selectedUser.getUserId();
+	// 	String findName = selectedUser.getName();
+	// 	List<String> result = Arrays.asList(findId, findName);
+	// 	return new ResponseEntity<List>(result, HttpStatus.OK);
+    // }
     
-  //아이디&비밀번호 찾기
-    @GetMapping("/find_password")
-    public String doFind123123(Users user, Model model) throws Exception {
+  	// 비밀번호 찾기
+    // @GetMapping("/find_password")
+    // public String doFind123123(Users user, Model model) throws Exception {
     	
-    	Users result = userService.selectByEmail(user);
-    	log.info(result.getEmail());
-    	log.info(result.getName());
-    	log.info(result.getNickname());
+    // 	Users result = userService.selectByEmail(user);
+    // 	log.info(result.getEmail());
+    // 	log.info(result.getName());
+    // 	log.info(result.getNickname());
     	
-        return "result";
-    }
+    //     return "result";
+    // }
     
     @GetMapping("/find")
     public String doFind() {
         return "find";
     }
 
-//	// 아이디 찾기
-//	@PostMapping("/find_id")
-//	public ResponseEntity<String> findId(Users user) throws Exception {
-//	
-//		Users selectedId = userService.findId(user);
-//		String findId = selectedId.getUserId();
-//		
-//		if(selectedId == null) {
-//			return new ResponseEntity<>("fail", HttpStatus.OK);
-//		}
-//		else {
-//			return new ResponseEntity<>(findId, HttpStatus.OK);
-//		}
-//
-//	}
+	// 아이디 찾기
+	@PostMapping("/find_id")
+	public ResponseEntity<String> findId(Users user) throws Exception {
+	
+		Users selectedId = userService.findId(user);
+		String findId = selectedId.getUserId();
+		
+		if(selectedId == null) {
+			return new ResponseEntity<>("fail", HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity<>(findId, HttpStatus.OK);
+		}
+
+	}
 	
 	// 비밀번호 찾아서 임시 비밀번호 발급
 	@PostMapping("/find_password")
@@ -248,6 +246,44 @@ public class HomeController {
 		newPwStr = passwordEncoder.encode(newPwStr);
 		user.setUserPw(newPwStr);
 		userMapper.newPw(user);
+
+		return new ResponseEntity<>("true", HttpStatus.OK);
+	}
+
+	// 이메일 변경
+	@PostMapping("/newEmailUpdate")
+	// public ResponseEntity<String> newPwUpdate(@Validated Users user, Authentication authentication, BindingResult bindingResult) throws Exception {
+	public ResponseEntity<String> newEmailUpdate(Users user, Authentication authentication) throws Exception {
+		
+		// 유효성 검증 오류확인
+		if(!validationUtil.emailError(user)) {
+			log.info("유효성 검증 오류..");
+			return new ResponseEntity<>("fail", HttpStatus.OK);
+		}
+
+		Users selectedEmail = userService.select(user);
+		String email = user.getEmail();
+		log.info("이메일 : " + email);
+
+		if( selectedEmail != null ) {
+			log.info("이메일 중복... : " + email);
+			return new ResponseEntity<>("false", HttpStatus.OK);
+		}
+
+		String userId = authentication.getName();
+		user.setUserId(userId);
+
+		int newEmail = userService.newEmail(user);
+
+		String newEmailStr = user.getEmail();
+
+		// String userId = authentication.getName();
+		// user.setUserId(userId);
+
+		// int newEmail = userService.newEmail(user);
+
+		// String newEmailStr = user.getEmail();
+		log.info("변경 할 이메일 " + newEmailStr);
 
 		return new ResponseEntity<>("true", HttpStatus.OK);
 	}
