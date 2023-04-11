@@ -34,7 +34,7 @@
 
 
 ## 요구사항 정의서
-<< 요구사항 정의서 이미지 >>
+![요구사항_정의서](https://user-images.githubusercontent.com/120995555/231071141-e2164b49-37e7-4f46-b680-1303b0c8884f.png)
 
 ## ERD
 ![그림1](https://user-images.githubusercontent.com/120995522/230264333-8c11f3b6-e373-4134-af9e-8acc661e93be.png)
