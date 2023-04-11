@@ -3,6 +3,12 @@ package com.human.project.domain;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -12,11 +18,18 @@ import com.human.project.util.Unique;
 
 import lombok.Data;
 
+
+
+//@Entity
+//@Table(name="users")
 @Data
 public class Users {
 	
+	
 	private int userNo;
 	
+//	@Id
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@NotBlank(message = "*반드시 입력해야합니다.")
 	private String userId;
 	
@@ -29,6 +42,7 @@ public class Users {
 	private String userPwChk;
 	
 	@NotBlank(message = "*반드시 입력해야합니다.")
+	@Column(unique=true)
 	private String nickname;
 
 	@NotBlank(message = "*반드시 입력해야합니다.")

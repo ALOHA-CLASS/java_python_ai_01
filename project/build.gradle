@@ -20,6 +20,7 @@ repositories {
 }
 
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa' // Spring Boot JPA Starter
 	implementation 'org.hibernate.validator:hibernate-validator:6.2.0.Final' // hibernate
 	implementation 'commons-beanutils:commons-beanutils:1.9.4' // bean utils
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
