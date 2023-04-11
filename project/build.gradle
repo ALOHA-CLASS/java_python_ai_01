@@ -21,6 +21,8 @@ repositories {
 }
 
 dependencies {
+	implementation 'org.hibernate.validator:hibernate-validator:6.2.0.Final' // hibernate
+	implementation 'commons-beanutils:commons-beanutils:1.9.4' // bean utils
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'

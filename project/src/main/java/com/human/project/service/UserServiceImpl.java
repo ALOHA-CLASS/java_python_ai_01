@@ -1,6 +1,5 @@
 package com.human.project.service;
 
-import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.Cookie;
@@ -212,6 +211,12 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int newPw(Users user) throws Exception {
 		int result = userMapper.newPw(user);
+		return result;
+	}
+	// 이메일 변경
+	@Override
+	public int newEmail(Users user) throws Exception {
+		int result = userMapper.newEmail(user);
 		return result;
 	}
 }

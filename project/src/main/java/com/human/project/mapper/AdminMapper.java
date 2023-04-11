@@ -10,6 +10,7 @@ import com.human.project.domain.Page;
 import com.human.project.domain.UserAuth;
 import com.human.project.domain.Users;
 
+
 @Mapper
 public interface AdminMapper {
 		

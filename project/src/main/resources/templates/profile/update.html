@@ -33,6 +33,7 @@
         }
         .check-id { display: none; }
 		.check-nickname { display: none; }
+        .check-email { display: none; }
         .input-underline {
             background-color: transparent;
             border: 0;
@@ -150,14 +151,31 @@
                             <td id="mollu" th:if="${not #strings.isEmpty(social_email)}">
                                 <span th:text="*{email}"> <br>
                             </td>
-                            <td th:if="${#strings.isEmpty(social_email)}" colspan="2">
-                                <input  type="text" name="email" th:value="*{email}"  th:errorclass="field-error" class="form-control input-underline"> <br>
+                            <td th:if="${#strings.isEmpty(social_email)}" >
+                                <input  type="text" id="newEmail" name="email" th:value="*{email}"  th:errorclass="field-error" class="form-control input-underline">
+                            </td>
+                            <td>
+                                <div class="main-button">
+                                    <a href="javascript:;" onclick="newEmail()">이메일변경</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="error-row">
+                            <td width="150">&nbsp;</td>
+                            <td colspan="2" align="left">
+                                <font color=#9bf525 id="email-check" class="check-email"><span>이메일이 변경되었습니다.</span></font>
+                                <font color="red" id="email-duplicated" class="check-email" ><span>중복된 이메일입니다.</span></font>
+                                <font color="red">
+                                    <th:block th:if="${ #fields.hasErrors('email') }">
+                                        <span th:errors="*{email}"></span>
+                                    </th:block>
+                                </font>
                             </td>
                         </tr>
                         <tr th:if="${#strings.isEmpty(social_email)}">
                             <td width="150">비밀번호 변경</td>
                             <td>
-                                <input type="password"  id="newPw" name="userPw" th:field="*{userPw}" th:errorclass="field-error" class="form-control input-underline"> <br>
+                                <input type="password" id="newPw" name="userPw" th:field="*{userPw}" th:errorclass="field-error" class="form-control input-underline">
                             </td>
                             <td>
                                 <div class="main-button">
@@ -180,7 +198,6 @@
                         <div><br><br>
                             <div class="main-button">
                                     <a href="javascript:;" onclick=btn_update() id="complete">수정 완료</a>
-                                </form>
                             </div>
                         </div>
                     </form>
@@ -192,7 +209,7 @@
 <script>
     function check(){
         function check() {
-            let check = $('#input-check').val()
+            let check = $('#input-check').val()            
             if( check == 1 ) {
                 return true
             }
@@ -283,6 +300,79 @@
             })
         }
     }
+
+    function newEmail() {
+            asyncNewEmail().then(function(result_e) {
+                // 이메일 미입력
+                if( result_e == null ) {
+                    return
+                }
+                // 이메일 사용가능
+                if( result_e == 'true' ) {
+                    alert('사용 가능한 이메일입니다.')
+                    $('#email-check').show()
+                    $('#email-duplicated').hide()
+                    $('#input-e-check').val(1)
+                }
+                // 이메일 중복
+                else {
+                    alert('중복된 이메일입니다')
+                    $('#email-duplicated').show()
+                    $('#email-check').hide()
+                    $('#input-e-check').val(0)
+                }
+            })
+    }
+
+    // 이메일 변경
+    async function asyncNewEmail() {
+        // let pw = this.$('#newEmail').val()
+
+        if($('#newEmail').val() == "" || $('#newEmail').val() == undefined) {
+            alert("빈칸을 확인해주세요.")
+            return null;
+        }
+        // if($('#newEmail').val() == pw){
+        //     alert("이메일이 같습니다. 다시 확인해주세요.")
+        //     return false;
+        // }
+        else {
+            var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
+            $.ajax({
+                url: '/newEmailUpdate',      // 요청 경로
+                type: 'post',               // 메소드 방식(get, post, put 등)
+                data: {userId : $('userId').val(), email : $('#newEmail').val()},             // 전송할 데이터
+                // 전송
+                beforeSend : function(xhr) {
+                    xhr.setRequestHeader(header, token)
+                },
+                // 서버로부터 정상적인 응답
+                success: function(data){
+                    if( data == 'fail' ) {
+                        alert("이메일 형식이 아닙니다.");
+                    }
+                    if( data == 'true' ) {
+                        alert("이메일이 변경되었습니다.");
+                        $('#email-check').show()
+                        $('#email-duplicated').hide()
+                    }
+                    if( data == 'false' ) {
+                        alert("중복된 이메일입니다.");
+                        $('#email-duplicated').show()
+                        $('#email-check').hide()
+                    }
+                    // else {
+                    //     alert("이메일 변경에 실패하였습니다.")
+                    // }
+                },
+                // 에러
+                error: function(request, status, error){
+                    alert('@@@@@@@@@에러@@@@@@@@@@')
+                }
+            })
+        }
+    }   
 
     function btn_update(){
         document.getElementById('update').submit();

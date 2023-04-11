@@ -1,41 +1,80 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+				xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 </head>
 <body>
 	<style>
 		@font-face {
-            font-family: 'Dovemayo_gothic';
-            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.1/Dovemayo_gothic.woff2') format('woff2');
-            font-weight: normal;
-            font-style: normal;
+		font-family: 'Dovemayo_gothic';
+		src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.1/Dovemayo_gothic.woff2') format('woff2');
+		font-weight: normal;
+		font-style: normal;
         }
-		#btn_comment, .btn_comment_answer, .btn_comment_insert, .btn_comment_answer_insert, 
-			.btn_comment_answer_cancel, .btn_comment_cancel, .btn_comment_update, .btn_comment_delete {
-			font-size: 18px;
-			color: #fff;
-			background-color: #000000;
-			padding: 1px 10px;
-			display: inline-block;
-			font-weight: 100;
-			border-radius: 10%;
-			text-transform: capitalize;
-			letter-spacing: 0.5px;
-			transition: all .3s;
-			position: relative;
-			overflow: hidden;
-			font-family: 'Dovemayo_gothic', sans-serif;
+		#btn_comment {
+		font-size: 20px;
+		color: #fff;
+		background-color: transparent;
+		padding: 1px 9px;
+		display: inline-block;
+		font-weight: 100;
+		border: none;
+		text-transform: capitalize;
+		letter-spacing: 0.5px;
+		transition: all .3s;
+		position: relative;
+		overflow: hidden;
+		font-family: 'Dovemayo_gothic';
 		}
 		#btn_comment:hover {
-			background-color: #27292A;
-			color: #D204A9;
+		background-color: #27292A;
+		color: #D204A9;
 		}
-		.content {
-			color: rgb(252, 145, 183);
-			font-family: 'Dovemayo_gothic', sans-serif;
-			font-size: 21px;
+		.btn_comment_answer {
+		font-size: 20px;
+		color: #fff;
+		background-color: #000000;
+		padding: 1px 9px;
+		display: inline-block;
+		font-weight: 100;
+		border-radius: 10%;
+		text-transform: capitalize;
+		letter-spacing: 0.5px;
+		transition: all .3s;
+		position: relative;
+		overflow: hidden;
+		font-family: 'Dovemayo_gothic';
 		}
-
+		.btn_comment_answer_insert, .btn_comment_insert {
+		font-size: 20px;
+		color: #fff;
+		background-color: #000000;
+		padding: 1px 9px;
+		display: inline-block;
+		font-weight: 100;
+		border-radius: 10%;
+		text-transform: capitalize;
+		letter-spacing: 0.5px;
+		transition: all .3s;
+		position: relative;
+		overflow: hidden;
+		font-family: 'Dovemayo_gothic';
+		}
+		.btn_comment_answer_cancel, .btn_comment_cancel {
+		font-size: 20px;
+		color: #fff;
+		background-color: #000000;
+		padding: 1px 9px;
+		display: inline-block;
+		font-weight: 100;
+		border-radius: 10%;
+		text-transform: capitalize;
+		letter-spacing: 0.5px;
+		transition: all .3s;
+		position: relative;
+		overflow: hidden;
+		font-family: 'Dovemayo_gothic';
+		}
 	</style>
 <input type="hidden" id="csrf-token" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 	<!-- 댓글 목록 -->
@@ -43,7 +82,9 @@
 		<div class="comment_wrap">
 			<th:block th:if="${comment.commentNo != comment.groupNo}">
 				<th:block th:each=" no : ${ #numbers.sequence(1, comment.depthNo) }">
-					<div class="indent"></div>
+					<th:block th:if="${no < 19}">
+						<div class="indent"></div>
+					</th:block>
 				</th:block>
 			</th:block>
 		
@@ -55,15 +96,24 @@
 				<input type="hidden" class="sub_count" th:value="${comment.subCnt}">
 				<!-- <p class="userId" style="font-size:5px" th:text="${userId}" id="userId"></p> -->
 				<input type="hidden" class='userId' th:value="${comment.userId}"/>
-				<span class="nickname" th:text="${comment.nickname}"></span>
-				<span class="regDate" th:text="${comment.regDate}"></span>
+				<th:block th:if="${comment.nickname == null}">
+					<span align="center" th:text=${comment.userId}></span>
+				</th:block>
+				<th:block th:if="${comment.nickname != null}">
+					<span align="center" th:text=${comment.nickname}></span>    
+				</th:block>
+				<span class="regDate" th:text="${ #temporals.format(comment.regDate, 'yyyy-MM-dd HH:mm:ss')}"></span>
 				<span th:if="${comment.userId == userId} or ${#authorization.expression('hasRole(''ADMIN'')')}">
-                	<button type="button" class="btn_comment_update" th:data="${comment.commentNo}">수정</button>
+					<th:block th:if="${comment.userId != '삭제된 작성자입니다.'}">
+						<button type="button" class="btn_comment_update" th:data="${comment.commentNo}">수정</button>
+					</th:block>
                 	<button type="button" class="btn_comment_delete" th:data="${comment.commentNo}">삭제</button>
-                </span>
+        		</span>
 				<p class="content" th:text="${comment.content}"></p>
 				<th:block sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
-				<button type="button" class="btn_comment_answer" th:data="${comment.commentNo}" id="btn_comment_answer">답글</button>
+					<th:block th:if="${comment.nickname != null}">
+						<button type="button" class="btn_comment_answer" th:data="${comment.commentNo}" id="btn_comment_answer">답글</button>
+					</th:block>
 				</th:block>
 			</div>
 		</div>
@@ -115,7 +165,7 @@
 				let editor = "" 
 					+ "<input type='hidden' class='userId' value='" + userId +"'/>"
 					+ "<br>"
-					+ "<textarea rows='3' cols='40' id='content'>" + content + "</textarea>"
+					+ "<textarea rows='4' cols='50'>" + content + "</textarea>"
 					+ "<br>"
 					+ "<button type='button' class='btn_comment_insert' data='" + commentNo + "'>등록</button>"
 					+ "<button type='button' class='btn_comment_cancel' data='" + commentNo + "'>취소</button>"
@@ -177,7 +227,7 @@
 					+ "<div class='comment_wrap comment_answer'>"
 					+ "<div class='comment_box'>"
 					+ "<input type='hidden' th:id=userId th:value='${userId}'/>"
-					+ "<textarea rows='4' cols='50' id='content'></textarea>"
+					+ "<textarea rows='4' cols='50'></textarea>"
 					+ "<br>"
 					+ "<button type='button' class='btn_comment_answer_insert' data='" + commentNo + "'>등록</button>"
 					+ "<button type='button' class='btn_comment_answer_cancel' data='" + commentNo + "'>취소</button>"

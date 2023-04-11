@@ -6,13 +6,19 @@
     <meta charset="UTF-8">
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-    <title>회원가입</title>
+    <title>Sign Up</title>
     <style>
         @font-face {
-            font-family: 'Dovemayo_gothic';
-            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.1/Dovemayo_gothic.woff2') format('woff2');
-            font-weight: normal;
-            font-style: normal;
+        font-family: 'Dovemayo-Medium';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.0/Dovemayo-Medium.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+        }
+        @font-face {
+        font-family: 'Dovemayo_gothic';
+        src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.1/Dovemayo_gothic.woff2') format('woff2');
+        font-weight: normal;
+        font-style: normal;
         }
         body{
             text-align: center;
@@ -27,9 +33,11 @@
             color: rgb(255, 221, 221);
         }
         h1 {
-            font-family: 'Dovemayo_gothic', sans-serif;
+            font-family: 'Dovemayo_gothic';
+            font-weight: normal;
+            font-style: normal;
             font-size: 50px;
-            color: #d204a9;
+            color: #ffffff;
         }
         .check-id {
             display: none;
@@ -37,41 +45,45 @@
         .check-nickname {
             display: none;
         }
+        .check-email {
+            display: none;
+        }
         .input-underline {
             background-color: transparent;
             border: 0;
             border-bottom: 1.5px solid #d204a9;
+            border-bottom: 1.5px solid #d204a9;
             border-radius: 0;
             width: 230px;
             color: white;
-			font-family: 'Dovemayo_gothic', sans-serif;
+			font-family: 'Dovemayo-Medium';
             font-size: 20px;
         }
         .input-underline:focus {
             color: white;
             background-color: transparent;
             border: 0;
-            border-bottom: 1.5px solid rgb(255, 221, 221);
+            border-bottom: 1.5px solid #d204a9;
             outline: 0;
             box-shadow: 0 0 0 0.25rem transparent;
-			font-family: 'Dovemayo_gothic', sans-serif;
-            font-size: 20px;
+			font-family: 'Dovemayo-Medium';
+            font-size: 25px;
         }
         .sign-up {
-            font-family: 'Dovemayo_gothic', sans-serif;
-            font-size: 20px;
+            font-family: 'Dovemayo-Medium';
+            font-size: 25px;
         }
         #submit {
-            font-family: 'Dovemayo_gothic', sans-serif;
-            font-size: 20px;
+            font-family: 'Dovemayo-Medium';
+            font-size: 25px;
         }
         #reset {
-            font-family: 'Dovemayo_gothic', sans-serif;
-            font-size: 20px;
+            font-family: 'Dovemayo-Medium';
+            font-size: 25px;
         }
         .double-check{
-            font-family: 'Dovemayo_gothic', sans-serif;
-            font-size: 17px !important;
+            font-family: 'Dovemayo-Medium';
+            font-size: 20px !important;
         }
         .main-button {
             display: flex;
@@ -81,7 +93,7 @@
         }
         .error-row {
             font-size: 17px;
-            height: 17px;
+            height: 20px;
         }
         .btn {
 		font-size: 14px;
@@ -108,12 +120,15 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="page-content">
-                <h1>Sign Up</h1><br><br>
+                <h1>회원가입</h1><br><br>
                 <form id="join" action="/join" method="post" th:object="${users}" onsubmit="return check()">
                     <!-- csrf 토큰 -->
                     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                     <!-- 전송 가능 여부 - 가능(1), 불가능(0) -->
                     <input type="hidden" value="-1" id="input-check" />
+                    <input type="hidden" value="-1" id="input-n-check" />
+                    <input type="hidden" value="-1" id="input-e-check" />
+
                     <table class="sign-up">
                         <tr>
                             <td width="150">아이디</td>
@@ -173,7 +188,6 @@
                                 </font>
                             </td>
                         </tr>
-						<input type="hidden" value="-1" id="input-n-check" />
                         <tr>
                             <td width="150">닉네임</td>
                             <td>
@@ -182,8 +196,7 @@
                             <td>
                                 <div class="main-button">
                                     <a href="javascript:;" onclick="checkNickname()" class="double-check">중복확인</a>
-                                </div>
-                                
+                                </div>                                
                             </td>
                         </tr>
                         <tr class="error-row">
@@ -214,16 +227,19 @@
                                 </font>
                             </td>
                         </tr>
+                        <input type="hidden" value="-1" id="input-email-check" />
                         <tr>
                             <td width="150">이메일</td>
-                            <td colspan="2">
-                                <input type="text" name="email" th:field="*{email}" th:errorclass="field-error" class="form-control input-underline"> <br>
-                               
+                            <td>
+                                <input type="text" name="email" th:field="*{email}" th:errorclass="field-error" class="form-control input-underline">
                             </td>
                         </tr>
                         <tr class="error-row">
                             <td width="150">&nbsp;</td>
                             <td colspan="2" align="left">
+                                
+                                <font color=#9bf525 id="email-check" class="check-email"><span>사용 가능 이메일</span></font>
+                                <font color="red" id="email-duplicated" class="check-email"><span>중복 이메일</span></font>
                                 <font color="red">
                                     <th:block th:if="${ #fields.hasErrors('email') }">
                                         <span th:errors="*{email}"></span>
@@ -231,7 +247,7 @@
                                 </font>
                             </td>
                         </tr>
-                </table>
+                    </table>
                         <div><br>
                             <button type="submit" id="submit" class="btn">등록</button>
 
@@ -252,12 +268,16 @@
         // 제출 전, 체크
         function check() {
             let check = $('#input-check').val()
-            if( check == 1 ) {
+            let n_check = $('#input-n-check').val()
+            
+            if( check == 1 && n_check == 1) {
                 return true
             }
-            if( check == -1 ) {
+            if(check == 1 && n_check == -1) {
+                alert('닉네임 중복 확인이 필요합니다.')
+            }
+            if(check == -1 && n_check == 1) {
                 alert('아이디 중복 확인이 필요합니다.')
-                checkUserId()
             }
             return false
         }
@@ -265,11 +285,14 @@
             asyncCheckUserId().then(function(result) {
                 // ID 미입력
                 if( result == null ) {
+                	$('#id-check').hide()
+                	$('#id-duplicated').hide()
+                	$('#input-check').val(-1)
                     return
                 }
                 // ID 사용가능
                 if( result == 'true' ) {
-                    alert('사용 가능한 아이디입니다.')
+                    alert('사용 가능한 아이디')
                     $('#id-check').show()
                     $('#id-duplicated').hide()
                     $('#input-check').val(1)
@@ -290,7 +313,7 @@
             let userId = $('#userId').val()
             let data = {'userId' : userId}
             if( userId == undefined || userId == '' ) {
-                alert('아이디를 입력해주세요.')
+            	alert('아이디를 입력하세요')
                 return null
             }
             const res = await $.ajax({
@@ -306,21 +329,14 @@
             return res
         }
 
-		function n_check() {
-            let n_check = $('#input-n-check').val()
-            if( n_check == 1 ) {
-                return true
-            }
-            if( n_check == -1 ) {
-                alert('닉네임 중복 확인이 필요합니다.')
-                checkNickname()
-            }
-            return false
-        }
+
         function checkNickname() {
             asyncCheckNickname().then(function(result_n) {
                 // 닉네임 미입력
                 if( result_n == null ) {
+                	$('#nickname-check').hide()
+                	$('#nickname-duplicated').hide()
+                	$('#input-n-check').val(-1)
                     return
                 }
                 // 닉네임 사용가능
@@ -339,7 +355,7 @@
                 }
             })
         }
-        // ID 중복확인
+        // 닉네임 중복확인
         async function asyncCheckNickname() {
             var token = $("meta[name='_csrf']").attr("content");
             var header = $("meta[name='_csrf_header']").attr("content");
@@ -361,6 +377,7 @@
             })
             return res
         }
+
 
 		function btn_join() {
 			document.getElementById('join').submit();
