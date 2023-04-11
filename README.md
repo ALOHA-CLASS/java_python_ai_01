@@ -154,6 +154,7 @@
 ![게시글 보기+댓글 - 관리자](https://user-images.githubusercontent.com/120995529/230303254-7edf9e50-f3a1-43ac-aec9-f2c40f323240.png)
 </div>
 </details>
+
 ***
 
 
