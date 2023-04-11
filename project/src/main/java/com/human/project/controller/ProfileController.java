@@ -48,10 +48,13 @@ public class ProfileController {
 
 		if( principal != null ) {
 			Map<String, Object> map = principal.getAttributes();
+			if(map.get("kakao_account") != null) {
+				
 			Map<String, Object> accountMap = (Map<String, Object>) map.get("kakao_account");
 			String email = String.valueOf( accountMap.get("email") );
 			model.addAttribute("social_email", email);
 			log.info(email);
+			}
 		}
 		return "profile/update";
 	}
@@ -63,9 +66,11 @@ public class ProfileController {
 		
 		if(principal != null) {
 			Map<String, Object> map = principal.getAttributes();
+			if(map.get("kakao_account") != null) {
 			Map<String, Object> accountMap = (Map<String, Object>) map.get("kakao_account");
 			String email = String.valueOf( accountMap.get("email") );
 			user.setEmail(email);
+			}
 		}
 
 		int result = userService.update(user);
