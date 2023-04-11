@@ -46,12 +46,10 @@
 - 관리자 페이지
 
 
-<details>
-<summary><h2>프로젝트 리뷰</h2></summary>
-<div markdown="1">
-<details>
+## 프로젝트 리뷰
 
-<summary><h3>메인 화면</h3></summary>
+<details>
+<summary><h3>메인 화면 👆</h3></summary>
 <div markdown="1">
 
 - 해외 음원 차트 50개를 보여 줌
@@ -65,7 +63,7 @@
 ***
 
 <details>
-<summary><h3>회원가입</h3></summary>
+<summary><h3>회원가입 👆</h3></summary>
 <div markdown="1">
 
 - 중복확인 한개라도 수행 안할 시 등록이 안됨
@@ -82,7 +80,7 @@
 ***
 
 <details>
-<summary><h3>프로필</h3></summary>
+<summary><h3>프로필 👆</h3></summary>
 <div markdown="1">
 
 ![프로필](https://user-images.githubusercontent.com/120995529/230287658-a474c314-aade-43b4-a54f-25b1adce236f.png)
@@ -102,7 +100,7 @@
 ***
 
 <details>
-<summary><h3>로그인</h3></summary>
+<summary><h3>로그인 👆</h3></summary>
 <div markdown="1">
 
 - 아이디 저장 및 자동 로그인 기능
@@ -115,7 +113,7 @@
 ***
 
 <details>
-<summary><h3>아이디 / 비밀번호 찾기</h3></summary>
+<summary><h3>아이디 / 비밀번호 찾기 👆</h3></summary>
 <div markdown="1">
 
 - 비밀번호 찾기 수행 시 비밀번호는 임시 비밀번호로 변경
@@ -126,7 +124,7 @@
 ***
 
 <details>
-<summary><h3>커뮤니티</h3></summary>
+<summary><h3>커뮤니티 👆</h3></summary>
 <div markdown="1">
 
 - 로그인 여부
@@ -140,7 +138,7 @@
 ***
 
 <details>
-<summary><h3>관리자</h3></summary>
+<summary><h3>관리자 👆</h3></summary>
 <div markdown="1">
 
 - 회원관리
@@ -156,10 +154,6 @@
 ![게시글 보기+댓글 - 관리자](https://user-images.githubusercontent.com/120995529/230303254-7edf9e50-f3a1-43ac-aec9-f2c40f323240.png)
 </div>
 </details>
-
-</div>
-</details>
-
 ***
 
 
@@ -184,9 +178,3 @@
 
 2023-04-03, 배포
 ***
-
-<img src="https://github.com/ALOHA-CLASS/java_python_ai_01/blob/main/project/portfolio/mybatis.png" width="24" height="24">
-Mybatis
-
-
-![마이바티스](https://github.com/ALOHA-CLASS/java_python_ai_01/blob/main/project/portfolio/mybatis.png)
